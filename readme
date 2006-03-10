@@ -1,0 +1,166 @@
+// ------------------------------- //
+// Copyright by                    //
+// Jochen Gererstorfer             //
+// http://gererstorfe.net          //
+// webmaster@gererstorfer.net      //
+// ------------------------------- //
+
+WebMail2 1.02
+Das WebMail-Modul ist ein pop3 Client mit dem ihr und eure User mails
+abrufen und verschicken könnt.
+
+Installation:
+1. Die Datei WebWail2.zip entpacken.
+2. Den Ordner in den modules Ordner kopieren.
+3. Das Modul im Adminmenü installieren.
+
+Wollt ihr einen Link zu WebMail im UserBlock haben anstatt im Hauptmenü oder einen
+Block kopiert die Datei system_blocks.php in den Ordner /modules/system/blocks/.
+
+Oder fügt folgende Zeile in die Datei system_blocks.php nach Zeile 54 ein:
+$block['content'] .= "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/modules/WebMail/index.php'>WebMail</a><br /><br />";
+
+Bei mir schaut das dann so aus:
+function b_system_user_show(){
+	global $xoopsDB, $xoopsUser;
+	if($xoopsUser) {
+		$block = array();
+		$block['title'] = sprintf(_MB_SYSTEM_MENU4,$xoopsUser->uname());
+		$block['content'] = "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/user.php'>"._MB_SYSTEM_VACNT."</a><br />";
+		$block['content'] .= "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/user.php?op=logout'>"._MB_SYSTEM_LOUT."</a><br />";
+		$block['content'] .= "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/modules/WebWail/index.php'>WebMail</a><br /><br />";
+		// Code for Messages
+        	list($total_messages) = $xoopsDB->fetchRow($xoopsDB->query("SELECT COUNT(*) FROM ".$xoopsDB->prefix("priv_msgs")." WHERE to_userid = ".$xoopsUser->getVar("uid").""));
+        	list($new_messages) = $xoopsDB->fetchRow($xoopsDB->query("SELECT COUNT(*) FROM ".$xoopsDB->prefix("priv_msgs")." WHERE to_userid = ".$xoopsUser->getVar("uid")." AND read_msg=0"));
+
+Nicht vergessen: Die Ordner "cache", "tmp", und "attachments" auf 777 chmoden!
+
+
+weitere Module:
+---------------
+WebMail:        pop3/IMAP Client.
+
+WebMail2:	Ein umfangreicherer pop3-Client, der zusätlich das Speichern der Mailkonten erlaubt
+		und ein Adressbuch enthält.
+
+rightklick:     Dieses Modul ersetzt das Kontextmenü beim Rechtklick durch ein
+                kleines Java Seitennavigationsmenü. 
+
+online games:   Ein Modul mit 20 Onlinespielen für eure Seite.
+
+LastPosts:      Das Modul dient zum anzeigen der letzten Posts im Forum.
+                Im Adminmenue kann eingestellt werden wieviele Posts angezeigt werden sollen,
+                ob das Forum und das Datum angezeigt werden soll, und ob der rechte Menüblock
+                angezeigt werden soll.
+
+TopTen:		Das Modul zeigt die beliebtesten und letzten: News, Downloads, Links, User, Tutorials...
+                
+news2:          Das ist ein abgeändertes News Modul, somit könnt ihr zwei nebeneinander laufen lassen!
+
+Tagebuch:       Dieses Modul ist noch in einer sehr fühen Entwicklungsphase,
+                aber ihr könnt es euch ja mal anschauen.
+
+Hacks:                                                  
+------
+news modul:     Mit Hilfe dieses Hacks können auf der Newsseite zwei Newsblöcke
+                nebeneinader angezeigt werden.
+                Ich habe auch das Adminmenü dafür erweitert.
+                
+readpmsg.php    Dieser Hack behebt den Fehler in der readpmsg.php, durch den in der Detailanzeige einer Privatemessage
+                der löschen Button nicht funktionell war.
+
+Sprachdateien:
+--------------
+Buddy german:   Deutsche Übersetzung für das Buddy-Modul.
+
+Webchat german: Deutsche Übersetzung und Erweiterung für das Webchat-Modul.
+
+
+
+Module in Entwicklung:
+-----------------------
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+WebMail2 1.02
+
+The WebMail-module is a pop3/IMAP client. You and your Users can receive and
+send our emails.
+
+Installation:
+1.Extract the WebMail2.zip file.
+2.Copy the order in the modules directory.
+3.Installation in the adminmenue.
+
+If you want the link to WebMail in the UserBlock instead in the Mainmenue or
+a block, copy the file system_blocks.php to the directory /modules/system/blocks/.
+
+Or past the following line into the file system_blocks.php after line 54:
+$block['content'] .= "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/modules/webmail/index.php'>WebMail</a><br /><br />";
+
+then looks like:
+function b_system_user_show(){
+	global $xoopsDB, $xoopsUser;
+	if($xoopsUser) {
+		$block = array();
+		$block['title'] = sprintf(_MB_SYSTEM_MENU4,$xoopsUser->uname());
+		$block['content'] = "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/user.php'>"._MB_SYSTEM_VACNT."</a><br />";
+		$block['content'] .= "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/user.php?op=logout'>"._MB_SYSTEM_LOUT."</a><br />";
+		$block['content'] .= "<strong><big>&middot;</big></strong>&nbsp;<a href='".XOOPS_URL."/modules/WebMail/index.php'>WebMail</a><br /><br />";
+		// Code for Messages
+        	list($total_messages) = $xoopsDB->fetchRow($xoopsDB->query("SELECT COUNT(*) FROM ".$xoopsDB->prefix("priv_msgs")." WHERE to_userid = ".$xoopsUser->getVar("uid").""));
+        	list($new_messages) = $xoopsDB->fetchRow($xoopsDB->query("SELECT COUNT(*) FROM ".$xoopsDB->prefix("priv_msgs")." WHERE to_userid = ".$xoopsUser->getVar("uid")." AND read_msg=0"));
+
+Dont vorget: chmod directories "cache", "tmp", and "atachments" to 777!
+
+
+other modules:
+-------------- 
+WebMail:        pop3/IMAP Client.
+
+WebMail2:	A better pop3-client, which allows to store your mail-accounts.
+		Addresbook
+
+rightklick:     This module displaces the kontexmenue when pressing the right mousebutton
+                by a java sidenavigationmenue.
+
+online games:   A module with 20 online-games for your side.
+                
+LastPosts:      This module shows the last threads from the newbb forum.
+                You can adjust it in the adminmenue.
+		
+TopTen:		This module shows the most readed and last: News, Downloads, Links, Users, Tutorials...
+
+news2:          An aditional newsmodule, so you can run two newssystems!
+
+Tagebuch:       The diary is in a very early stage of development, but you can download it and try it out.
+
+Hacks:
+------
+news modul:     This Hack expands the news module.
+                In the Admin menu you can adjusted whether on the new side of two new blocks next to
+                each other to be indicated be supposed or as before only one.
+
+readpmsg:       This Hack annuls the bug in the readpmsg.php.
+                In case of this bug the delete-button was not useable in the detaildisplay
+                of a privatemessage.
+                
+Languagefiles:
+--------------
+Buddy german:   German translation of the buddy module.
+
+Webchat german: German translation of the webchat module.
+
+
+
+Modules in development:
+-----------------------    
+
