@@ -25,7 +25,6 @@
 // http://gererstorfer.net                                                  //
 // webmaster@gererstorfer.net                                               //
 // ------------------------------------------------------------------------ //
-
 $webmail_var = "1.02 (J1.5)";
 $webmail_credits = "
 Das Gererstorfer Net 
@@ -37,16 +36,21 @@ Japanese(J1-1.3) edit by:nao-pon
 http://hypweb.net/</a>";
 
 include("../../mainfile.php");
-require_once("cache/config.php");
+include_once("cache/config.php");
 
-        if($show_right==true)
-	        $xoopsOption['show_rblock'] =1;
-        else
-                $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+if($show_right==true)
+{
+	$xoopsOption['show_rblock'] =1;
+}
+else
+{
+	$xoopsOption['show_rblock'] =0;
+}
+
+include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser;
-// ”ñƒƒOƒCƒ“ƒ†[ƒU[‚ÍƒƒOƒCƒ“‰æ–Ê‚Ö
+// Èó¥í¥°¥¤¥ó¥æ¡¼¥¶¡¼¤Ï¥í¥°¥¤¥ó²èÌÌ¤Ø
 if (!is_object($xoopsUser))
 {
 	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
@@ -54,19 +58,21 @@ if (!is_object($xoopsUser))
 }
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
+$sitename = htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES);
 
-require ("pop3.php");
-require ("decodemessage.php");
+// classes include
+include_once ("pop3.php");
+include_once ("decodemessage.php");
+include_once ("class.rc4crypt.php");
+
+
 include ("mailheader.php");
-include ("class.rc4crypt.php");
-
-
 // nao-pon
 include ("catch_clr.php");
-	catch_clr($download_dir);
-	catch_clr($attachmentdir);
+catch_clr($download_dir);
+catch_clr($attachmentdir);
 
-$action = $_GET['action'];
+$action = (empty($_GET['action']))? "" : $_GET['action'];
 //
 
 if ($numaccounts == -1 OR $numaccounts > 1) {
@@ -87,7 +93,7 @@ if (!function_exists('mb_convert_encoding')) {
         ."<br><br>Warning: Since mbstring of this server's PHP is not enable, WebMail does not operate."
         ."</td></tr></table>";
     CloseTable();
-    include($xoopsConfig['root_path']."footer.php");
+    include(XOOPS_ROOT_PATH."/footer.php");
     return;
 } 
 
@@ -98,7 +104,7 @@ if ($xoopsDB->getRowsNum($result) < 1) {
         .""._CLICKONSETTINGS."<br><br>$welcome_msg"
         ."</td></tr></table>";
     CloseTable();
-    include($xoopsConfig['root_path']."footer.php");
+    include(XOOPS_ROOT_PATH."/footer.php");
     return;
 } 
 
@@ -146,5 +152,5 @@ if ($action == "list"){
 	CloseTable();
 }
 echo "<div align='right'>".$xoopsModule->name()." Var. ".$webmail_var."<br />".$webmail_credits."</div>";
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 ?>

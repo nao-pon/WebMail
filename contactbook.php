@@ -43,13 +43,13 @@ require_once("cache/config.php");
 	        $xoopsOption['show_rblock'] =1;
         else
                 $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+	include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser;
 
 include ("mailheader.php");
 
-$nav_bar = "[ <a href='contactbook.php?op=listall'>"._LISTALL."</a> | <a href='contactbook.php?op=addnew'>"._ADDNEW."</a> | <a href='contactbook.php?op=search'>"._SEARCH."</a> ]";
+$nav_bar = "[ <a href='contactbook.php?op=listall'>"._LISTALL."</a> | <a href='contactbook.php?op=addnew'>"._ADDNEW."</a> | <a href='contactbook.php?op=search'>"._WM_SEARCH."</a> ]";
 $userid = $xoopsUser->uid();
 
 $op = ($_GET['op'])? $_GET['op'] : $_POST['op'];
@@ -94,7 +94,7 @@ if ($op=="addnew") {
 } else {
    listall();
 }
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 
 function listall() {
     global $xoopsDB, $xoopsUser, $userid, $cb_index, $email_send;
@@ -138,7 +138,7 @@ function listall() {
 	}
 	$count++;
     }
-    echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._DELETESELECTED."\"></form>";
+    echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._WM_DELETESELECTED."\"></form>";
     echo "<center>";
     if($cb_index > 0) {
 	$ind = $cb_index-1;
@@ -213,7 +213,7 @@ AIM:
 	    <tr><td>"._NOTES.":</td><td><textarea name=notes rows=4 cols=40></textarea></td></tr></table>
 	    <input type=hidden name=save value='true'>
 	    <input type=hidden name=op value='addnew'>
-	    <input type=submit name=add value=\""._SUBMIT."\"></form>";
+	    <input type=submit name=add value=\""._WM_SUBMIT."\"></form>";
     }
     CloseTable();
 }
@@ -221,13 +221,13 @@ AIM:
 function search() {
     global $xoopsDB, $xoopsUser, $userid, $q, $searchdb, $searchfield, $cb_index, $bgcolor1, $bgcolor2, $bgcolor3, $imgpath, $prefix, $dbi, $module_name;
     OpenTable();
-    echo "<center><b>"._SEARCHCONTACT."</b></center><br>";
+    echo "<center><b>"._WM_SEARCHCONTACT."</b></center><br>";
     echo "<form method=post action='contactbook.php' name=searchform>
 	<input type=hidden name=op value=search>
-	<table align=center><tr><Td>"._SEARCH.": </td><td><input type=text name=q value='$q'></td>
+	<table align=center><tr><Td>"._WM_SEARCH.": </td><td><input type=text name=q value='$q'></td>
 	<td> "._IN." </td><td>
 	<select name=searchfield>
-	<option value='all'>"._ALL."</option>
+	<option value='all'>"._WM_ALL."</option>
 	<option value='firstname'>"._FIRSTNAME."</option>
 	<option value='lastname'>"._LASTNAME."</option>
 	<option value='email'>"._EMAIL."</option>
@@ -236,9 +236,9 @@ function search() {
 	<option value='company'>"._COMPANY."</option>
 	<option value='notes'>"._NOTES."</option>
 	</select>
-	<input type=hidden name=searchdb value='"._SEARCH."'>
-        </td><td>&nbsp;<input type=submit value='"._SEARCH."'></td></tr></table></form>";
-    if($searchdb == ""._SEARCH."") {
+	<input type=hidden name=searchdb value='"._WM_SEARCH."'>
+        </td><td>&nbsp;<input type=submit value='"._WM_SEARCH."'></td></tr></table></form>";
+    if($searchdb == ""._WM_SEARCH."") {
 	$query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid = $userid and ( ";
 	if($searchfield != "all") {
 	    $words = explode(" ",$q);
@@ -279,7 +279,7 @@ function search() {
     	    if($color== "$bgcolor1") $color = "$bgcolor2"; else $color = "$bgcolor1";
     	    $count++;
 	}
-	echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._WM_DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<center>";
 	if($cb_index > 0) {
 	    $ind = $cb_index-1;
@@ -296,7 +296,7 @@ function search() {
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 	if(($skipcount + $count) < $numrows) {
 	    $ind = $cb_index + 1;
-	    echo "<a href='contactbook.php?op=search&index=$ind'>"._NEXT." »</a></center>";
+	    echo "<a href='contactbook.php?op=search&index=$ind'>"._NEXT." ?/a></center>";
 	}
     }
     CloseTable();
@@ -457,8 +457,8 @@ function edit() {
 	<input type=hidden name=save value='true'>
 	<input type=hidden name=op value='edit'>
 	<input type=hidden name=cid value='$cid'>
-	<input type=submit name=add value=\""._SUBMIT."\"></form>";
+	<input type=submit name=add value=\""._WM_SUBMIT."\"></form>";
     CloseTable();
 }
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 ?>

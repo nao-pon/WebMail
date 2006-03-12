@@ -54,7 +54,7 @@ require_once("cache/config.php");
 	        $xoopsOption['show_rblock'] =1;
         else
                 $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+	include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser, $xoopsConfig;
 
@@ -237,7 +237,7 @@ if ($email_send == 1) {
 	}
 	closedir($handle);
 	
-	include($xoopsConfig['root_path']."footer.php");
+	include(XOOPS_ROOT_PATH."/footer.php");
 
 } else {
     Header("Location: index.php");

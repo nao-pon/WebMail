@@ -1,19 +1,19 @@
 <?php
 
 
-define("_WEBMAILSERVICE","WebMail Service");
+define("_WM_WEBMAILSERVICE","WebMail Service");
 define("_WEBMAILMAINMENU","WebMail Hauptmen&uuml;");
 define("_MAILBOX","Mailbox");
 define("_COMPOSE","Erstellen");
 define("_SETTINGS","Einstellungen");
 define("_ADDRESSBOOK","Addressbuch");
-define("_SEARCHCONTACT","Kontakt suchen");
+define("_WM_SEARCHCONTACT","Kontakt suchen");
 define("_EXIT","Ausgang");
 define("_MAILWELCOME1","Wenn Sie neue Accounts anlegen, k&ouml;nnen Sie Mails von beliebig vielen Mailservern per POP3 herunterladen, ohne sich an jedem Mailserver manuell anmelden zu m&uuml;ssen. Die &Uuml;berpr&uuml;fung auf neue Mails ist daduch wesentlich einfacher.");
 define("_MAILWELCOME2","Wenn Sie Ihren Account einrichten, k&ouml;nnen Sie eMail von Ihrem Mailserver per POP3 herunterladen, ohne sich an jedem Mailserver manuell anmelden zu m&uuml;ssen. Die &Uuml;berpr&uuml;fung auf neue Mails ist daduch wesentlich einfacher.");
 define("_MAILWELCOME3","Willkommen beim WebMail System auf ");
 define("_CLICKONSETTINGS","Bitte klicken Sie auf <a href=\"settings.php\">Einstellungen</a>, um Ihre Mailbox zu konfigurieren.");
-define("_MAILBOXESFOR","Mailbox(en) für");
+define("_MAILBOXESFOR","Mailbox(en) f?");
 define("_ACCOUNT","Account");
 define("_EMAILS","eMails");
 define("_TOTALSIZE","Gesamtgr&ouml;sse");
@@ -21,7 +21,7 @@ define("_SELECTACCOUNT","W&auml;len Sie einen Account um eine Liste aller Ihrer 
 define("_EMAILINBOX","eMail Eingang");
 define("_SIZE","Gr&ouml;sse");
 define("_NOSUBJECT","(kein Betreff)");
-define("_DELETESELECTED","markierte l&ouml;schen");
+define("_WM_DELETESELECTED","markierte l&ouml;schen");
 define("_NEXT","weiter");
 define("_PREVIOUS","zur&uuml;ck");
 define("_SHOWING","Anzeige");
@@ -38,14 +38,14 @@ define("_MESSAGE","Nachricht");
 define("_SENDMESSAGE","Nachricht senden");
 define("_CLEARALL","alles l&ouml;schen");
 define("_ATTACHMENTS","Anh&auml;nge");
-define("_NONE","(keine)");
+define("_WM_NONE","(keine)");
 define("_CLICKTOATTACH","(hier klicken zum anh&auml;ngen)");
 define("_SAVE","speichern");
 define("_ADDNEW","hinzuf&uuml;gen");
 define("_MAILBOXESSETTINGS","Einstellungen der Mailbox");
 define("_POPSERVER","POP3 Server");
-define("_USERNAME","Benutzername");
-define("_PASSWORDSECURE","(alle Passw&ouml;rter werden verschl&uuml;sselt und sicher gespeichert)");
+define("_WM_USERNAME","Benutzername");
+define("_WM_PASSWORDSECURE","(alle Passw&ouml;rter werden verschl&uuml;sselt und sicher gespeichert)");
 define("_PORT","Port");
 define("_MESSAGESPERPAGE","Nachrichten pro Seite");
 define("_ACCOUNTNAME","Account Name");
@@ -68,18 +68,18 @@ define("_RELATEDEVENTSMSG","Eine Liste der relevanten Eintr&auml;ge der Person, 
 define("_REMINDME","Erinnern Sie mich");
 define("_DAYSBEFORE","Tage vor dem Ereignis");
 define("_NOTES","Bemerkungen");
-define("_SUBMIT","abschicken");
+define("_WM_SUBMIT","abschicken");
 define("_VIEW","ansehen");
 define("_LISTALL","Alle anzeigen");
 define("_IN","in");
-define("_ALL","alle");
+define("_WM_ALL","alle");
 define("_RESULTSFOUND","Ergebnisse gefunden");
 define("_VIEWPROFILE","Profil ansehen");
 define("_EDITCONTACT","Kontakt bearbeiten");
 define("_EDITCONTACTS","Kontakte bearbeiten");
 define("_ATTACHSECURITY","Diese eMail besitzt Dateianh&auml;nge aber Sie k&ouml;nnen diese bedingt durch die Sicherheitskonfiguration unseres WebMail- Client betrachten. Wir bitten Sie, diese Unannehmlichkeit zu entschuldigen.");
-define("_DELETE","l&ouml;schen");
-define("_REPLY","antworten");
+define("_WM_DELETE","l&ouml;schen");
+define("_WM_REPLY","antworten");
 define("_FORWARD","weiterleiten");
 define("_MESSAGESENT","Ihre Nachricht wurde versendet.");
 
@@ -89,6 +89,6 @@ define("_MAIL_FROM","von");
 define("_MAIL_SUBJECT","Betreff");
 
 //new by joe
-define("_SEARCH","Suche");
-define("_PASSWORD","Passwort");
+define("_WM_SEARCH","Suche");
+define("_WM_PASSWORD","Passwort");
 ?>

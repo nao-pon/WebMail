@@ -68,13 +68,13 @@ require_once("cache/config.php");
 	        $xoopsOption['show_rblock'] =1;
         else
                 $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+	include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser;
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
 
-parse_str(base64_decode($pop3_cookie));
+//parse_str(base64_decode($pop3_cookie));
 require ("pop3.php");
 require ("decodemessage.php");
 include ("mailheader.php");
@@ -94,7 +94,7 @@ if (!$html_scr_color) $html_scr_color="red";
 
 if(!isset($id)) {
     echo "Error: Invalid Parameter<br>";
-    include($xoopsConfig['root_path']."footer.php");
+    include(XOOPS_ROOT_PATH."/footer.php");
     exit();
 }
 
@@ -104,7 +104,7 @@ if(($res = $xoopsDB->query($query,$options[0],0)) && ($xoopsDB->getRowsNum($res)
     $uid = $row[uid];
     if ($uid != $userid) {
 	echo "<center><h2>Error: Permission denied</center>";
-	include($xoopsConfig['root_path']."footer.php");
+	include(XOOPS_ROOT_PATH."/footer.php");
 	exit();
     }
     $server = $row[popserver];
@@ -115,7 +115,7 @@ if(($res = $xoopsDB->query($query,$options[0],0)) && ($xoopsDB->getRowsNum($res)
     $password = $rc4->endecrypt($username,$row[passwd],"de");
 } else {
     echo "Error: POP Server not set properly<br>";
-    include($xoopsConfig['root_path']."footer.php");
+    include(XOOPS_ROOT_PATH."/footer.php");
     exit();
 }
 
@@ -202,7 +202,7 @@ echo "<tr>
     <input type=hidden name=\"id\" value=\"$id\">
     <input type=hidden name=\"op\" value=\"delete\">
     <input type=hidden name=\"msgid\" value=\"$msgid\">
-    <input type=submit value=\""._DELETE."\">";
+    <input type=submit value=\""._WM_DELETE."\">";
     echo "</form>";
 if ($email_send == 1) {
 	echo "</td><td bgcolor=\"$bgcolor2\" class='bg2'>
@@ -212,7 +212,7 @@ if ($email_send == 1) {
 	<input type=hidden name=body value=\"\">
 	<input type=hidden name=op value=\"reply\">
 	<input type=hidden name=id value=\"$id\">
-	<input type=submit value=\""._REPLY."\">
+	<input type=submit value=\""._WM_REPLY."\">
 	</form>
 	</td><td bgcolor=\"$bgcolor2\" width=\"100%\" class='bg2'>
 	<form action='compose.php' method=\"post\" name=\"f_del\">
@@ -382,6 +382,6 @@ if ($attach_nv == 1) {
 }
 
 CloseTable();
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 
 ?>

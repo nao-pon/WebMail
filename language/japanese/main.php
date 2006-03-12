@@ -1,11 +1,11 @@
 <?php
-define("_WEBMAILSERVICE","¥¦¥§¥Ö¥á¡¼¥ë ¥µ¡¼¥Ó¥¹");
+define("_WM_WEBMAILSERVICE","¥¦¥§¥Ö¥á¡¼¥ë ¥µ¡¼¥Ó¥¹");
 define("_WEBMAILMAINMENU","¥¦¥§¥Ö¥á¡¼¥ë ¥á¥¤¥ó¥á¥Ë¥å¡¼");
 define("_MAILBOX","¥¢¥«¥¦¥ó¥È°ìÍ÷");
 define("_COMPOSE","¿·µ¬¥á¡¼¥ëºîÀ®");
 define("_SETTINGS","¸Ä¿ÍÀßÄê");
 define("_ADDRESSBOOK","¥¢¥É¥ì¥¹Ä¢");
-define("_SEARCHCONTACT","¥¢¥É¥ì¥¹¸¡º÷");
+define("_WM_SEARCHCONTACT","¥¢¥É¥ì¥¹¸¡º÷");
 define("_EXIT","½ªÎ»");
 define("_MAILWELCOME1","¿·¤·¤¤¥á¡¼¥ë¥¢¥«¥¦¥ó¥È¤òÅÐÏ¿¤¹¤ì¤Ð¡¢¤½¤ì¤é¤Î³Æ¡¹¤Ë¼«Æ°¥í¥°¥¤¥ó¤·¤Æ¡¢¤´´õË¾¤Î¥µ¡¼¥Ð¡¼(pop3)¤«¤é¤Î¥á¡¼¥ë¤ò¥À¥¦¥ó¥í¡¼¥É¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¥¦¥§¥Ö¥á¡¼¥ë¤ÇÅÅ»Ò¥á¡¼¥ë¤Î¥Á¥§¥Ã¥¯¤¬¤È¤Ã¤Æ¤â´ÊÃ±¤Ë¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£");
 define("_MAILWELCOME2","¤¢¤Ê¤¿¤Î¥á¡¼¥ë¥¢¥«¥¦¥ó¥È¤òÅÐÏ¿¤¹¤ì¤Ð¡¢¼«Æ°¥í¥°¥¤¥ó¤·¤Æ¡¢¥µ¡¼¥Ð¡¼(pop3)¤«¤é¤Î¥á¡¼¥ë¤ò¥À¥¦¥ó¥í¡¼¥É¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¥¦¥§¥Ö¥á¡¼¥ë¤ÇÅÅ»Ò¥á¡¼¥ë¤Î¥Á¥§¥Ã¥¯¤¬¤È¤Ã¤Æ¤â´ÊÃ±¤Ë¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£");
@@ -19,7 +19,7 @@ define("_SELECTACCOUNT","¥á¡¼¥ë¥Á¥§¥Ã¥¯¤¹¤ë¤Ë¤Ï¡¢¤´´õË¾¤Î¥á¡¼¥ë¥¢¥«¥¦¥ó¥ÈÌ¾¤ò¥¯¥
 define("_EMAILINBOX","¼õ¿®¥È¥ì¥¤");
 define("_MAIL_SIZE","Size");
 define("_NOSUBJECT","(¥¿¥¤¥È¥ë¤Ê¤·)");
-define("_DELETESELECTED","ÁªÂò¹àÌÜ¤òºï½ü");
+define("_WM_DELETESELECTED","ÁªÂò¹àÌÜ¤òºï½ü");
 define("_NEXT","¼¡¤Ø");
 define("_PREVIOUS","Á°¤Ø");
 define("_SHOWING","É½¼¨Ãæ");
@@ -37,14 +37,14 @@ define("_SENDMESSAGE","¥á¡¼¥ëÁ÷¿®");
 define("_CLEARALL","¤¹¤Ù¤Æ ¥¯¥ê¥¢");
 define("_CLEARATT","ÅºÉÕ¥Õ¥¡¥¤¥ë ¥¯¥ê¥¢");
 define("_ATTACHMENTS","ÅºÉÕ¥Õ¥¡¥¤¥ë");
-define("_NONE","(¤Ê¤·)");
+define("_WM_NONE","(¤Ê¤·)");
 define("_CLICKTOATTACH","(¥¯¥ê¥Ã¥¯¤ÇÅºÉÕ¥Õ¥¡¥¤¥ëÄÉ²Ã)");
 define("_SAVE","ÊÝÂ¸");
 define("_ADDNEW","¿·µ¬ÄÉ²Ã");
 define("_MAILBOXESSETTINGS","¥á¡¼¥ë¥¢¥«¥¦¥ó¥È¤ÎÀßÄê");
 define("_POPSERVER","Pop ¥µ¡¼¥Ð");
-define("_USERNAME","¥æ¡¼¥¶¡¼Ì¾");
-define("_PASSWORDSECURE","(¥Ñ¥¹¥ï¡¼¥É¤Ï°Å¹æ²½¤µ¤ì°ÂÁ´¤ËÊÝÂ¸¤µ¤ì¤Þ¤¹¡£)");
+define("_WM_USERNAME","¥æ¡¼¥¶¡¼Ì¾");
+define("_WM_PASSWORDSECURE","(¥Ñ¥¹¥ï¡¼¥É¤Ï°Å¹æ²½¤µ¤ì°ÂÁ´¤ËÊÝÂ¸¤µ¤ì¤Þ¤¹¡£)");
 define("_PORT","Port");
 define("_MESSAGESPERPAGE","£±¥Ú¡¼¥¸¤¢¤¿¤ê¤Î¥á¥Ã¥»¡¼¥¸¿ô");
 define("_ACCOUNTNAME","¥á¡¼¥ë¥¢¥«¥¦¥ó¥ÈÌ¾");
@@ -67,18 +67,18 @@ define("_RELATEDEVENTSMSG","¤³¤Î¿Í¤Î´Ø¤¹¤ë³Ð¤¨½ñ¤­¤ò¤³¤³¤Øµ­Æþ¤Ç¤­¤Þ¤¹¡£Îã¤¨¤Ð¡¢
 define("_REMINDME","¤ªÃÎ¤é¤»Á÷¿®¤¹¤ë");
 define("_DAYSBEFORE","ÆüÁ°(¥¤¥Ù¥ó¥È¤Î)");
 define("_NOTES","¥á¥â");
-define("_SUBMIT","Á÷¿®");
+define("_WM_SUBMIT","Á÷¿®");
 define("_VIEW","View");
 define("_LISTALL","¤¹¤Ù¤ÆÉ½¼¨");
 define("_IN","in");
-define("_ALL","¤¹¤Ù¤Æ");
+define("_WM_ALL","¤¹¤Ù¤Æ");
 define("_RESULTSFOUND","Result(s) Found");
 define("_VIEWPROFILE","View Profile");
 define("_EDITCONTACT","Edit Contact");
 define("_EDITCONTACTS","Edit Contacts");
 define("_ATTACHSECURITY","This email has attachment(s) but you can't view this due to our WebMail client security configuration. We apologize for any inconvenient caused to you.");
-define("_DELETE","ºï½ü");
-define("_REPLY","ÊÖ¿®");
+define("_WM_DELETE","ºï½ü");
+define("_WM_REPLY","ÊÖ¿®");
 define("_FORWARD","Å¾Á÷");
 define("_MESSAGESENT","¥á¡¼¥ë¤ÎÁ÷¿®¤Ï´°Î»¤·¤Þ¤·¤¿¡£");
 
@@ -89,8 +89,8 @@ define("_MAIL_FROM","From");
 define("_MAIL_SUBJECT","Subject");
 
 //new by joe
-define("_SEARCH","¸¡º÷");
-define("_PASSWORD","¥Ñ¥¹¥ï¡¼¥É");
+define("_WM_SEARCH","¸¡º÷");
+define("_WM_PASSWORD","¥Ñ¥¹¥ï¡¼¥É");
 
 //By nao-pon
 define("_ATTACHCOM","¢¨ ¥¯¥ê¥Ã¥¯¤ÇÅºÉÕ¥Õ¥¡¥¤¥ë¤ò¥À¥¦¥ó¥í¡¼¥É¤Ç¤­¤Ê¤¤»þ¤Ï¡¢±¦¥¯¥ê¥Ã¥¯¤ò»È¤Ã¤Æ¡ÖÊÝÂ¸¡×¤·¤Æ¤¯¤À¤µ¤¤¡£");

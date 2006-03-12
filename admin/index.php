@@ -25,20 +25,25 @@ if (!xoops_refcheck()) redirect_header(XOOPS_URL."/",1,"Access Denied.");
 $config_file = XOOPS_ROOT_PATH."/modules/".$xoopsModule->dirname()."/cache/config.php";
 if (file_exists($config_file)) include($config_file);
 
-	// DB Upgread J1.5
-	//$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
-	$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." LIMIT 1;";
-	if(!$result=$xoopsDB->query($query)){
-		//echo "ERROR:must be upgread!";
-		//exit;
-		$query="CREATE TABLE ".$xoopsDB->prefix("wmail_sign")." ( id int(11) NOT NULL auto_increment, uid int(11) default '0', signname varchar(255) default NULL, signature text, PRIMARY KEY  (id), KEY uid (uid) ) TYPE=MyISAM;";
-		if(!$result=$xoopsDB->queryF($query)){
-			echo "ERROR: 'wmail_sign' is already processing settled.<br/>";
-			echo $query;
-		}
-
+// DB Upgread J1.5
+//$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." LIMIT 1;";
+if(!$result=$xoopsDB->query($query)){
+	//echo "ERROR:must be upgread!";
+	//exit;
+	$query="CREATE TABLE ".$xoopsDB->prefix("wmail_sign")." ( id int(11) NOT NULL auto_increment, uid int(11) default '0', signname varchar(255) default NULL, signature text, PRIMARY KEY  (id), KEY uid (uid) ) TYPE=MyISAM;";
+	if(!$result=$xoopsDB->queryF($query)){
+		echo "ERROR: 'wmail_sign' is already processing settled.<br/>";
+		echo $query;
 	}
 
+}
+
+// init
+foreach(array('op','show_rightS','footermsgtxtS','email_sendS','email_addrS','mail_maxS','attachmentsS','attachmentdirS','attachments_viewS','download_dirS','tempfile_timeS','numaccountsS','singleaccountS','singleaccountnameS','defaultpopserverS','filter_forwardS','filter_subjectS','filter_subjectS','html_tag_colorS','html_tag_colorS','html_scr_colorS') as $key)
+{
+	$_POST[$key] = (empty($_POST[$key]))? "" : $_POST[$key];
+}
 $op = $_POST['op'];
 $show_rightS = $_POST['show_rightS'];
 $footermsgtxtS = $_POST['footermsgtxtS'];
@@ -118,14 +123,25 @@ switch($op){
     default:
 
 	// nao-pon Default Data
-	if (!$attachmentdir) $attachmentdir="tmp";
-	if (!$download_dir) $download_dir="attachments";
-	if (!$tempfile_time) $tempfile_time="30";
-	if (!$numaccounts) $numaccounts="-1";
-	if (!$mail_max) $mail_max="5";
-	if (is_null($filter_forward)) $filter_forward="1";
-	if (!$html_tag_color) $html_tag_color="blue";
-	if (!$html_scr_color) $html_scr_color="red";
+	if (empty($attachmentdir)) $attachmentdir="tmp";
+	if (empty($download_dir)) $download_dir="attachments";
+	if (empty($tempfile_time)) $tempfile_time="30";
+	if (empty($numaccounts)) $numaccounts="-1";
+	if (empty($mail_max)) $mail_max="5";
+	if (empty($filter_forward)) $filter_forward="1";
+	if (empty($html_tag_color)) $html_tag_color="blue";
+	if (empty($html_scr_color)) $html_scr_color="red";
+	if (empty($show_right)) $show_right = false;
+	if (empty($email_send)) $email_send = 0;
+	if (empty($email_addr)) $email_addr = 0;
+	if (empty($attachments)) $attachments = 0;
+	if (empty($attachments_view)) $attachments_view = 0;
+	if (empty($singleaccoun)) $singleaccoun = 0;
+	if (empty($singleaccount)) $singleaccount = 0;
+	if (empty($footermsgtxt)) $footermsgtxt = "";
+	if (empty($singleaccountname)) $singleaccountname = "";
+	if (empty($defaultpopserver)) $defaultpopserver = "";
+	if (empty($filter_subject)) $filter_subject = "";
 
 	global $xoopsConfig, $xoopsModule;
 	xoops_cp_header();

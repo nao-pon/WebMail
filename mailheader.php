@@ -25,17 +25,20 @@
 // http://gererstorfer.net                                                  //
 // webmaster@gererstorfer.net                                               //
 // ------------------------------------------------------------------------ //
-global $xoopsDB, $xoopsUser, $id;
+error_reporting(E_ERROR);
+
+global $xoopsDB, $xoopsUser;
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
 $query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
-    	if(!$result=$xoopsDB->query($query)){
-		echo "ERROR";
-	}
 
-$id = $_GET['id'];
+if(!$result=$xoopsDB->query($query)){
+	echo "ERROR";
+}
 
-OpenTable();
+$id = (empty($_GET['id']))? "" : (int)$_GET['id'];
+
+//OpenTable();
 echo "<table align=\"center\" width=\"100%\"><tr><td class='bg2'><b><font class=\"title\"><center>"._WEBMAILMAINMENU."</center></font></b></td></tr></table>"
     .""
     ."<table align=\"center\" width=\"100%\"><tr><td width=\"15%\" align=\"center\">";
@@ -59,7 +62,7 @@ echo "<td align=\"center\" width=\"15%\">"
 
 $mailing = "images/search.gif";
 echo "<td width=\"15%\" align=\"center\">"
-    ."<a href='contactbook.php?op=search'><IMG SRC=".$mailing." border=\"0\" alt=\""._SEARCHCONTACT."\" title=\""._SEARCHCONTACT."\"></a></td>"
+    ."<a href='contactbook.php?op=search'><IMG SRC=".$mailing." border=\"0\" alt=\""._WM_SEARCHCONTACT."\" title=\""._WM_SEARCHCONTACT."\"></a></td>"
     ."<td width=\"15%\" align=\"center\">";
 
 $mailing = "images/logout.gif";
@@ -75,7 +78,7 @@ if ($email_send == 1) {
 }
 echo "<td align=\"center\">"._SETTINGS."</td>"
     ."<td align=\"center\">"._ADDRESSBOOK."</td>"
-    ."<td align=\"center\">"._SEARCHCONTACT."</td>"
+    ."<td align=\"center\">"._WM_SEARCHCONTACT."</td>"
     ."<td align=\"center\">"._EXIT."</td></tr>"
     ."</table>";
 
@@ -93,7 +96,7 @@ while ($row = $xoopsDB->fetchArray($result) ) {
 	$i++;
 }
 echo "</select><input type='submit' value='"._WM_VIEW_INBOX."'></select></form></div>";
-CloseTable();
+//CloseTable();
 echo "<br>";
 
 ?>

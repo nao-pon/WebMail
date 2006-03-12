@@ -43,7 +43,7 @@ require_once("cache/config.php");
 	        $xoopsOption['show_rblock'] =1;
         else
                 $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+	include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser;
 $userid = $xoopsUser->uid();
@@ -123,7 +123,7 @@ if (ini_get(file_uploads) AND $attachments == 1) {
 	."\n"
 	."function attachfiles(files,types) {\n"
 	."    var elm=document.getElementById(\"Atts\");\n"
-	."    if (elm.firstChild.nodeValue=='"._NONE."'){\n"
+	."    if (elm.firstChild.nodeValue=='"._WM_NONE."'){\n"
 	."      elm.firstChild.nodeValue =files;\n"
 	."      document.emailform.attachment.value=files;\n"
 	."      document.emailform.attchtype.value =types;\n"
@@ -135,7 +135,7 @@ if (ini_get(file_uploads) AND $attachments == 1) {
 	."}\n"
 	."function attach_clr() {\n"
 	."    var elm=document.getElementById(\"Atts\");\n"
-	."    elm.firstChild.nodeValue =\""._NONE."\";\n"
+	."    elm.firstChild.nodeValue =\""._WM_NONE."\";\n"
 	."    document.emailform.attachment.value=\"\";\n"
 	."    document.emailform.attchtype.value =\"\";\n"
 	."}\n"
@@ -240,7 +240,7 @@ echo "</td>"
 if ($attachments == 1) {
     echo "<tr><td colspan=2>";
     OpenTable();
-    echo ""._ATTACHMENTS.": <span style=\"background-color:#ffffcc\" id=\"Atts\">"._NONE."</span> &nbsp;<br><br><a href=\"javascript: open_w('mailattach.php')\">"._CLICKTOATTACH."</a>"
+    echo ""._ATTACHMENTS.": <span style=\"background-color:#ffffcc\" id=\"Atts\">"._WM_NONE."</span> &nbsp;<br><br><a href=\"javascript: open_w('mailattach.php')\">"._CLICKTOATTACH."</a>"
     ."<noscript>"._WM_NOSCRIPT."</noscript><br>";
     CloseTable();
 }
@@ -255,7 +255,7 @@ echo "<tr><td colspan=\"2\">"
     ."</form>";
 
 CloseTable();
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 } else {
     Header("Location: index.php");
     exit();

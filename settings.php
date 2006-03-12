@@ -32,7 +32,7 @@ require_once("cache/config.php");
 	        $xoopsOption['show_rblock'] =1;
         else
                 $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+	include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser;
 
@@ -66,7 +66,7 @@ if ($mode == "sign") {
 	$userid = $xoopsUser->uid();
 	
 	if(isset($signname)) {
-	    if($submit == ""._DELETE."") {
+	    if($submit == ""._WM_DELETE."") {
 			$query = "Delete from ".$xoopsDB->prefix("wmail_sign")." where id='$id'";
 	    } elseif ($type == "signnew") {
 			$query = "Insert into ".$xoopsDB->prefix("wmail_sign")." (uid,signname,signature) values ('$userid','$signname','$signature')";
@@ -107,7 +107,7 @@ if ($mode == "sign") {
 	    if (!$apop == 1) $apop = 0;
 	    $spasswd = $rc4->endecrypt($uname,$passwd,"en");
 	    if($leavemsg == "Y") $delete = "N"; else $delete = "Y";
-	    if($submit == ""._DELETE."") {
+	    if($submit == ""._WM_DELETE."") {
 			$query = "Delete from ".$xoopsDB->prefix("popsettings")." where id='$id'";
 	    } elseif ($type == "new") {
 			$query = "Insert into ".$xoopsDB->prefix("popsettings")." (account,uid,popserver,uname,passwd,port,numshow,deletefromserver,apop,sname,smail) values ('$account','$userid','$popserver','$uname','$spasswd',$port,$numshow,'$delete',$apop,'$sname','$smail')";
@@ -179,9 +179,9 @@ function showSettings($account,$popserver, $uname,$passwd, $port,$show,$checkbox
 
 	if ($apop == 1) {$apop_check = " CHECKED";} else {$apop_check = "";}
 
-	echo "<tr><td align=\"left\">"._USERNAME.":</td><td><input type=\"text\" name=\"uname\" size=\"20\" value=\"$uname\"></td></tr>"
-        ."<tr><td align=\"left\">"._PASSWORD.":</td><td><input type=\"password\" name=\"passwd\" size=\"20\" value=\"$passwd\"></td></tr>"
-        ."<tr><td>&nbsp;</td><td><font class=\"tiny\"><i>"._PASSWORDSECURE."</i></font></td></tr>"
+	echo "<tr><td align=\"left\">"._WM_USERNAME.":</td><td><input type=\"text\" name=\"uname\" size=\"20\" value=\"$uname\"></td></tr>"
+        ."<tr><td align=\"left\">"._WM_PASSWORD.":</td><td><input type=\"password\" name=\"passwd\" size=\"20\" value=\"$passwd\"></td></tr>"
+        ."<tr><td>&nbsp;</td><td><font class=\"tiny\"><i>"._WM_PASSWORDSECURE."</i></font></td></tr>"
         ."<tr><td align=\"left\">"._PORT.":</td><td><input type=\"text\" name=\"port\" size=\"6\" maxlength=\"5\" value=\"$port\"> </td></tr>"
         ."<tr><td align=\"left\">"._WM_APOP.":</td><td><input type=\"checkbox\" name=\"apop\" value=\"1\"$apop_check>"._WM_APOP_HINT."</td></tr>"
         ."<tr><td align=\"left\">"._MESSAGESPERPAGE.":</td><td><input type=\"text\" name=\"numshow\" size=\"3\" maxlength=\"2\" value=\"$show\" value=\"10\"></td></tr>";
@@ -192,7 +192,7 @@ function showSettings($account,$popserver, $uname,$passwd, $port,$show,$checkbox
 		."<tr><td align=\"left\" colspan=\"2\">"._WM_SENDHINT."</td></tr>";
 	}
 	
-    echo "<tr><td colspan=\"2\"><input type=\"submit\" name=\"submit\" value=\""._SAVE."\">&nbsp;&nbsp;<input type=\"submit\" name=\"submit\" value=\""._DELETE."\"></td></tr>"
+    echo "<tr><td colspan=\"2\"><input type=\"submit\" name=\"submit\" value=\""._SAVE."\">&nbsp;&nbsp;<input type=\"submit\" name=\"submit\" value=\""._WM_DELETE."\"></td></tr>"
         ."</table></form>";
     CloseTable();
     echo "<br>";
@@ -207,8 +207,8 @@ function showNew() {
         <tr class='bg2'><td bgcolor='' colspan=2>&nbsp;<b>New Mail Account</b></td></tr>
         <tr><td align=left>"._ACCOUNTNAME.":</td><td><input type=text name=account value=\"\" size=40 maxlength=\"50\"></td></tr>
         <tr><td align=left>"._POPSERVER.":</td><td><input type=text name=popserver value=\"\" size=40></td></tr>
-        <tr><td align=left>"._USERNAME.":</td><td><input type=text name=uname size=20 value=\"\"> </td></tr>
-        <tr><td align=left>"._PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\"></td></tr>
+        <tr><td align=left>"._WM_USERNAME.":</td><td><input type=text name=uname size=20 value=\"\"> </td></tr>
+        <tr><td align=left>"._WM_PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\"></td></tr>
         <tr><td align=left>"._PORT.":</td><td><input type=text name=port size=6 maxlength=\"5\" value=\"110\"></td></tr>
         <tr><td align=left>"._WM_APOP.":</td><td><input type=\"checkbox\" name=\"apop\" value=\"1\">"._WM_APOP_HINT."</td></tr>
         <tr><td align=left>"._MESSAGESPERPAGE.":</td><td><input type=text name=numshow size=3 maxlength=\"2\" value=\"10\"></td></tr>";
@@ -232,8 +232,8 @@ function showSingle($defaultpopserver, $singleaccountname) {
 	  <input type=hidden name=account value=\"$singleaccountname\">
           <input type=hidden name=popserver value=\"$defaultpopserver\">
           <tr><td bgcolor='' colspan=2>&nbsp;<b>$singleaccountname</b></td><td>&nbsp</td></tr>
-          <tr><td align=left>"._USERNAME.":</td><td><input type=text name=uname size=20 value=\"\"></td></tr>
-          <tr><td align=left>"._PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\"></td></tr>
+          <tr><td align=left>"._WM_USERNAME.":</td><td><input type=text name=uname size=20 value=\"\"></td></tr>
+          <tr><td align=left>"._WM_PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\"></td></tr>
           <tr><td align=left>"._MESSAGESPERPAGE.":</td><td><input type=text name=numshow size=3 maxlength=\"2\" value=\"10\"></td></tr>
           <tr><td colspan=2><input type=submit name=submit value=\""._ADD."\"></form></td></tr></table>";
     CloseTable();
@@ -249,7 +249,7 @@ function showSign($id,$uid,$signname,$signature){
 		<tr><td bgcolor=\"$bgcolor2\" colspan=\"2\" class='bg2'><img src='images/arrow.gif' border=\"0\" hspace=\"5\"><b>$signname</b></td></tr>
 		<tr><td align=left>"._WM_SIGNNAME.":</td><td><input type=text name=signname size=20 value=\"$signname\"></td></tr>
 		<tr><td align=left>"._WM_SIGN.":</td><td><textarea name=\"signature\" cols=\"60\" rows=\"3\">$signature</textarea></td></tr>
-		<tr><td colspan=2><input type=\"submit\" name=\"submit\" value=\""._SAVE."\">&nbsp;&nbsp;<input type=\"submit\" name=\"submit\" value=\""._DELETE."\"></td></tr></table></form>";
+		<tr><td colspan=2><input type=\"submit\" name=\"submit\" value=\""._SAVE."\">&nbsp;&nbsp;<input type=\"submit\" name=\"submit\" value=\""._WM_DELETE."\"></td></tr></table></form>";
     CloseTable();
 }
 
@@ -265,5 +265,5 @@ function showSignNew(){
 		<tr><td colspan=2><input type=submit name=submit value=\""._ADDNEW."\"></td></tr></table></form>";
     CloseTable();
 }
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 ?>

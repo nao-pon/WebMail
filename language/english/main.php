@@ -1,11 +1,11 @@
 <?php
-define("_WEBMAILSERVICE","WebMail Service");
+define("_WM_WEBMAILSERVICE","WebMail Service");
 define("_WEBMAILMAINMENU","WebMail Main Menu");
 define("_MAILBOX","Mailbox");
 define("_COMPOSE","Compose");
 define("_SETTINGS","Settings");
 define("_ADDRESSBOOK","Address Book");
-define("_SEARCHCONTACT","Search Contact");
+define("_WM_SEARCHCONTACT","Search Contact");
 define("_EXIT","Exit");
 define("_MAILWELCOME1","By setting up new accounts, you can download mails from as many servers (pop3) as you want without ever logging in to each of them manually. Checking email is now made a lot easier for you.");
 define("_MAILWELCOME2","By setting up your account, you can download mails from your POP3 Server without ever logging in manually. Checking email is now made a lot easier for you.");
@@ -19,7 +19,7 @@ define("_SELECTACCOUNT","Select one account to see the list of all your emails."
 define("_EMAILINBOX","Email Inbox");
 define("_SIZE","Size");
 define("_NOSUBJECT","(No Subject)");
-define("_DELETESELECTED","Delete Selected");
+define("_WM_DELETESELECTED","Delete Selected");
 define("_NEXT","Next");
 define("_PREVIOUS","Previous");
 define("_SHOWING","Showing");
@@ -36,14 +36,14 @@ define("_MESSAGE","Message");
 define("_SENDMESSAGE","Send Message");
 define("_CLEARALL","Clear All");
 define("_ATTACHMENTS","Attachments");
-define("_NONE","(None)");
+define("_WM_WEBMAILSERVICE","(None)");
 define("_CLICKTOATTACH","(click here to attach)");
 define("_SAVE","Save");
 define("_ADDNEW","Add New");
 define("_MAILBOXESSETTINGS","Mailboxes Settings");
 define("_POPSERVER","Pop Server");
-define("_USERNAME","Username");
-define("_PASSWORDSECURE","(all passwords are encrypted and stored securely)");
+define("_WM_USERNAME","Username");
+define("_WM_PASSWORDSECURE","(all passwords are encrypted and stored securely)");
 define("_PORT","Port");
 define("_MESSAGESPERPAGE","Messages per Page");
 define("_ACCOUNTNAME","Account Name");
@@ -66,18 +66,18 @@ define("_RELATEDEVENTSMSG","List the events related to this person such as Birth
 define("_REMINDME","Remind Me");
 define("_DAYSBEFORE","day(s) before the event");
 define("_NOTES","Notes");
-define("_SUBMIT","Submit");
+define("_WM_SUBMIT","Submit");
 define("_VIEW","View");
 define("_LISTALL","List All");
 define("_IN","in");
-define("_ALL","All");
+define("_WM_ALL","All");
 define("_RESULTSFOUND","Result(s) Found");
 define("_VIEWPROFILE","View Profile");
 define("_EDITCONTACT","Edit Contact");
 define("_EDITCONTACTS","Edit Contacts");
 define("_ATTACHSECURITY","This email has attachment(s) but you can't view this due to our WebMail client security configuration. We apologize for any inconvenient caused to you.");
-define("_DELETE","Delete");
-define("_REPLY","Reply");
+define("_WM_DELETE","Delete");
+define("_WM_REPLY","Reply");
 define("_FORWARD","Forward");
 define("_MESSAGESENT","Your message has been sent.");
 
@@ -88,6 +88,6 @@ define("_MAIL_FROM","From");
 define("_MAIL_SUBJECT","Subject");
 
 //new by joe
-define("_SEARCH","Search");
-define("_PASSWORD","Password");
+define("_WM_SEARCH","Search");
+define("_WM_PASSWORD","Password");
 ?>

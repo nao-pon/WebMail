@@ -53,15 +53,13 @@ require_once("cache/config.php");
 	        $xoopsOption['show_rblock'] =1;
         else
                 $xoopsOption['show_rblock'] =0;
-	include($xoopsConfig['root_path']."header.php");
+	include(XOOPS_ROOT_PATH."/header.php");
 
 global $xoopsDB, $xoopsUser;
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
 
-//error_reporting(E_ALL);
-
-parse_str(base64_decode($pop3_cookie));
+//parse_str(base64_decode($pop3_cookie));
 require ("pop3.php");
 require ("decodemessage.php");
 include ("mailheader.php");
@@ -213,13 +211,13 @@ navbuttons();
 echo "</form>";
 $pop3->Close();
 CloseTable();
-include($xoopsConfig['root_path']."footer.php");
+include(XOOPS_ROOT_PATH."/footer.php");
 
 function getServer($id) {
     global $xoopsDB, $xoopsUser, $user, $server, $port, $username, $password, $numshow, $apop;
     if(!isset($id)) {
 	echo "Error: Invalid Parameter<br>";
-	include($xoopsConfig['root_path']."footer.php");
+	include(XOOPS_ROOT_PATH."/footer.php");
 	exit();
     }
     $query = "Select * from ".$xoopsDB->prefix("popsettings")." where id = $id";
@@ -249,7 +247,7 @@ function navbuttons() {
     echo "<br>"
         ."<table border=\"0\" width=\"100%\">"
         ."<tr><td width=\"15%\">"
-	."<input type=\"submit\" value=\""._DELETESELECTED."\"></td></tr></table>"
+	."<input type=\"submit\" value=\""._WM_DELETESELECTED."\"></td></tr></table>"
 	."<table border=\"0\" width=\"100%\" align=\"center\">"
         ."<td width=\"70%\" align=\"center\">"._SHOWING." ($showstart - $showend) "._OF." $mailsum "._EMAILS."</td>";
     if ($upperlimit != $mailsum) {
