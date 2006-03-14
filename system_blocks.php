@@ -37,10 +37,10 @@ function b_system_WM_SEARCH_show(){
 	$block = array();
 	$block['title'] = _MB_SYSTEM_WM_SEARCH;
 	$block['content'] = "<div align='center'><br /><form action='".XOOPS_URL."/search.php' method='post'>\n";
-    	$block['content'] .= "<input type='text' name='query' size='14' />\n";
+    $block['content'] .= "<input type='text' name='query' size='14' />\n";
 	$block['content'] .= "<input type='hidden' name='action' value='results' />\n";
 	$block['content'] .= "<br /><input type='submit' value='"._MB_SYSTEM_WM_SEARCH."' />\n";
-    	$block['content'] .= "</form>\n";
+	$block['content'] .= "</form>\n";
 	$block['content'] .= "<a href='".XOOPS_URL."/search.php'>"._MB_SYSTEM_ADVS."</a></div>";
 	return $block;
 }

@@ -25,7 +25,8 @@
 // http://gererstorfer.net                                                  //
 // webmaster@gererstorfer.net                                               //
 // ------------------------------------------------------------------------ //
-$webmail_var = "1.02 (J1.5)";
+include ("version.php");
+$webmail_var = "1.02 ( J{$webmail_jver} )";
 $webmail_credits = "
 Das Gererstorfer Net 
 <a href='http://gererstorfer.net/'>

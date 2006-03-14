@@ -53,21 +53,21 @@ $nav_bar = "[ <a href='contactbook.php?op=listall'>"._LISTALL."</a> | <a href='c
 $userid = $xoopsUser->uid();
 
 $op = ($_GET['op'])? $_GET['op'] : $_POST['op'];
-$cid = ($_GET['cid'])? $_GET['cid'] : $_POST['cid'];
-$cb_index = ($_GET['cb_index'])? $_GET['cb_index'] : $_POST['cb_index'];
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
-$email = $_POST['email'];
-$homephone = $_POST['homephone'];
-$workphone = $_POST['workphone'];
-$address = $_POST['address'];
-$city = $_POST['city'];
-$company = $_POST['company'];
-$homepage = $_POST['homepage'];
-$IM = $_POST['IM'];
-$events = $_POST['events'];
-$reminders = $_POST['reminders'];
-$notes = $_POST['notes'];
+$cid = ($_GET['cid'])? (int)$_GET['cid'] : (int)$_POST['cid'];
+$cb_index = ($_GET['cb_index'])? (int)$_GET['cb_index'] : (int)$_POST['cb_index'];
+$firstname = addslashes($_POST['firstname']);
+$lastname = addslashes($_POST['lastname']);
+$email = addslashes($_POST['email']);
+$homephone = addslashes($_POST['homephone']);
+$workphone = addslashes($_POST['workphone']);
+$address = addslashes($_POST['address']);
+$city = addslashes($_POST['city']);
+$company = addslashes($_POST['company']);
+$homepage = addslashes($_POST['homepage']);
+$IM = addslashes($_POST['IM']);
+$events = addslashes($_POST['events']);
+$reminders = addslashes($_POST['reminders']);
+$notes = addslashes($_POST['notes']);
 $save = $_POST['save'];
 $q = $_POST['q'];
 $searchfield = $_POST['searchfield'];
@@ -101,7 +101,8 @@ function listall() {
     OpenTable();
     $countlimit = 20;
     $query = "select * FROM ".$xoopsDB->prefix("contactbook")." where uid = $userid order by firstname";
-        	if(!$result=$xoopsDB->query($query,$options[0],0)){
+    if(!$result=$xoopsDB->query($query,$options[0],0))
+    {
 		echo "ERROR";
 	}
     $res = $xoopsDB->query($query,$options[0],0);
@@ -109,34 +110,37 @@ function listall() {
 	<input type=\"hidden\" name=\"op\" value=\"delete\">
 	<table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2' bgcolor=\"$bgcolor2\"><td width=\"3%\" align=\"center\"><b>"._VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._NAME."</b></td><td width=\"30%\"><b>"._EMAIL."</b></td><td width=\"15%\"><b>"._PHONERES."</b></td><td width=\"15%\"><b>"._PHONEWORK."</b></td></tr>";
     $numrows = $xoopsDB->getRowsNum($res);
-    if($numrows == 0) {
-	echo "<tr><td colspan=\"7\" align=\"center\">"._NORECORDSFOUND."</td></tr>";
+    if($numrows == 0)
+    {
+		echo "<tr><td colspan=\"7\" align=\"center\">"._NORECORDSFOUND."</td></tr>";
     }
     $color = "$bgcolor1";
     $count = 0;
-    if(isset($cb_index)) {
-	$skipcount = $cb_index * $countlimit;
+    if(isset($cb_index))
+    {
+		$skipcount = $cb_index * $countlimit;
         mysql_data_seek($res,$skipcount);
     }
-    while($count < $countlimit && $row = $xoopsDB->fetchArray($res) ) {
-	$contactid = $row[contactid];
-	$firstname = $row[firstname];
-	$lastname = $row[lastname];
-	$email = $row[email];
-	$homephone = $row[homephone];
-	$workphone = $row[workphone];
-	if ($email_send == 1) {
+    while($count < $countlimit && $row = $xoopsDB->fetchArray($res) )
+    {
+		$contactid = htmlspecialchars($row[contactid]);
+		$firstname = htmlspecialchars($row[firstname]);
+		$lastname = htmlspecialchars($row[lastname]);
+		$email = htmlspecialchars($row[email]);
+		$homephone = htmlspecialchars($row[homephone]);
+		$workphone = htmlspecialchars($row[workphone]);
+		if ($email_send == 1) {
 	    $esend = "compose.php?to=$email";
-	} else {
-	    $esend = "mailto:$email";
-	}
-	echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._VIEWPROFILE."\" title=\""._VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._EDITCONTACT."\" title=\""._EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$lastname $firstname</td><td><a href=\"$esend\">$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
-	if($color == "$bgcolor1") {
-	    $color = "$bgcolor2";
-	} else {
-	    $color = "$bgcolor1";
-	}
-	$count++;
+		} else {
+		    $esend = "mailto:$email";
+		}
+		echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._VIEWPROFILE."\" title=\""._VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._EDITCONTACT."\" title=\""._EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$lastname $firstname</td><td><a href=\"$esend\">$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
+		if($color == "$bgcolor1") {
+		    $color = "$bgcolor2";
+		} else {
+		    $color = "$bgcolor1";
+		}
+		$count++;
     }
     echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._WM_DELETESELECTED."\"></form>";
     echo "<center>";
@@ -242,18 +246,23 @@ function search() {
 	$query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid = $userid and ( ";
 	if($searchfield != "all") {
 	    $words = explode(" ",$q);
-	    foreach($words as $w) {
-		$condition = " ($searchfield like '%$w%') ||";
+	    foreach($words as $w)
+	    {
+	    	$w = addslashes($w);
+			$condition = " ($searchfield like '%$w%') ||";
 	    }
 	    $condition = substr($condition,0,-2) . ")";
 	} else {
 	    $searchfield = array ("firstname","lastname","email","homeaddress","city","company","notes");
-	    foreach($searchfield as $sf) {
-		$words = explode(" ",$q);
-		foreach($words as $w) {
-		    $condition .= " ($sf like '%$w%') ||";
-                }
+	    foreach($searchfield as $sf)
+	    {
+			$words = explode(" ",$q);
+			foreach($words as $w)
+			{
+				$w = addslashes($w);
+		    	$condition .= " ($sf like '%$w%') ||";
             }
+        }
 	    $condition = substr($condition,0,-2) . ")";
 	}
 	$query .= $condition;
@@ -268,16 +277,18 @@ function search() {
 	    $skipcount = $cb_index * $countlimit;
 	    mysql_data_seek($res,$skipcount);
 	}
-	while($count < $countlimit && $row = $xoopsDB->fetchArray($res)) {
-	    $contactid = $row[contactid];
-	    $firstname = $row[firstname];
-    	    $lastname = $row[lastname];
-    	    $email = $row[email];
-    	    $homephone = $row[homephone];
-    	    $workphone = $row[workphone];
-    	    echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._VIEWPROFILE."\" title=\""._VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._EDITCONTACT."\" title=\""._EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$firstname, $lastname</td><td><a href='compose.php?to=$email'>$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
-    	    if($color== "$bgcolor1") $color = "$bgcolor2"; else $color = "$bgcolor1";
-    	    $count++;
+	$color = $bgcolor2;
+	while($count < $countlimit && $row = $xoopsDB->fetchArray($res))
+	{
+	    $contactid = htmlspecialchars($row[contactid]);
+	    $firstname = htmlspecialchars($row[firstname]);
+	    $lastname = htmlspecialchars($row[lastname]);
+	    $email = htmlspecialchars($row[email]);
+	    $homephone = htmlspecialchars($row[homephone]);
+	    $workphone = htmlspecialchars($row[workphone]);
+	    echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._VIEWPROFILE."\" title=\""._VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._EDITCONTACT."\" title=\""._EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$firstname, $lastname</td><td><a href='compose.php?to=$email'>$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
+	    if($color == "$bgcolor1") $color = "$bgcolor2"; else $color = "$bgcolor1";
+	    $count++;
 	}
 	echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._WM_DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<center>";
@@ -310,34 +321,36 @@ function view() {
     if($xoopsDB->getRowsNum($res) == 0) {
 	echo "<center>"._NORECORDSFOUND."</center>";
     }
-    if($row = $xoopsDB->fetchArray($res)){
+    if($row = $xoopsDB->fetchArray($res))
+    {
     	$contactid = $row[contactid];
-	$uid = $row[uid];
-	if($uid != $userid) {
-	    echo "<center><b>Error : Permission Denied</b></center>";
+		$uid = $row[uid];
+		if($uid != $userid)
+		{
+	    	echo "<center><b>Error : Permission Denied</b></center>";
     	    return;
-	}
-	$firstname = $row[firstname];
-	$lastname = $row[lastname];
-	$email = $row[email];
-	$homephone = $row[homephone];
-        $workphone = $row[workphone];
-	$homeaddress = $row[homeaddress];
-        $city = $row[city];
-	$company = $row[company];
-        $homepage = $row[homepage];
-	$IM = $row[IM];
-        $events = $row[events];
-	$reminders = $row[reminders];
-        $notes = $row[notes];
+		}
+		$firstname = htmlspecialchars($row[firstname]);
+		$lastname = htmlspecialchars($row[lastname]);
+		$email = htmlspecialchars($row[email]);
+		$homephone = htmlspecialchars($row[homephone]);
+        $workphone = htmlspecialchars($row[workphone]);
+		$homeaddress = htmlspecialchars($row[homeaddress]);
+        $city = htmlspecialchars($row[city]);
+		$company = htmlspecialchars($row[company]);
+        $homepage = htmlspecialchars($row[homepage]);
+		$IM = htmlspecialchars($row[IM]);
+        $events = htmlspecialchars($row[events]);
+		$reminders = htmlspecialchars($row[reminders]);
+        $notes = htmlspecialchars($row[notes]);
     }
     if ($homepage == "" OR $homepage == "http://") {
-	$homepage = "";
+		$homepage = "";
     } else {
-	$homepage = "<a href=\"$homepage\" target=\"new\">$homepage</a>";
+		$homepage = "<a href=\"$homepage\" target=\"new\">$homepage</a>";
     }
     if ($email != "") {
-	$email = "<a href='compose.php?to=$email'>$email</a>";
+		$email = "<a href='compose.php?to=$email'>$email</a>";
     }
     echo "<center><b>"._VIEWPROFILE."</b></center><br>
 	<table width=90% align=center>
@@ -414,24 +427,24 @@ function edit() {
     $query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$cid'";
     $res = $xoopsDB->query($query,$options[0],0);
     if($row = $xoopsDB->fetchArray($res)) {
-	$uid = $row[uid];
-	if($uid != $userid) {
-	    echo "<center><b>Error: Permission Denied</b></center>";
-	    return;
-	}
-	$firstname = $row[firstname];
-        $lastname = $row[lastname];
-        $email = $row[email];
-        $homephone = $row[homephone];
-        $workphone = $row[workphone];
-        $homeaddress = $row[homeaddress];
-        $city = $row[city];
-        $company = $row[company];
-        $homepage = $row[homepage];
-        $IM = $row[IM];
-        $events = $row[events];
-        $reminders = $row[reminders];
-        $notes = $row[notes];
+		$uid = $row[uid];
+		if($uid != $userid) {
+		    echo "<center><b>Error: Permission Denied</b></center>";
+		    return;
+		}
+		$firstname = htmlspecialchars($row[firstname]);
+        $lastname = htmlspecialchars($row[lastname]);
+        $email = htmlspecialchars($row[email]);
+        $homephone = htmlspecialchars($row[homephone]);
+        $workphone = htmlspecialchars($row[workphone]);
+        $homeaddress = htmlspecialchars($row[homeaddress]);
+        $city = htmlspecialchars($row[city]);
+        $company = htmlspecialchars($row[company]);
+        $homepage = htmlspecialchars($row[homepage]);
+        $IM = htmlspecialchars($row[IM]);
+        $events = htmlspecialchars($row[events]);
+        $reminders = htmlspecialchars($row[reminders]);
+        $notes = htmlspecialchars($row[notes]);
     }
     echo "<form name=editform method=post action='contactbook.php'>
 	<b>"._EDITCONTACTS."</b></font><br><br>

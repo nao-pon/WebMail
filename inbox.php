@@ -66,8 +66,8 @@ include ("mailheader.php");
 include ("class.rc4crypt.php");
 
 $_GET = array_merge($_GET,$_POST);
-$id = (isset($_GET['id']))? $_GET['id'] : null;
-$start = (isset($_GET['start']))? $_GET['start'] : null;
+$id = (isset($_GET['id']))? (int)$_GET['id'] : null;
+$start = (isset($_GET['start']))? (int)$_GET['start'] : null;
 $op = (isset($_GET['op']))? $_GET['op'] : null;
 $msgid = (isset($_GET['msgid']))? $_GET['msgid'] : null;
 
