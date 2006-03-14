@@ -37,6 +37,7 @@ if(!$result=$xoopsDB->query($query)){
 }
 
 $id = (empty($_GET['id']))? "" : (int)$_GET['id'];
+if (!$id) {$id = (empty($_POST['id']))? "" : (int)$_POST['id'];}
 
 //OpenTable();
 echo "<table align=\"center\" width=\"100%\"><tr><td class='bg2'><b><font class=\"title\"><center>"._WEBMAILMAINMENU."</center></font></b></td></tr></table>"
