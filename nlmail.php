@@ -38,25 +38,31 @@
 //  ------------------------------------------------------------------------ //
 //session_start();
 
+include("../../mainfile.php");
+
+// 非ログインユーザーはログイン画面へ
+if (!is_object($xoopsUser))
+{
+	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
+	exit();
+}
+define("XOOPS_MODULE_WEBMAIL_LOADED",1);
+
+include("cache/config.php");
+
+$xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
+
+include(XOOPS_ROOT_PATH."/header.php");
+
 //mb_string ini set by nao-pon
 ini_set("output_buffering","Off");
 ini_set("default_charset","EUC-JP");
 ini_set("mbstring.language","Japanese");
-ini_set("mbstring.encoding_translation","On");
+ini_set("mbstring.encoding_translation","Off");
 ini_set("mbstring.http_input","Auto");
 ini_set("mbstring.http_output","EUC-JP");
 ini_set("mbstring.internal_encoding","EUC-JP");
-ini_set("mbstring.substitute_character","none");
-
-include("../../mainfile.php");
-require_once("cache/config.php");
-        if($show_right==true)
-	        $xoopsOption['show_rblock'] =1;
-        else
-                $xoopsOption['show_rblock'] =0;
-	include(XOOPS_ROOT_PATH."/header.php");
-
-global $xoopsDB, $xoopsUser, $xoopsConfig;
+ini_set("mbstring.substitute_character"," ");
 
 $from = $_POST['from'];
 $to = $_POST['to'];
@@ -199,7 +205,8 @@ if ($email_send == 1) {
 		$m->from = $email_f;
 		$m->To($to);
 		//$m->To(mb_encode_mimeheader(mb_convert_kana($to,"KV")));
-		$m->Subject(stripslashes(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B")));
+		//$m->Subject(stripslashes(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B")));
+		$m->Subject(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B"));
 		$m->Body(mb_convert_encoding(mb_convert_kana($content,"KV"), "JIS", "EUC-JP"));
 		//$m->Subject($subject);
 		//$m->Body($content);

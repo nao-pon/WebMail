@@ -310,7 +310,7 @@ class DecodeMessage{
 						$filename = chop($ct["name"]) ? $ct["name"] : $cd["filename"];
 						//Decode file name. by nao-pon
 						$filename = mb_decode_mimeheader($filename);
-						$filename = mb_convert_encoding($filename, "EUC-JP", "auto");
+						//$filename = mb_convert_encoding($filename, "EUC-JP", "auto");
 						
 						if (eregi("base64", $this->Headers("Content-Transfer-Encoding"))) :
 							$file = base64_decode($this->body);

@@ -37,25 +37,24 @@
 //  * URL & Mail Automatic link.                                             //
 //  ------------------------------------------------------------------------ //
 
-//mb_string ini set by nao-pon
-ini_set("output_buffering","Off");
-ini_set("default_charset","EUC-JP");
-ini_set("mbstring.language","Japanese");
-ini_set("mbstring.encoding_translation","On");
-ini_set("mbstring.http_input","Auto");
-ini_set("mbstring.http_output","EUC-JP");
-ini_set("mbstring.internal_encoding","EUC-JP");
-ini_set("mbstring.substitute_character","none");
-
 include("../../mainfile.php");
-require_once("cache/config.php");
-        if($show_right==true)
-	        $xoopsOption['show_rblock'] =1;
-        else
-                $xoopsOption['show_rblock'] =0;
-	include(XOOPS_ROOT_PATH."/header.php");
 
-global $xoopsDB, $xoopsUser;
+// 非ログインユーザーはログイン画面へ
+if (!is_object($xoopsUser))
+{
+	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
+	exit();
+}
+define("XOOPS_MODULE_WEBMAIL_LOADED",1);
+
+include("cache/config.php");
+
+$xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
+
+include(XOOPS_ROOT_PATH."/header.php");
+
+error_reporting(E_ALL);
+
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
 
@@ -132,7 +131,7 @@ for ($i=$upperlimit;$i>$lowerlimit;$i--) {
 
 	//nao-pon
 	$sender = mb_decode_mimeheader($sender);
-	$sender = mb_convert_encoding($sender, "EUC-JP", "auto");
+	//$sender = mb_convert_encoding($sender, "EUC-JP", "auto");
 	$sender = htmlspecialchars(trim($sender));
 
 	if ($list["sender"]["name"] && ($list["sender"]["name"] != $list["sender"]["email"])) {
@@ -140,7 +139,7 @@ for ($i=$upperlimit;$i>$lowerlimit;$i--) {
 	} else {
 		$sender2 = mb_decode_mimeheader($list["sender"]["email"]);
 	}
-	$sender2 = mb_convert_encoding($sender2, "EUC-JP", "auto");
+	//$sender2 = mb_convert_encoding($sender2, "EUC-JP", "auto");
 	$sender2 = htmlspecialchars(trim($sender2));
 	$sender2 = str_replace("\n","&#13;&#10;",$sender2);
 	$sender2 = str_replace(" ","&nbsp;",$sender2);
@@ -148,7 +147,7 @@ for ($i=$upperlimit;$i>$lowerlimit;$i--) {
 
 	$subject = $list["subject"];
 	$subject = mb_decode_mimeheader($subject);
-	$subject = mb_convert_encoding($subject, "EUC-JP", "auto");
+	//$subject = mb_convert_encoding($subject, "EUC-JP", "auto");
 	
 	//nao-pon
 	$body = mb_convert_encoding($list["body"], "EUC-JP", "auto");

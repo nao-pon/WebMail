@@ -37,21 +37,11 @@
 //  * URL & Mail Automatic link.                                             //
 //  ------------------------------------------------------------------------ //
 
-//mb_string ini set by nao-pon
-ini_set("output_buffering","Off");
-ini_set("default_charset","EUC-JP");
-ini_set("mbstring.language","Japanese");
-ini_set("mbstring.encoding_translation","On");
-ini_set("mbstring.http_input","Auto");
-ini_set("mbstring.http_output","EUC-JP");
-ini_set("mbstring.internal_encoding","EUC-JP");
-ini_set("mbstring.substitute_character","none");
-
 //HTML View On or Off by nao-pon
-$html_view = (!empty($_GET['ht']))? $_GET['ht'] : "";
+$html_view = (!empty($_GET['ht']))? (int)$_GET['ht'] : "";
 
-$id = $_GET['id'];
-$msgid = $_GET['msgid'];
+$id = (int)$_GET['id'];
+$msgid = (int)$_GET['msgid'];
 
 
 function unhtmlentities ($string)
@@ -63,14 +53,21 @@ function unhtmlentities ($string)
 }
 
 include("../../mainfile.php");
-require_once("cache/config.php");
-        if($show_right==true)
-	        $xoopsOption['show_rblock'] =1;
-        else
-                $xoopsOption['show_rblock'] =0;
-	include(XOOPS_ROOT_PATH."/header.php");
 
-global $xoopsDB, $xoopsUser;
+// 非ログインユーザーはログイン画面へ
+if (!is_object($xoopsUser))
+{
+	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
+	exit();
+}
+define("XOOPS_MODULE_WEBMAIL_LOADED",1);
+
+include("cache/config.php");
+
+$xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
+
+include(XOOPS_ROOT_PATH."/header.php");
+
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
 
@@ -132,11 +129,15 @@ $full = $message["full"];
 $pop3->Close();
 $d = new DecodeMessage;
 $d->InitMessage($full);
-$from_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("From")), "EUC-JP", "auto"));
-$reply_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("Reply-To")), "EUC-JP", "auto"));
+//$from_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("From")), "EUC-JP", "auto"));
+//$reply_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("Reply-To")), "EUC-JP", "auto"));
+$from_address = chop(mb_decode_mimeheader($d->Headers("From")));
+$reply_address = chop(mb_decode_mimeheader($d->Headers("Reply-To")));
 if (!$reply_address) $reply_address = $from_address;
-$to_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("To")), "EUC-JP", "auto"));
-$subject = mb_convert_encoding(mb_decode_mimeheader($d->Headers("Subject")), "EUC-JP", "auto");
+//$to_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("To")), "EUC-JP", "auto"));
+//$subject = mb_convert_encoding(mb_decode_mimeheader($d->Headers("Subject")), "EUC-JP", "auto");
+$to_address = chop(mb_decode_mimeheader($d->Headers("To")));
+$subject = mb_decode_mimeheader($d->Headers("Subject"));
 $cc = chop($d->Headers("Cc"));
 $replyto = chop($d->Headers("Reply-To:"));
 $query = "select account from ".$xoopsDB->prefix("popsettings")." where id='$id'";

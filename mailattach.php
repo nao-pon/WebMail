@@ -37,15 +37,20 @@
 //  * URL & Mail Automatic link.                                             //
 //  ------------------------------------------------------------------------ //
 
-include("cache/config.php");
 include("../../mainfile.php");
-include("gettype.php");
-	// nao-pon
-	global $xoopsUser,$xoopsConfig;
-	$userid = $xoopsUser->uid();
 
-//echo $userfile."<br />";
-//echo $userfile_name."<br />";
+global $xoopsDB, $xoopsUser;
+// 非ログインユーザーはログイン画面へ
+if (!is_object($xoopsUser))
+{
+	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
+	exit();
+}
+define("XOOPS_MODULE_WEBMAIL_LOADED",1);
+
+include("cache/config.php");
+include_once("gettype.php");
+$userid = $xoopsUser->uid();
 
 $msg=$java_script="";
 

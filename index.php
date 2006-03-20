@@ -37,26 +37,21 @@ Japanese(J1-1.3) edit by:nao-pon
 http://hypweb.net/</a>";
 
 include("../../mainfile.php");
-include_once("cache/config.php");
 
-if($show_right==true)
-{
-	$xoopsOption['show_rblock'] =1;
-}
-else
-{
-	$xoopsOption['show_rblock'] =0;
-}
-
-include(XOOPS_ROOT_PATH."/header.php");
-
-global $xoopsDB, $xoopsUser;
 // 非ログインユーザーはログイン画面へ
 if (!is_object($xoopsUser))
 {
 	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
 	exit();
 }
+define("XOOPS_MODULE_WEBMAIL_LOADED",1);
+
+include("cache/config.php");
+
+$xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
+
+include(XOOPS_ROOT_PATH."/header.php");
+
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
 $sitename = htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES);

@@ -25,6 +25,19 @@
 // http://gererstorfer.net                                                  //
 // webmaster@gererstorfer.net                                               //
 // ------------------------------------------------------------------------ //
+
+if (!defined("XOOPS_MODULE_WEBMAIL_LOADED")) exit;
+
+//mb_string ini set by nao-pon
+ini_set("output_buffering","Off");
+ini_set("default_charset","EUC-JP");
+ini_set("mbstring.language","Japanese");
+ini_set("mbstring.encoding_translation","off");
+ini_set("mbstring.http_input","Auto");
+ini_set("mbstring.http_output","EUC-JP");
+ini_set("mbstring.internal_encoding","EUC-JP");
+ini_set("mbstring.substitute_character"," ");
+
 error_reporting(E_ERROR);
 
 global $xoopsDB, $xoopsUser;

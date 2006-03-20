@@ -1,8 +1,19 @@
 <?php
 // $Id$
+include("../../mainfile.php");
+
+if (!is_object($xoopsUser))
+{
+	exit();
+}
+
 require_once("cache/config.php");
-//global $download_dir;
 include("gettype.php");
+
+$_GET["fn"] = str_replace("\0","",$_GET["fn"]);
+$_GET["dfn"] = str_replace("\0","",$_GET["dfn"]);
+
+if (preg_match("#\.\./#",$_GET["fn"])) exit;
 
 $dlfilename = urldecode($_GET["dfn"]);
 //echo $dlfilename;
@@ -22,14 +33,15 @@ if (strstr($HTTP_SERVER_VARS["HTTP_USER_AGENT"], "MSIE")) {      // For IE
         header("Content-Length: $size");
 
         header("Cache-control: private");
-        header("Content-Disposition: attachment; filename=$dlfilename");
-        header("Content-Disposition: inline; filename=$dlfilename");
+        //header("Content-Disposition: inline; filename=$dlfilename");
+        header("Content-Disposition: attachment; filename=\"$dlfilename\"");
 }
 else {  // For Other browsers
         header("Content-Type: ".$filetype);
         header("Content-Length: $size");
         //if (preg_match("/[^a-zA-Z0-9_\-\.]/",$dlfilename)) $dlfilename=$fileid.".".$file->getExt();
-        header("Content-Disposition: inline; filename=\"$dlfilename\"");
+        //header("Content-Disposition: inline; filename=\"$dlfilename\"");
+        header("Content-Disposition: attachment; filename=\"$dlfilename\"");
 
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
