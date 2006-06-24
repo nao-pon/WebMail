@@ -180,7 +180,7 @@ set the mail recipient
 */
 
 function To( $to ) {
-        // TODO : test validité sur to
+        // TODO : test validit?sur to
         if( is_array( $to ) )
                 $this->sendto= $to;
         else
@@ -227,7 +227,7 @@ function Bcc( $bcc ) {
  *                set the body (message) of the mail
  *                define the charset if the message contains extended characters (accents)
  *                default to us-ascii
- *                $mail->Body( "mél en français avec des accents", "iso-8859-1" );
+ *                $mail->Body( "m? en fran?is avec des accents", "iso-8859-1" );
  */
 
 function Body( $body, $charset="" ) {
@@ -348,7 +348,7 @@ function Send() {
             $old_from = ini_get("sendmail_from");
             ini_set("sendmail_from", $this->from);
         }
-        if ($this->from != "" && PHP_VERSION >= "4.0.5")
+        if (ini_get("safe_mode") != "1" && $this->from != "" && PHP_VERSION >= "4.0.5")
         {
             // The fifth parameter to mail is only available in PHP >= 4.0.5
             $params = sprintf("-oi -f %s", $this->from);
