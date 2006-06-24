@@ -64,15 +64,11 @@ ini_set("mbstring.http_output","EUC-JP");
 ini_set("mbstring.internal_encoding","EUC-JP");
 ini_set("mbstring.substitute_character"," ");
 
-$from = $_POST['from'];
-$to = $_POST['to'];
-$cc = $_POST['cc'];
-$bcc = $_POST['bcc'];
-$prior = $_POST['prior'];
-$subject = $_POST['subject'];
-$message = $_POST['message'];
-$attachment = $_POST['attachment'];
-$attchtype = $_POST['attchtype'];
+$keys = array('from','to','cc','bcc','prior','subject','message','attachment','atachtype');
+foreach ($keys as $key)
+{
+	$$key = (isset($_POST[$key]))? $_POST[$key] : '';
+}
 
 if ($email_send == 1) {
 	// nao-pon
