@@ -6,4 +6,3 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 $webmail_jver = "1.6";
-?>

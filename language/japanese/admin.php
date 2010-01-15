@@ -42,5 +42,3 @@ define("_AM_EMAIL_ADDRESS","メール送信を許可する場合、アカウント別のメールアドレ
 define("_AM_HTML_TAG_COLOR","HTMLメールのソース表示時のタグの色<br />16進表示(例 #0000ff ) または、色名(例 blue) で指定。");
 define("_AM_HTML_SCR_COLOR","HTMLメール表示時のスクリプト部分の色<br />16進表示(例 #ff0000 ) または、色名(例 red) で指定。");
 
-?>
-

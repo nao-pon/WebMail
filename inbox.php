@@ -247,7 +247,7 @@ function navbuttons() {
         ."<table border=\"0\" width=\"100%\">"
         ."<tr><td width=\"15%\">"
 	."<input type=\"submit\" value=\""._WM_DELETESELECTED."\"></td></tr></table>"
-	."<table border=\"0\" width=\"100%\" align=\"center\">"
+	."<table border=\"0\" width=\"100%\" align=\"center\"><tr>"
         ."<td width=\"70%\" align=\"center\">"._SHOWING." ($showstart - $showend) "._OF." $mailsum "._EMAILS."</td>";
     if ($upperlimit != $mailsum) {
 	$ul = $upperlimit + $numshow;
@@ -260,4 +260,3 @@ function navbuttons() {
     echo "</tr></table>";
 }
 
-?>

@@ -83,7 +83,7 @@ define("_WM_REPLY","antworten");
 define("_FORWARD","weiterleiten");
 define("_MESSAGESENT","Ihre Nachricht wurde versendet.");
 
-//by joe 
+//by joe
 define("_MAIL_DATE","Datum");
 define("_MAIL_FROM","von");
 define("_MAIL_SUBJECT","Betreff");
@@ -91,4 +91,4 @@ define("_MAIL_SUBJECT","Betreff");
 //new by joe
 define("_WM_SEARCH","Suche");
 define("_WM_PASSWORD","Passwort");
-?>
+

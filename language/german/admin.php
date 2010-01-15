@@ -14,17 +14,17 @@ define("_AM_YES","Ja");
 define("_AM_NO","Nein");
 
 
-define("_AM_SHOW_RIGHT","Rechtes Menü anzeigen?");
+define("_AM_SHOW_RIGHT","Rechtes Menï¿½ anzeigen?");
 
 define("_AM_FOOTERMSGTXT","Footer Nachricht in allen gesendeten eMails:");
 define("_AM_EMAIL_SEND","Benutzern erlauben, Mails zu senden?");
-define("_AM_ATTACHMENTS","Benutzern erlauben, Anhänge zu senden?");
-define("_AM_ATTACHMENTDIR","Temporäres Verzeichnis für Anhänge:");
-define("_AM_ATTACHMENTS_VIEW","Benutzern erlauben, Anhänge anzusehen und zu lesen?");
-define("_AM_DOWNLOAD_DIR","Verzeichnis für erhaltene Anhänge:");
-define("_AM_NUMACCOUNTS","Max. Anzahl von Accounts (-1 für kein Limit):");
+define("_AM_ATTACHMENTS","Benutzern erlauben, Anhï¿½nge zu senden?");
+define("_AM_ATTACHMENTDIR","Temporï¿½res Verzeichnis fï¿½r Anhï¿½nge:");
+define("_AM_ATTACHMENTS_VIEW","Benutzern erlauben, Anhï¿½nge anzusehen und zu lesen?");
+define("_AM_DOWNLOAD_DIR","Verzeichnis fï¿½r erhaltene Anhï¿½nge:");
+define("_AM_NUMACCOUNTS","Max. Anzahl von Accounts (-1 fï¿½r kein Limit):");
 define("_AM_SINGLEACCOUNT","Basiert dieser Service auf einem einzigen Account?");
 define("_AM_SINGLEACCOUNTNAME","Standard Accountname:");
 define("_AM_DEFAULTPOPSERVER","Standard POP3 Mail Server:");
 define("_AM_FILTER_FORWARD","Header filtern, wenn eine Mail weitergeleitet wird?");
-?>
+

@@ -247,4 +247,3 @@ if ($email_send == 1) {
     exit();
 }
 
-?>

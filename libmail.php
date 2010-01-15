@@ -453,4 +453,3 @@ function _build_attachement() {
 
 } // class Mail
 
-?>

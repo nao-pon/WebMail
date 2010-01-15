@@ -27,5 +27,3 @@ define("_AM_SINGLEACCOUNTNAME","Default Single Account Name:");
 define("_AM_DEFAULTPOPSERVER","Default POP3 Mail Server:");
 define("_AM_FILTER_FORWARD","Filter header when forward?");
 
-?>
-

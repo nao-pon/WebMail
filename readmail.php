@@ -288,8 +288,8 @@ for ($j=0;$j<count($message);$j++) {
 			}
 			
 			$res = ereg_replace("\n", " ", $res);
-			$res = preg_replace("/<!DOCTYPE.*?>/i", "", $res);
-			$res = preg_replace("/<html.*?>/i", "", $res);
+			$res = preg_replace("/<!DOCTYPE.*/i", "", $res);
+			$res = preg_replace("/<html.*/i", "", $res);
 			$res = preg_replace("/<\/html>/i", "", $res);
 			$res = preg_replace("/<head(.+?\/)head>/i", "", $res);
 			$res = preg_replace("/<body(.+?)\/body>/i", "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td valign='top'$1/td>".$bg_img_h_tag."</tr>".$bg_img_w_tag."</table>", $res);
@@ -299,11 +299,11 @@ for ($j=0;$j<count($message);$j++) {
 		    	echo $res;
 		    }
 		    
-		    $res = eregi_replace("<br ?/?>", "\n", $res);
+		    $res = eregi_replace("<br ?/", "\n", $res);
 		    $res = eregi_replace("</div>", "\n", $res);
 		    $res = eregi_replace("</p>", "\n", $res);
 		    $res = eregi_replace("</table>", "\n", $res);
-		    $res = preg_replace("/<hr.*?>/i", "\n", $res);
+		    $res = preg_replace("/<hr.*/i", "\n", $res);
 		    $res = eregi_replace("&nbsp;", " ", $res);
 			$tmp = preg_replace("/<(\s*?script.*?)>(.*?)<(.*?\/script\s*?)>/i", "&lt;$1&gt;$2&lt;$3&gt;", $res);
 		    $res = strip_tags($res);
@@ -385,4 +385,3 @@ if ($attach_nv == 1) {
 CloseTable();
 include(XOOPS_ROOT_PATH."/footer.php");
 
-?>

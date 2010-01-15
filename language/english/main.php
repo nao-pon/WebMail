@@ -90,4 +90,4 @@ define("_MAIL_SUBJECT","Subject");
 //new by joe
 define("_WM_SEARCH","Search");
 define("_WM_PASSWORD","Password");
-?>
+

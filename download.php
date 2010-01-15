@@ -52,4 +52,3 @@ else {  // For Other browsers
 
 readfile($workdir."/".$filename);
 
-?>

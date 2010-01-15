@@ -8,4 +8,4 @@
 
 // Adminmenue
 define("_MI_WM_ADMENU1","Einstellungen");
-?>
+

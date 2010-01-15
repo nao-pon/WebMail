@@ -232,9 +232,9 @@ class DecodeMessage{
 						$this->InitMessage($p[$i]);
 						$content = $this->ContentType();
 						$this->ContentDisposition();
-						
+
 						$filename_tbl[$content["name"]] = $tofile_time."_".$userid."_".$i;
-						
+
 						if ($is_multipart_related AND (chop($this->Headers("Content-ID")) != '')) :
 							$cont["id"] = ereg_replace("[<>]","", $this->Headers("Content-ID"));
 							$cont["name"] = $content["name"];
@@ -275,8 +275,8 @@ class DecodeMessage{
 					$this->InitMessage($next_multipart);
 				endif;
 			} while ($next_multipart != "");
-			
-			if (chop($parts) != '') :
+
+			if (! empty($parts)) :
 				$tofile_time = time();
 				$tofile_cnt = 0;
 				for ($i=0;$i<count($parts);$i++) {;
@@ -289,7 +289,7 @@ class DecodeMessage{
 						if (eregi("quoted-printable", $this->Headers("Content-Transfer-Encoding"))){
 							$this->body = quoted_printable_decode($this->body);
 						}
-					
+
 						for ($k=0;$k<count($contentid);$k++) {
 
 							if (ini_get(file_uploads) AND $attachments_view == 1) {
@@ -311,7 +311,7 @@ class DecodeMessage{
 						//Decode file name. by nao-pon
 						$filename = mb_decode_mimeheader($filename);
 						//$filename = mb_convert_encoding($filename, "EUC-JP", "auto");
-						
+
 						if (eregi("base64", $this->Headers("Content-Transfer-Encoding"))) :
 							$file = base64_decode($this->body);
 						elseif (eregi("quoted-printable", $this->Headers("Content-Transfer-Encoding"))) :
@@ -327,7 +327,7 @@ class DecodeMessage{
 							//$filename_id = chop($ct["name"]) ? $filename_tbl[$ct["name"]] : $tofile_time."_".$userid."_".$i;//0321
 							$filename_id = $filename_tbl[$ct["name"]];//0321
 							$filepath = $this->attachment_path."/".$filename_id;
-							
+
 							@unlink($filepath);
 							if (chop($filename != '')) :
 								$fp = @fopen($filepath, "ab") OR die("Cannot open file \"$filepath\"");
@@ -344,12 +344,12 @@ class DecodeMessage{
 							endif;
 						}
 					endif;
-					
+
 					if (eregi("^(text)", $ct["type"] )
 						AND !(eregi("text/html", $ct["type"] ))
 						AND !(eregi("attachment", $cd["type"] ))
 						OR (chop($ct["type"]) == "")) :
-						
+
 						$decoded_part["body"]["type"] = $ct["type"];
 						$decoded_part["body"]["charset"] = $ct["charset"];
 						$decoded_part["body"]["encoding"] = $ct["encoding"];
@@ -388,4 +388,3 @@ class DecodeMessage{
 
 };
 
-?>

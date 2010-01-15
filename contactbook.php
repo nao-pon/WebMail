@@ -480,4 +480,3 @@ function edit() {
     CloseTable();
 }
 include(XOOPS_ROOT_PATH."/footer.php");
-?>

@@ -149,4 +149,3 @@ if ($action == "list"){
 }
 echo "<div align='right'>".$xoopsModule->name()." Var. ".$webmail_var."<br />".$webmail_credits."</div>";
 include(XOOPS_ROOT_PATH."/footer.php");
-?>

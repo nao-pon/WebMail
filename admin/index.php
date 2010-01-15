@@ -67,17 +67,17 @@ $html_scr_colorS = $_POST['html_scr_colorS'];
 
 switch($op){
    case "mailConfigS":
-	global $xoopsConfig;
-	
-	$filter_subjectS = ereg_replace("\r\n", "\n", $filter_subjectS);
-	$footermsgtxtS = ereg_replace("\r\n", "\n", $footermsgtxtS);
-	$filter_subjectS = ereg_replace("\r", "\n", $filter_subjectS);
-	$footermsgtxtS = ereg_replace("\r", "\n", $footermsgtxtS);
-	$filename = "../cache/config.php";
-	$file = fopen($filename, "w");
-	$content = "";
-	$content .= "<?php\n";
-	$content .= "
+		global $xoopsConfig;
+
+		$filter_subjectS = str_replace("\r\n", "\n", $filter_subjectS);
+		$footermsgtxtS = str_replace("\r\n", "\n", $footermsgtxtS);
+		$filter_subjectS = str_replace("\r", "\n", $filter_subjectS);
+		$footermsgtxtS = str_replace("\r", "\n", $footermsgtxtS);
+		$filename = "../cache/config.php";
+
+		$content = "";
+		$content .= "<?php\n";
+		$content .= "
 \$show_right = $show_rightS;
 \$footermsgtxt = '$footermsgtxtS';
 \$email_send = '$email_sendS';
@@ -97,15 +97,15 @@ switch($op){
 \$html_tag_color = '$html_tag_colorS';
 \$html_scr_color = '$html_scr_colorS';
 ";
- 	$content .= "\n?>";
 
-	fwrite($file, $content);
-    	fclose($file);
+		$file = fopen($filename, "wb");
+		fwrite($file, $content);
+	    fclose($file);
 
-	redirect_header("index.php",1,_AM_DBUPDATED);
-	exit();
-        break;
-        
+		redirect_header('index.php',1,_AM_DBUPDATED);
+		exit();
+	    break;
+
 	case "db_up" :
 		xoops_cp_header();
 		$query = "ALTER TABLE `".$xoopsDB->prefix("popsettings")."` ADD `apop` INT (1)";
@@ -118,7 +118,7 @@ switch($op){
 		}
 		redirect_header(XOOPS_ADMIN_URL,1,_AM_DBUPDATED);
 		break;
-		
+
     case "default":
     default:
 
@@ -162,7 +162,7 @@ switch($op){
         echo "<tr><td class='nw'>" . _AM_FOOTERMSGTXT . "</td><td>";
         echo "<textarea name='footermsgtxtS' cols=40 rows=8 tabindex=1>$footermsgtxt</textarea>";
 	echo "</td></tr>";
-	
+
 	echo "<tr><td class='nw'>" . _AM_EMAIL_SEND . "</td><td>";
 	if ($email_send=='1') {
 		echo "<input type='radio' name='email_sendS' value='1' checked='checked' />&nbsp;" ._AM_YES."&nbsp;";
@@ -269,9 +269,8 @@ switch($op){
 		</center>
     	";
     	CloseTable();
-    	
+
         break;
 }
 
 xoops_cp_footer();
-?>

@@ -15,4 +15,3 @@ global $userid,$tempfile_time;
 		closedir($handle);
 	}
 }
-?>

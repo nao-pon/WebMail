@@ -360,5 +360,3 @@ class POP3 {
 		return ("");
 	}
 };
-?>
-

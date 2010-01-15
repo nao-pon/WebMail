@@ -113,4 +113,3 @@ echo "</select><input type='submit' value='"._WM_VIEW_INBOX."'></select></form><
 //CloseTable();
 echo "<br>";
 
-?>

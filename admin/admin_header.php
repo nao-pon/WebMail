@@ -17,4 +17,3 @@ if ( file_exists("../language/".$xoopsConfig['language']."/admin.php") ) {
 } else {
 	include_once("../language/english/admin.php");
 }
-?>

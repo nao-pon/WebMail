@@ -121,4 +121,3 @@ function m_get_type($f_filename){
 }
 // nao-pon
 
-?>

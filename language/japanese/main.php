@@ -113,4 +113,3 @@ define("_WM_SIGNNAME","½ðÌ¾¤ÎÌ¾¾Î");
 define("_WM_SIGN","½ðÌ¾");
 define("_WM_INSERT","½ðÌ¾¤òÁÞÆþ");
 
-?>
