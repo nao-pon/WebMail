@@ -30,12 +30,12 @@ if (!defined("XOOPS_MODULE_WEBMAIL_LOADED")) exit;
 
 //mb_string ini set by nao-pon
 ini_set("output_buffering","Off");
-ini_set("default_charset","EUC-JP");
+ini_set("default_charset",_CHARSET);
 ini_set("mbstring.language","Japanese");
 ini_set("mbstring.encoding_translation","off");
 ini_set("mbstring.http_input","Auto");
-ini_set("mbstring.http_output","EUC-JP");
-ini_set("mbstring.internal_encoding","EUC-JP");
+ini_set("mbstring.http_output",_CHARSET);
+ini_set("mbstring.internal_encoding",_CHARSET);
 ini_set("mbstring.substitute_character"," ");
 
 error_reporting(E_ERROR);
@@ -53,47 +53,47 @@ $id = (empty($_GET['id']))? "" : (int)$_GET['id'];
 if (!$id) {$id = (empty($_POST['id']))? "" : (int)$_POST['id'];}
 
 //OpenTable();
-echo "<table align=\"center\" width=\"100%\"><tr><td class='bg2'><b><font class=\"title\"><center>"._WEBMAILMAINMENU."</center></font></b></td></tr></table>"
+echo "<table align=\"center\" width=\"100%\"><tr><td class='bg2'><b><font class=\"title\"><center>"._MD_WEBMAIL_MAINMENU."</center></font></b></td></tr></table>"
     .""
     ."<table align=\"center\" width=\"100%\"><tr><td width=\"15%\" align=\"center\">";
 
 $mailing = "images/mailbox.gif";
-echo "<a href='index.php?action=list'><IMG SRC=".$mailing." border=\"0\" alt=\""._MAILBOX."\" title=\""._MAILBOX."\"></a></td>";
+echo "<a href='index.php?action=list'><IMG SRC=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_MAILBOX."\" title=\""._MD_WEBMAIL_MAILBOX."\"></a></td>";
 
 if ($email_send == 1) {
     $mailing = "images/compose.gif";
     echo "<td align=\"center\" width=\"15%\">"
-	."<a href='compose.php?id=$id'><img src=".$mailing." border=\"0\" alt=\""._COMPOSE."\" title=\""._COMPOSE."\"></a></td>";
+	."<a href='compose.php?id=$id'><img src=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_COMPOSE."\" title=\""._MD_WEBMAIL_COMPOSE."\"></a></td>";
 }
 
 $mailing = "images/settings.gif";
 echo "<td width=\"15%\" align=\"center\">"
-    ."<a href='settings.php'><IMG SRC=".$mailing." border=\"0\" alt=\""._SETTINGS."\" title=\""._SETTINGS."\"></a></td>";
+    ."<a href='settings.php'><IMG SRC=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_SETTINGS."\" title=\""._MD_WEBMAIL_SETTINGS."\"></a></td>";
 
 $mailing = "images/contact.gif";
 echo "<td align=\"center\" width=\"15%\">"
-    ."<a href='contactbook.php'><IMG SRC=".$mailing." border=\"0\" alt=\""._ADDRESSBOOK."\" title=\""._ADDRESSBOOK."\"></a></td>";
+    ."<a href='contactbook.php'><IMG SRC=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_ADDRESSBOOK."\" title=\""._MD_WEBMAIL_ADDRESSBOOK."\"></a></td>";
 
 $mailing = "images/search.gif";
 echo "<td width=\"15%\" align=\"center\">"
-    ."<a href='contactbook.php?op=search'><IMG SRC=".$mailing." border=\"0\" alt=\""._WM_SEARCHCONTACT."\" title=\""._WM_SEARCHCONTACT."\"></a></td>"
+    ."<a href='contactbook.php?op=search'><IMG SRC=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_SEARCHCONTACT."\" title=\""._MD_WEBMAIL_SEARCHCONTACT."\"></a></td>"
     ."<td width=\"15%\" align=\"center\">";
 
 $mailing = "images/logout.gif";
 //if (is_user($user) AND is_active("Your_Account")) {
-//    echo "<a href=\"modules.php?name=Your_Account\"><IMG SRC=".$mailing." border=\"0\" alt=\""._EXIT."\" title=\""._EXIT."\"></a></td>";
+//    echo "<a href=\"modules.php?name=Your_Account\"><IMG SRC=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_EXIT."\" title=\""._MD_WEBMAIL_EXIT."\"></a></td>";
 //} else {
-    echo "<a href='../../index.php'><IMG SRC=".$mailing." border=\"0\" alt=\""._EXIT."\" title=\""._EXIT."\"></a></td>";
+    echo "<a href='../../index.php'><IMG SRC=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_EXIT."\" title=\""._MD_WEBMAIL_EXIT."\"></a></td>";
 //}
 echo "<tr>"
-    ."<td align=\"center\">"._MAILBOX."</td>";
+    ."<td align=\"center\">"._MD_WEBMAIL_MAILBOX."</td>";
 if ($email_send == 1) {
-    echo "<td align=\"center\">"._COMPOSE."</td>";
+    echo "<td align=\"center\">"._MD_WEBMAIL_COMPOSE."</td>";
 }
-echo "<td align=\"center\">"._SETTINGS."</td>"
-    ."<td align=\"center\">"._ADDRESSBOOK."</td>"
-    ."<td align=\"center\">"._WM_SEARCHCONTACT."</td>"
-    ."<td align=\"center\">"._EXIT."</td></tr>"
+echo "<td align=\"center\">"._MD_WEBMAIL_SETTINGS."</td>"
+    ."<td align=\"center\">"._MD_WEBMAIL_ADDRESSBOOK."</td>"
+    ."<td align=\"center\">"._MD_WEBMAIL_SEARCHCONTACT."</td>"
+    ."<td align=\"center\">"._MD_WEBMAIL_EXIT."</td></tr>"
     ."</table>";
 
 echo "<div align='center'>
@@ -109,7 +109,7 @@ while ($row = $xoopsDB->fetchArray($result) ) {
 	}
 	$i++;
 }
-echo "</select><input type='submit' value='"._WM_VIEW_INBOX."'></select></form></div>";
+echo "</select><input type='submit' value='"._MD_WEBMAIL_VIEW_INBOX."'></select></form></div>";
 //CloseTable();
 echo "<br>";
 

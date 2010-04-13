@@ -56,12 +56,12 @@ include(XOOPS_ROOT_PATH."/header.php");
 
 //mb_string ini set by nao-pon
 ini_set("output_buffering","Off");
-ini_set("default_charset","EUC-JP");
+ini_set("default_charset",_CHARSET);
 ini_set("mbstring.language","Japanese");
 ini_set("mbstring.encoding_translation","Off");
 ini_set("mbstring.http_input","Auto");
-ini_set("mbstring.http_output","EUC-JP");
-ini_set("mbstring.internal_encoding","EUC-JP");
+ini_set("mbstring.http_output",_CHARSET);
+ini_set("mbstring.internal_encoding",_CHARSET);
 ini_set("mbstring.substitute_character"," ");
 
 $keys = array('from','to','cc','bcc','prior','subject','message','attachment','atachtype');
@@ -132,7 +132,7 @@ if ($email_send == 1) {
 	include ("mailheader.php");
 
 	if ($mail_sum < $mail_max + 1){
-				
+
 		include ("libmail.php");
 		$userid = $xoopsUser->uid();
 		srand ((double) microtime() * 1000000);
@@ -159,7 +159,7 @@ if ($email_send == 1) {
 				$email_f = $from;
 			}
 		}
-		
+
 		if ($bcc) {
 			$bcc .= ",".$email_f;
 		} else {
@@ -203,7 +203,7 @@ if ($email_send == 1) {
 		//$m->To(mb_encode_mimeheader(mb_convert_kana($to,"KV")));
 		//$m->Subject(stripslashes(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B")));
 		$m->Subject(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B"));
-		$m->Body(mb_convert_encoding(mb_convert_kana($content,"KV"), "JIS", "EUC-JP"));
+		$m->Body(mb_convert_encoding(mb_convert_kana($content,"KV"), "JIS", _CHARSET));
 		//$m->Subject($subject);
 		//$m->Body($content);
 		$m->Cc($cc);
@@ -216,30 +216,30 @@ if ($email_send == 1) {
 		}
 
 		$m->Send();
-		$ret_message = _MESSAGESENT;
+		$ret_message = _MD_WEBMAIL_MESSAGESENT;
 	} else {
-		$ret_message = _WM_MAIL_OVER;
+		$ret_message = _MD_WEBMAIL_MAIL_OVER;
 	}
 	OpenTable();
 	echo "<center><b>".$ret_message."</b></center>";
 	//for debug//echo "the mail below has been sent:<br><pre>", $m->Get(), "</pre>";
-	
+
 	CloseTable();
-	
+
 	//$aattach = split(",", $attachment);
 	//for ($i = 0; $i < count($aattach); $i++) {
 	//	unlink($attachmentdir."/".$userid."_".$aattach[$i]."_d_u_m_");
 	//}
-	$handle = opendir("$attachmentdir"); 
-	while(false !== ($dir_tmp = readdir($handle)))  { 
-		if ($dir_tmp != "." && $dir_tmp != "..") { 
+	$handle = opendir("$attachmentdir");
+	while(false !== ($dir_tmp = readdir($handle)))  {
+		if ($dir_tmp != "." && $dir_tmp != "..") {
 			if (preg_match("/^".$userid."_.*/",$dir_tmp)) {
 				unlink("$attachmentdir/$dir_tmp");
 			}
 		}
 	}
 	closedir($handle);
-	
+
 	include(XOOPS_ROOT_PATH."/footer.php");
 
 } else {

@@ -78,21 +78,21 @@ $id = $_POST['id'];
 
 
 OpenTable();
- echo "<div align='center'><b>"._COMPOSEEMAIL."</b></div>";
+ echo "<div align='center'><b>"._MD_WEBMAIL_COMPOSEEMAIL."</b></div>";
 CloseTable();
 echo "<br>";
 
 if(isset($op)) {
 	//nao-pon
-	$subject = trim(eregi_replace("^re: ?","",$subject));
-	$subject = trim(eregi_replace("^fwd: ?","",$subject));
+	$subject = trim(preg_replace("/^re: ?/i","",$subject));
+	$subject = trim(preg_replace("/^fwd: ?/i","",$subject));
     //
     if($op == "reply") {
 		$subject = "Re: ".$subject;
-	    if (eregi($body,"<br>",$out)) {
-		$bodytext = explode("<br>",$body);
-	        foreach($bodytext as $bt) {
-		    $content .= "> ".$bt;
+	    if (strpos($body, "<br />") !== false) {
+			$bodytext = explode("<br />",$body);
+		        foreach($bodytext as $bt) {
+			    $content .= "> ".$bt;
 	        }
 	    } else {
 	        $bodytext = explode("\n",$body);
@@ -103,10 +103,10 @@ if(isset($op)) {
 	    $content = "\n\n\n".$content;
     } else if($op == "forward"){
 		$subject = "Fwd: ".$subject;
-	    if (eregi($body,"<br>",$out)) {
-		$bodytext = explode("<br>",$body);
+		    if (strpos($body, "<br />") !== false) {
+			$bodytext = explode("<br />",$body);
 	        foreach($bodytext as $bt) {
-		    $content .= $bt;
+				$content .= $bt;
 	        }
 	    } else {
 	        $bodytext = explode("\n",$body);
@@ -128,7 +128,7 @@ if (ini_get(file_uploads) AND $attachments == 1) {
 	."\n"
 	."function attachfiles(files,types) {\n"
 	."    var elm=document.getElementById(\"Atts\");\n"
-	."    if (elm.firstChild.nodeValue=='"._WM_NONE."'){\n"
+	."    if (elm.firstChild.nodeValue=='"._MD_WEBMAIL_NONE."'){\n"
 	."      elm.firstChild.nodeValue =files;\n"
 	."      document.emailform.attachment.value=files;\n"
 	."      document.emailform.attchtype.value =types;\n"
@@ -140,7 +140,7 @@ if (ini_get(file_uploads) AND $attachments == 1) {
 	."}\n"
 	."function attach_clr() {\n"
 	."    var elm=document.getElementById(\"Atts\");\n"
-	."    elm.firstChild.nodeValue =\""._WM_NONE."\";\n"
+	."    elm.firstChild.nodeValue =\""._MD_WEBMAIL_NONE."\";\n"
 	."    document.emailform.attachment.value=\"\";\n"
 	."    document.emailform.attchtype.value =\"\";\n"
 	."}\n"
@@ -174,18 +174,18 @@ $query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
 	    $name = $uname;
 	}
 	$froms = "$name <$email>";
-	
+
 $query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
     	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}
 
-echo "<b>"._SENDANEMAIL."</b>"._WM_ADD_BCC."<br><br>"
+echo "<b>"._MD_WEBMAIL_SENDANEMAIL."</b>"._MD_WEBMAIL_ADD_BCC."<br><br>"
     ."<form method=\"post\" action='nlmail.php' name=\"emailform\">"
     ."<table align=\"center\" width=\"98%\">";
-    
+
 if ($email_addr == '1'){
-	echo "<tr><td align=\"right\" nowrap>"._MAIL_FROM.":</td><td width=100%><select name=\"from\">";
+	echo "<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_MAIL_FROM.":</td><td width=100%><select name=\"from\">";
 	echo "<option value='$froms' selected>".htmlspecialchars($froms)."</option>";
 	$i=1;
 	while ($row = $xoopsDB->fetchArray($result)) {
@@ -205,26 +205,26 @@ if ($email_addr == '1'){
 	}
 	echo "</select></td></tr>";
 } else {
-	echo "<tr><td align=\"right\" nowrap>"._MAIL_FROM.":</td><td width=100%>".htmlspecialchars($froms)."</td></tr>";
+	echo "<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_MAIL_FROM.":</td><td width=100%>".htmlspecialchars($froms)."</td></tr>";
 }
 
-echo "<tr><td align=\"right\" nowrap>"._TO.":</td><td width=100%><input type=text name=\"to\" size=47 value='$to'></td></tr>"
-    ."<tr><td>&nbsp;</td><td><font class=\"tiny\">"._SEPARATEEMAILS."<br>"._WM_MAIL_SEND_MAX.$mail_max._WM_MAIL_SEND_MAX2."</font></td></tr>"
-    ."<tr><td nowrap>"._MAIL_SUBJECT.":</td><td><input type=text name=\"subject\" size=60 value='$subject'></td></tr>"
+echo "<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_TO.":</td><td width=100%><input type=text name=\"to\" size=47 value='$to'></td></tr>"
+    ."<tr><td>&nbsp;</td><td><font class=\"tiny\">"._MD_WEBMAIL_SEPARATEEMAILS."<br>"._MD_WEBMAIL_MAIL_SEND_MAX.$mail_max._MD_WEBMAIL_MAIL_SEND_MAX2."</font></td></tr>"
+    ."<tr><td nowrap>"._MD_WEBMAIL_MAIL_SUBJECT.":</td><td><input type=text name=\"subject\" size=60 value='$subject'></td></tr>"
     ."<tr><td align=\"right\"><i>Cc:</i></td><td><input type=text name=\"cc\" size=36>&nbsp;&nbsp;<i>Bcc:</i> <input type=text name=\"bcc\" size=36></td></tr>"
-    ."<tr><td align=\"right\" nowrap>"._PRIORITY.":</td><td><select name=\"prior\">"
-    ."<option value=\"1\">"._HIGH."</option>"
-    ."<option value=\"3\" selected>"._NORMAL."</option>"
-    ."<option value=\"4\">"._LOW."</option>"
+    ."<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_PRIORITY.":</td><td><select name=\"prior\">"
+    ."<option value=\"1\">"._MD_WEBMAIL_HIGH."</option>"
+    ."<option value=\"3\" selected>"._MD_WEBMAIL_NORMAL."</option>"
+    ."<option value=\"4\">"._MD_WEBMAIL_LOW."</option>"
     ."</select>";
 
 $query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
 	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}
-	
+
 	if($xoopsDB->getRowsNum($result) > 0) {
-		echo "&nbsp;&nbsp;"._WM_SIGN.":&nbsp;<select name=\"webmail_signature\">";
+		echo "&nbsp;&nbsp;"._MD_WEBMAIL_SIGN.":&nbsp;<select name=\"webmail_signature\">";
 		$i=1;
 		while ($row = $xoopsDB->fetchArray($result)) {
 			if ($row['signname']){
@@ -232,26 +232,26 @@ $query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
 			}
 			$i++;
 		}
-		echo "</select><input type=\"button\" value=\""._WM_INSERT."\" onClick=\"webmail_sign_ins()\" />";
+		echo "</select><input type=\"button\" value=\""._MD_WEBMAIL_INSERT."\" onClick=\"webmail_sign_ins()\" />";
 	}
-	
+
 echo "</td>"
     ."</tr>"
-    ."<tr><td align=\"right\" nowrap>"._MESSAGE.":</td>"
+    ."<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_MAIL_MESSAGE.":</td>"
     ."<td>"
-    ."<textarea name=\"message\" rows=\"15\" cols=\"80\" wrap=\"virtual\">$content</textarea>"
+    ."<textarea class=\"norich\" name=\"message\" rows=\"15\" cols=\"80\" wrap=\"virtual\">$content</textarea>"
     ."</td></tr>";
 
 if ($attachments == 1) {
     echo "<tr><td colspan=2>";
     OpenTable();
-    echo ""._ATTACHMENTS.": <span style=\"background-color:#ffffcc\" id=\"Atts\">"._WM_NONE."</span> &nbsp;<br><br><a href=\"javascript: open_w('mailattach.php')\">"._CLICKTOATTACH."</a>"
-    ."<noscript>"._WM_NOSCRIPT."</noscript><br>";
+    echo ""._MD_WEBMAIL_ATTACHMENTS.": <span style=\"background-color:#ffffcc\" id=\"Atts\">"._MD_WEBMAIL_NONE."</span> &nbsp;<br><br><a href=\"javascript: open_w('mailattach.php')\">"._MD_WEBMAIL_CLICKTOATTACH."</a>"
+    ."<noscript>"._MD_WEBMAIL_NOSCRIPT."</noscript><br>";
     CloseTable();
 }
 
 echo "<tr><td colspan=\"2\">"
-    ."<input type=\"submit\" name=\"send\" value=\""._SENDMESSAGE."\">&nbsp;&nbsp;<input type=\"reset\" value=\""._CLEARALL."\" onClick=\"attach_clr();\">&nbsp;&nbsp;<input type=\"button\" value=\""._CLEARATT."\" onClick=\"attach_clr();\">"
+    ."<input type=\"submit\" name=\"send\" value=\""._MD_WEBMAIL_MAIL_SENDMESSAGE."\">&nbsp;&nbsp;<input type=\"reset\" value=\""._MD_WEBMAIL_MAIL_CLEARALL."\" onClick=\"attach_clr();\">&nbsp;&nbsp;<input type=\"button\" value=\""._MD_WEBMAIL_CLEARATT."\" onClick=\"attach_clr();\">"
     ."</td></tr>"
     ."</table>"
     ."</center>"

@@ -28,13 +28,13 @@
 include ("version.php");
 $webmail_var = "1.02 ( J{$webmail_jver} )";
 $webmail_credits = "
-Das Gererstorfer Net 
+Das Gererstorfer Net
 <a href='http://gererstorfer.net/'>
 http://gererstorfer.net/
 </a><br />
-Japanese(J1-1.3) edit by:nao-pon 
-<a href='http://hypweb.net/'>
-http://hypweb.net/</a>";
+Japanese(J1-{$webmail_jver}) edit by:nao-pon
+<a href='http://xoops.hypweb.net/'>
+http://xoops.hypweb.net/</a>";
 
 include("../../mainfile.php");
 
@@ -72,9 +72,9 @@ $action = (empty($_GET['action']))? "" : $_GET['action'];
 //
 
 if ($numaccounts == -1 OR $numaccounts > 1) {
-    $welcome_msg = _MAILWELCOME1;
+    $welcome_msg = _MD_WEBMAIL_MAILWELCOME1;
 } elseif ($numaccounts == 1) {
-    $welcome_msg = _MAILWELCOME2;
+    $welcome_msg = _MD_WEBMAIL_MAILWELCOME2;
 }
 
 $query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
@@ -85,24 +85,24 @@ $query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid"
 if (!function_exists('mb_convert_encoding')) {
     OpenTable();
     echo "<table width=\"95%\" border=\"0\" align=\"center\"><tr><td>"
-	."<b>"._MAILWELCOME3." $sitename!</b>"
+	."<b>"._MD_WEBMAIL_MAILWELCOME3." $sitename!</b>"
         ."<br><br>Warning: Since mbstring of this server's PHP is not enable, WebMail does not operate."
         ."</td></tr></table>";
     CloseTable();
     include(XOOPS_ROOT_PATH."/footer.php");
     return;
-} 
+}
 
 if ($xoopsDB->getRowsNum($result) < 1) {
     OpenTable();
     echo "<table width=\"95%\" border=\"0\" align=\"center\"><tr><td>"
-	."<b>"._MAILWELCOME3." $sitename!</b><br><br>"
-        .""._CLICKONSETTINGS."<br><br>$welcome_msg"
+	."<b>"._MD_WEBMAIL_MAILWELCOME3." $sitename!</b><br><br>"
+        .""._MD_WEBMAIL_CLICKONSETTINGS."<br><br>$welcome_msg"
         ."</td></tr></table>";
     CloseTable();
     include(XOOPS_ROOT_PATH."/footer.php");
     return;
-} 
+}
 
 echo "<script language=javascript>
     function mailbox(num) {
@@ -113,9 +113,9 @@ echo "<script language=javascript>
 $count = 0;
 if ($action == "list"){
 	OpenTable();
-	echo "<center><b>"._MAILBOXESFOR." $username</b></center>";
+	echo "<center><b>"._MD_WEBMAIL_MAILBOXESFOR." $username</b></center>";
 	echo "<br><table border=\"1\" align=\"center\" width=\"80%\">"
-	    ."<tr class='bg2'><td bgcolor=\"$bgcolor2\" width=\"33%\">&nbsp;<b>"._ACCOUNT."</b></td><td bgcolor=\"$bgcolor2\" width=\"33%\" align=\"center\">&nbsp;<b>"._EMAILS."</b></td><td bgcolor=\"$bgcolor2\" width=\"33%\" align=\"center\">&nbsp;<b>"._TOTALSIZE."</b></td></tr>";
+	    ."<tr class='bg2'><td bgcolor=\"$bgcolor2\" width=\"33%\">&nbsp;<b>"._MD_WEBMAIL_ACCOUNT."</b></td><td bgcolor=\"$bgcolor2\" width=\"33%\" align=\"center\">&nbsp;<b>"._MD_WEBMAIL_EMAILS."</b></td><td bgcolor=\"$bgcolor2\" width=\"33%\" align=\"center\">&nbsp;<b>"._MD_WEBMAIL_TOTALSIZE."</b></td></tr>";
 	while ($row = $xoopsDB->fetchArray($result) ) {
 	    $count++;
 	    $server = $row[popserver];
@@ -143,7 +143,7 @@ if ($action == "list"){
 	        ."<td align=\"center\">$mailmem</td></tr>";
 	}
 	echo "</table><br><br>"
-	    ."<center>"._SELECTACCOUNT."</center>";
+	    ."<center>"._MD_WEBMAIL_SELECTACCOUNT."</center>";
 
 	CloseTable();
 }

@@ -81,7 +81,6 @@ class DecodeMessage{
         $messagebody .= $line[$j]."\n";
       $m .= $line[$j]."\n";
     }
-    //$this->body = mb_convert_encoding($messagebody, "EUC-JP", "AUTO");
     $this->body = $messagebody;
     $this->fullmessage = $msg;
     $this->attachment_path = $download_dir;
@@ -93,76 +92,81 @@ class DecodeMessage{
     else :
       $hd = "";
       //nao-pon
-      //$field = $field.":";
+      $_field = $field;
       $field = $field.": ?";
       //
       $start = 0;
       $j=0;
-      $header = eregi_replace("\r", "\n", $this->header);
+      $header = str_replace("\r", "\n", $this->header);
       $p = explode("\n", $header);
       do {
         for ($i=$start;$i<count($p);$i++) {
-          if (eregi("^($field)", $p[$i]))  :
+          if (preg_match("/^$field/i", $p[$i]))  :
               $position = $i;
-              $hd .= eregi_replace("$field", "",$p[$i]);
+              $hd .= preg_replace("/$field/i", "",$p[$i]);
               break;
             endif;
         }
-        if (eregi("^($field)", $p[$i]))  :
+        if (preg_match("/^$field/i", $p[$i]))  :
           for ($i=$position+1;$i<count($p);$i++) {
             $tok = strtok($p[$i], " ");
-            if (ereg(":$", $tok) AND (!(eregi("^($field)", $tok))))
+            if (preg_match('/:$/', $tok) AND (!(preg_match("^/$field/i", $tok))))
               break;
-            $hd .= eregi_replace("$field", "",$p[$i]);
+            $hd .= preg_replace("/$field/i", "",$p[$i]);
           }
           $start=$i+1;
         endif;
       } while ($j++ < count($p));
+    if (strtolower($_field) == 'date') {
+    	if ($_time = @ strtotime($hd)) {
+    		$hd = date(DATE_RFC822, $_time);
+    	}
+    }
     return $hd;
     endif;
   }
 
   function ContentType() {
     $c = $this->Headers("Content-Type");
-    $ct = ereg_replace("[[:space:]]", "", $c);
-    if (!(ereg(";", $ct))) :
+    $ct = preg_replace("#[[:space:]]#", "", $c);
+    if (!(preg_match("/;/", $ct))) :
       $content["type"] = trim($ct);
     else :
       $p = explode (";", $ct);
       for ($i=0;$i<count($p);$i++) {
 		// echo "decodemessage(128):"$p[$i]."<br>";
-        if (eregi("^(text)", $p[$i])) :
+        if (preg_match("#^(text)#i", $p[$i])) :
           $content["type"] = $p[$i];
-        elseif (eregi("^(multipart)", $p[$i])) :
+        elseif (preg_match("#^(multipart)#i", $p[$i])) :
           $content["type"] = $p[$i];
-        elseif (eregi("^(application)", $p[$i])) :
+        elseif (preg_match("#^(application)#i", $p[$i])) :
           $content["type"] = $p[$i];
-        elseif (eregi("^(message)", $p[$i])) :
+        elseif (preg_match("#^(message)#i", $p[$i])) :
           $content["type"] = $p[$i];
-        elseif (eregi("^(image)", $p[$i])) :
+        elseif (preg_match("#^(image)#i", $p[$i])) :
           $content["type"] = $p[$i];
-        elseif (eregi("^(audio)", $p[$i])) :
+        elseif (preg_match("#^(audio)#i", $p[$i])) :
           $content["type"] = $p[$i];
-        elseif (eregi("^(charset)", $p[$i])) :
-          $content["charset"] = eregi_replace("(charset=)|(\")", "", $p[$i]);
-        elseif (eregi("^(report-type)", $p[$i])) :
-          $content["report-type"] = eregi_replace("(report-type=)|(\")", "", $p[$i]);
-        elseif (eregi("^(type)", $p[$i])) :
-          $content["subtype"] = eregi_replace("(type=)|(\")", "", $p[$i]);
-        elseif (eregi("^(boundary)", $p[$i])) :
-          $content["boundary"] = eregi_replace("(boundary=)|(\")", "", $p[$i]);
-        elseif (eregi("^(name)", $p[$i])) :
-          $content["name"] = eregi_replace("(name=)|(\")", "", $p[$i]);
-        elseif (eregi("^(access-type)", $p[$i])) :
-          $content["access-type"] = eregi_replace("(access-type=)|(\")", "", $p[$i]);
-        elseif (eregi("^(site)", $p[$i])) :
-          $content["site"] = eregi_replace("(site=)|(\")", "", $p[$i]);
-        elseif (eregi("^(directory)", $p[$i])) :
-          $content["directory"] = eregi_replace("(directory=)|(\")", "", $p[$i]);
-        elseif (eregi("^(mode)", $p[$i])) :
-          $content["mode"] = eregi_replace("(mode=)|(\")", "", $p[$i]);
-        elseif (eregi("^(Content-Transfer-Encoding)", $p[$i])) :
-          $content["encoding"] = eregi_replace("(content-transfer-encoding:)|(\")", "", $p[$i]);
+        elseif (preg_match("#^(charset)#i", $p[$i])) :
+          $content["charset"] = preg_replace("#(charset=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(report-type)#i", $p[$i])) :
+          $content["report-type"] = preg_replace("#(report-type=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(type)#i", $p[$i])) :
+          $content["subtype"] = preg_replace("#(type=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(boundary)#i", $p[$i])) :
+          $content["boundary"] = preg_replace("#(boundary=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(name)#i", $p[$i])) :
+          $content["name"] = preg_replace("#(name=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(access-type)#i", $p[$i])) :
+          $content["access-type"] = preg_replace("#(access-type=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(site)#i", $p[$i])) :
+          $content["site"] = preg_replace("#(site=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(directory)#i", $p[$i])) :
+          $content["directory"] = preg_replace("#(directory=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(mode)#i", $p[$i])) :
+          $content["mode"] = preg_replace("#(mode=)|(\")#i", "", $p[$i]);
+        elseif (preg_match("#^(Content-Transfer-Encoding)#i", $p[$i])) :
+          $content["encoding"] = preg_replace("#(content-transfer-encoding:)|(\")#i", "", $p[$i]);
         endif;
       }
     endif;
@@ -170,18 +174,18 @@ class DecodeMessage{
   }
   function ContentDisposition() {
     $c = $this->Headers("Content-Disposition");
-    $c = ereg_replace("[[:space:]]", "", $c);
-    if (!(ereg(";", $c))) :
+    $c = preg_replace("#[[:space:]]#", "", $c);
+    if (!(preg_match("/;/", $c))) :
       $cd["type"] = $c;
     else :
       $p = explode(";", $c);
       for ($i=0;$i<count($p);$i++) {
-        if (eregi("^(inline)", $p[$i])) :
+        if (preg_match("#^(inline)#i", $p[$i])) :
           $cd["type"] = $p[$i];
-        elseif (eregi("^(attachment)", $p[$i])) :
+        elseif (preg_match("#^(attachment)#i", $p[$i])) :
           $cd["type"] = $p[$i];
-        elseif(eregi("^(filename)", $p[$i])) :
-          $cd["filename"] = eregi_replace("(filename=)|(\")", "", $p[$i]);
+        elseif(preg_match("#^(filename)#i", $p[$i])) :
+          $cd["filename"] = preg_replace("#(filename=)|(\")#i", "", $p[$i]);
         endif;
       }
     endif;
@@ -218,11 +222,11 @@ class DecodeMessage{
 				$next_multipart = "";
 				$content = $this->ContentType();
 				$cd = $this->ContentDisposition();
-				if ( eregi("^(multipart)", $content["type"]) ) :
-					if ( eregi("multipart/alternative", $content["type"]) ) :
+				if ( preg_match("#^(multipart)#i", $content["type"]) ) :
+					if ( preg_match("#multipart/alternative#i", $content["type"]) ) :
 						$is_multipart_alternative = true;
 					endif;
-					if ( eregi("multipart/related", $content["type"]) ) :
+					if ( preg_match("#multipart/related#i", $content["type"]) ) :
 						$is_multipart_related = true;
 					endif;
 					$boundary = "--".$content["boundary"];
@@ -236,19 +240,19 @@ class DecodeMessage{
 						$filename_tbl[$content["name"]] = $tofile_time."_".$userid."_".$i;
 
 						if ($is_multipart_related AND (chop($this->Headers("Content-ID")) != '')) :
-							$cont["id"] = ereg_replace("[<>]","", $this->Headers("Content-ID"));
+							$cont["id"] = preg_replace("#[<>]#","", $this->Headers("Content-ID"));
 							$cont["name"] = $content["name"];
 							$contentid[] = $cont;
 							unset($cont);
 						endif;
-						if (eregi("multipart", $content["type"])) :
+						if (preg_match("#multipart#i", $content["type"])) :
 							$multiparts[] = $p[$i];
-						elseif (eregi("message", $content["type"])) :
+						elseif (preg_match("#message#i", $content["type"])) :
 							$messages[] = $p[$i];
-						elseif ($this->choose_best AND eregi("text/plain", $content["type"]) AND $is_multipart_alternative  AND !($found_best)) :
+						elseif ($this->choose_best AND preg_match("#text/plain#i", $content["type"]) AND $is_multipart_alternative  AND !($found_best)) :
 							$best = $p[$i];
-						elseif ($this->choose_best AND eregi($this->best_format, $content["type"]) AND $is_multipart_alternative ) :
-							if (eregi("[[:alpha:]]", chop($p[$i]))) :
+						elseif ($this->choose_best AND preg_match('/'.preg_quote($this->best_format, '/').'/i', $content["type"]) AND $is_multipart_alternative ) :
+							if (preg_match("#[[:alpha:]]#i", chop($p[$i]))) :
 								$best = $p[$i];
 								$found_best = true;
 							endif;
@@ -261,7 +265,7 @@ class DecodeMessage{
 						$parts[] = $best;
 					endif;
 				else :
-					if (eregi("(message)", $content["type"])) :
+					if (preg_match("#(message)#i", $content["type"])) :
 						$messages[] = $this->fullmessage;
 					elseif (chop($this->body) != '') :
 						$parts[] = $this->fullmessage;
@@ -283,11 +287,14 @@ class DecodeMessage{
 					$this->InitMessage($parts[$i]);
 					$ct = $this->ContentType();
 					$cd = $this->ContentDisposition();
+					$decoded_part = '';
 
-					if (eregi("text/html", $ct["type"]) AND count($contentid > 0)) :
+					if (preg_match("#text/html#i", $ct["type"]) AND count($contentid > 0)) :
 						//echo "288:".nl2br(htmlspecialchars($this->body));
-						if (eregi("quoted-printable", $this->Headers("Content-Transfer-Encoding"))){
+						if (preg_match("#quoted-printable#i", $this->Headers("Content-Transfer-Encoding"))){
 							$this->body = quoted_printable_decode($this->body);
+						} else if (preg_match("/base64/i", $this->Headers("Content-Transfer-Encoding"))) {
+							$this->body = base64_decode($this->body);
 						}
 
 						for ($k=0;$k<count($contentid);$k++) {
@@ -299,26 +306,26 @@ class DecodeMessage{
 								$filelocation = $this->attachment_path."/".$fcid;
 							}
 							$cid = $contentid[$k]["id"];
-							$cid = ereg_replace("[[:space:]]", "", $cid);
+							$cid = preg_replace("#[[:space:]]#", "", $cid);
 							$this->body = str_replace("cid:", "", $this->body);
 							if (ini_get(file_uploads) AND $attachments_view == 1) {
 								$this->body = str_replace($cid, $filelocation, $this->body);
 							}
 						}
 					endif;
-					if ($this->auto_decode AND eregi("attachment", $cd["type"]) OR eregi("base64", $this->Headers("Content-Transfer-Encoding"))) :
+					if ($this->auto_decode AND preg_match("#attachment#i", $cd["type"])) :
 						$filename = chop($ct["name"]) ? $ct["name"] : $cd["filename"];
 						//Decode file name. by nao-pon
 						$filename = mb_decode_mimeheader($filename);
-						//$filename = mb_convert_encoding($filename, "EUC-JP", "auto");
 
-						if (eregi("base64", $this->Headers("Content-Transfer-Encoding"))) :
+						$file = '';
+						if (preg_match("#base64#i", $this->Headers("Content-Transfer-Encoding"))) :
 							$file = base64_decode($this->body);
-						elseif (eregi("quoted-printable", $this->Headers("Content-Transfer-Encoding"))) :
+						elseif (preg_match("#quoted-printable#i", $this->Headers("Content-Transfer-Encoding"))) :
 							$file = quoted_printable_decode($this->body);
-							$file = ereg_replace("(=\n)", "", $this->body);
-							$file = $this->body;
-						elseif (eregi("7bit", $this->Headers("Content-Transfer-Encoding"))) :
+							//$file = preg_replace("#(=\n)#", "", $this->body);
+							//$file = $this->body;
+						elseif (preg_match("#7bit#i", $this->Headers("Content-Transfer-Encoding"))) :
 							$file = $this->body;
 						endif;
 						if (ini_get(file_uploads) AND $attachments_view == 1) {
@@ -333,9 +340,9 @@ class DecodeMessage{
 								$fp = @fopen($filepath, "ab") OR die("Cannot open file \"$filepath\"");
 								fwrite($fp, $file);
 								fclose($fp);
-								if (eregi("attachment", $cd["type"])
-									OR eregi("inline", $cd["type"])
-									OR eregi("image", $cd["type"])
+								if (preg_match("#attachment#i", $cd["type"])
+									OR preg_match("#inline#i", $cd["type"])
+									OR preg_match("#image#i", $cd["type"])
 									) :
 									#echo "\n<p><a href=\"$filepath\">$filename</a><p>";
 									$decoded_part["attachments"] = $filename;
@@ -345,16 +352,23 @@ class DecodeMessage{
 						}
 					endif;
 
-					if (eregi("^(text)", $ct["type"] )
-						AND !(eregi("text/html", $ct["type"] ))
-						AND !(eregi("attachment", $cd["type"] ))
+					if (preg_match("#^(text)#i", $ct["type"] )
+						AND !(preg_match("#text/html#i", $ct["type"] ))
+						AND !(preg_match("#attachment#i", $cd["type"] ))
 						OR (chop($ct["type"]) == "")) :
 
 						$decoded_part["body"]["type"] = $ct["type"];
 						$decoded_part["body"]["charset"] = $ct["charset"];
 						$decoded_part["body"]["encoding"] = $ct["encoding"];
+
+						if (preg_match("/quoted-printable/i", $this->Headers("Content-Transfer-Encoding"))){
+							$this->body = quoted_printable_decode($this->body);
+						} else if (preg_match("/base64/i", $this->Headers("Content-Transfer-Encoding"))) {
+							$this->body = base64_decode($this->body);
+						}
+
 						$decoded_part["body"]["body"] = $this->body;
-					elseif (eregi("text/html", $ct["type"] ) AND !(eregi("attachment", $cd["type"] ))) :
+					elseif (preg_match("#text/html#i", $ct["type"] ) AND !(preg_match("#attachment#i", $cd["type"] ))) :
 						$decoded_part["body"]["type"] = $ct["type"];
 						$decoded_part["body"]["charset"] = $ct["charset"];
 						$decoded_part["body"]["encoding"] = $ct["encoding"];
@@ -363,8 +377,9 @@ class DecodeMessage{
 						//echo "<pre>($parts_count)###".htmlspecialchars($this->body)."</pre>--###<hr>";
 
 					endif;
+					if ($decoded_part) {
 						$dp[] = $decoded_part;
-						unset($decoded_part);
+					}
 				}
 
 			endif;
@@ -383,7 +398,7 @@ class DecodeMessage{
 		return $message;
 	}
 	function MessageID() {
-    	return ereg_replace("[<>]","",$this->Headers("Message-ID"));
+    	return preg_replace("#[<>]#","",$this->Headers("Message-ID"));
 	}
 
 };

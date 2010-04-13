@@ -303,7 +303,7 @@ function BuildMail() {
         //error mail to admin by nao-pon
         //$this->xheaders["Return-Path"] = $xoopsConfig['adminmail'];
         //$this->xheaders["Reply-To"] = $this->xheaders['From'];
-        
+
         if( $this->receipt ) {
                 if( isset($this->xheaders["Reply-To"] ) )
                         $this->xheaders["Disposition-Notification-To"] = $this->xheaders["Reply-To"];
@@ -316,7 +316,7 @@ function BuildMail() {
                 $this->xheaders["Content-Type"] = "$contenttype; charset=$this->charset";
                 $this->xheaders["Content-Transfer-Encoding"] = $this->ctencoding;
         }
-        
+
         $this->xheaders["X-Mailer"] = "RLSP Mailer";
         // include attached files
         if( count( $this->aattach ) > 0 ) {
@@ -388,14 +388,13 @@ check an email address validity
 */
 
 function ValidEmail($address) {
-        if( ereg( ".*<(.+)>", $address, $regs ) ) {
+        if( preg_match("/.*<(.+)>/", $address, $regs ) ) {
                 $address = $regs[1];
         }
-	 //if(eregi("^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,6}$",$address))
-         if(ereg( "^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)\$",$address) )
-                 return true;
-         else
-                 return false;
+        if(preg_match("/^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)$/", $address))
+                return true;
+        else
+                return false;
 }
 
 /*
@@ -431,7 +430,7 @@ function _build_attachement() {
                 $basename = basename($filename);
                 //nao-pon
                 $basename = substr($basename,strpos($basename,"_")+1);
-                $basename = eregi_replace("_d_u_m_$", "", $basename);
+                $basename = preg_replace("/_d_u_m_$/i", "", $basename);
                 $basename = mb_encode_mimeheader($basename);
                 //
                 $ctype = $this->actype[$i];        // content-type

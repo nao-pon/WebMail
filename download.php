@@ -16,8 +16,6 @@ $_GET["dfn"] = str_replace("\0","",$_GET["dfn"]);
 if (preg_match("#\.\./#",$_GET["fn"])) exit;
 
 $dlfilename = urldecode($_GET["dfn"]);
-//echo $dlfilename;
-//$dlfilename = mb_convert_encoding($dlfilename, "EUC-JP", "auto");
 $filename = urldecode($_GET["fn"]);
 $filetype = m_get_type($dlfilename);
 $workdir = $download_dir;

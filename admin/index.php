@@ -20,7 +20,7 @@
 
 include("admin_header.php");
 
-if (!xoops_refcheck()) redirect_header(XOOPS_URL."/",1,"Access Denied.");
+// if (!xoops_refcheck()) redirect_header(XOOPS_URL."/",1,"Access Denied.");
 
 $config_file = XOOPS_ROOT_PATH."/modules/".$xoopsModule->dirname()."/cache/config.php";
 if (file_exists($config_file)) include($config_file);
@@ -160,7 +160,7 @@ switch($op){
 	}
 	echo "</td></tr>";
         echo "<tr><td class='nw'>" . _AM_FOOTERMSGTXT . "</td><td>";
-        echo "<textarea name='footermsgtxtS' cols=40 rows=8 tabindex=1>$footermsgtxt</textarea>";
+        echo "<textarea class='norich' name='footermsgtxtS' cols=40 rows=8 tabindex=1>$footermsgtxt</textarea>";
 	echo "</td></tr>";
 
 	echo "<tr><td class='nw'>" . _AM_EMAIL_SEND . "</td><td>";
@@ -242,7 +242,7 @@ switch($op){
 	}
 	echo "</td></tr>";
         echo "<tr><td class='nw'>" . _AM_FILTER_SUBJECT . "</td><td>";
-        echo "<textarea name='filter_subjectS' cols=40 rows=8 tabindex=1>$filter_subject</textarea>";
+        echo "<textarea class='norich' name='filter_subjectS' cols=40 rows=8 tabindex=1>$filter_subject</textarea>";
 	echo "</td></tr>";
         echo "<tr><td class='nw'>" . _AM_HTML_TAG_COLOR . "</td><td>";
         echo "<input type='text' name='html_tag_colorS' value='$html_tag_color' size=10 tabindex=1>";

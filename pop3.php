@@ -80,7 +80,7 @@ class POP3 {
 		@ fputs($this->connection, "$command\r\n");
 		$result = @ fgets($this->connection, 1024);
 
-		if (eregi("^(\+OK)", $result))
+		if (preg_match("#^(\+OK)#i", $result))
 			: if ($this->DEBUG)
 				echo "<b>Result OK: </b><br>";
 		flush();
@@ -97,7 +97,7 @@ class POP3 {
 			$this->AddError("You must specified a valid hostname");
 		$errno = 0;
 		$errstr = "";
-		$this->connection = fsockopen($this->hostname, $this->port, $errno, $errstr);
+		$this->connection = fsockopen($this->hostname, $this->port, $errno, $errstr, 10);
 		if ($this->DEBUG)
 			echo "<b>Connection opened </b><br>";
 		flush();
@@ -252,8 +252,8 @@ class POP3 {
 	}
 
 	function ListMessage($msg, $readline = 15) {
-			// Set time out 60s by nao-pon
-	socket_set_timeout($this->connection, 60);
+		// Set time out 10s by nao-pon
+		socket_set_timeout($this->connection, 10);
 		//
 		$list = array ();
 		$list["has_attachment"] = false;
@@ -266,8 +266,8 @@ class POP3 {
 		$is_subject = false;
 		$is_from = false;
 		$readlines = 0;
-		for ($m = "";;) {
-			$line = fgets($this->connection, 1024);
+		while ($line = fgets($this->connection, 4096)) {
+			//$line = fgets($this->connection, 4096);
 			//$list["size"] += strlen($line);
 
 			if (trim($line) == "." OR feof($this->connection)) {
@@ -290,13 +290,13 @@ class POP3 {
 						$from .= $line;
 					}
 				}
-				if (eregi("^Subject: (.*)", $line, $reg)) {
+				if (preg_match("#^Subject: (.*)#i", $line, $reg)) {
 					$list["subject"] = $reg[1];
 					$is_subject = true;
 				}
-				if (eregi("^Date: (.*)", $line, $reg))
+				if (preg_match("#^Date: (.*)#i", $line, $reg))
 					$date = $reg[1];
-				if (eregi("^From: (.*)", $line, $reg)) {
+				if (preg_match("#^From: (.*)#i", $line, $reg)) {
 					$from = $reg[1];
 					$is_from = true;
 				}
@@ -310,9 +310,9 @@ class POP3 {
 					}
 				}
 			}
-			if (eregi("^Content-Disposition: attachment", $line) OR eregi("^Content-Disposition: inline", $line))
+			if (preg_match("#^Content-Disposition: attachment#i", $line) OR preg_match("#^Content-Disposition: inline#i", $line))
 				$list["has_attachment"] = true;
-			if (eregi("^Content-Type: text/html", $line))
+			if (preg_match("#^Content-Type: text/html#i", $line))
 				$list["is_html"] = true;
 		}
 
@@ -320,17 +320,20 @@ class POP3 {
 		//$list["body"] = str_replace("\r","\n",$list["body"]);
 		$list["body"] = trim($list["body"]);
 
-		eregi("(Sun|Mon|Tue|Wed|Thu|Fri|Sat)?,?\s?(.+) (.+) ([0-9]{1,2})([0-9]{1,2}) (.+):(.+):(.+) (.+)", $date, $dreg);
+		if ($_time = @ strtotime($date)) {
+			$date = date(DATE_RFC822, $_time);
+		}
+		preg_match("#(Sun|Mon|Tue|Wed|Thu|Fri|Sat)?,?\s?(.+) (.+) ([0-9]{1,2})([0-9]{1,2}) (.+):(.+):(.+) (.+)#i", $date, $dreg);
 		$dreg[9] = eregi_replace("(\+0900|\(?jst\)?)", "", $dreg[9]);
 		//$list["date"] = $dreg[1]." ".$dreg[2]." ".$dreg[3]." ".$dreg[6].":".$dreg[6]." ".$dreg[9];
 		$list["date"] = $dreg[2]." ".$dreg[3]." ".$dreg[6].":".$dreg[7]." ".$dreg[9];
 		$from = eregi_replace("<|>|\[|\]|\(|\)|\"|\'|(mailto:)", "", $from);
-		if (eregi("(.*)? (.+@.+\\..+)", $from))
-			: eregi("(.*)? (.+@.+\\..+)", $from, $reg);
+		if (preg_match("#(.*)? (.+@.+\\..+)#i", $from))
+			: preg_match("#(.*)? (.+@.+\\..+)#i", $from, $reg);
 		$list["sender"]["name"] = $reg[1];
 		$list["sender"]["email"] = $reg[2];
 		else
-			: eregi("(.+@.+\\..+)", $from, $reg);
+			: preg_match("#(.+@.+\\..+)#i", $from, $reg);
 		$list["sender"]["name"] = $reg[1];
 		$list["sender"]["email"] = $reg[1];
 		endif;

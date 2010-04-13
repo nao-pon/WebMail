@@ -54,41 +54,36 @@ $userid = $xoopsUser->uid();
 
 $msg=$java_script="";
 
-//if (isset($userfile) AND $userfile != "none") {
-	if (ini_get(file_uploads) AND $attachments == 1) {
-		// nao-pon
+if (ini_get('file_uploads') && $attachments && ! empty($_FILES)) {
+	// nao-pon
+	if (! empty($_FILES)) {
 		$userfile_name = $_FILES['userfile']['name'];
 		$userfile_name = urldecode($userfile_name);
-		$userfile_name = mb_convert_encoding($userfile_name, "EUC-JP", "auto");
+		$userfile_name = mb_convert_encoding($userfile_name, _CHARSET, "auto");
 		if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 			@copy($_FILES['userfile']['tmp_name'], $attachmentdir."/".$userid."_".$userfile_name."_d_u_m_");
 			@unlink($userfile);
 			$M_Type = m_get_type($userfile_name);
-			$java_script ="<script>window.opener.attachfiles(\"".$_FILES['userfile']['name']."\",\"".$M_Type."\");</script>";
-			$msg = "ファイル\"".$_FILES['userfile']['name']."\"を追加しました。<br /><br />";
-		} else {
-    		if (strtolower($_SERVER["REQUEST_METHOD"])=="post") $msg = "エラー：添付ファイルを指定してください。<br /><br />";
+			$filename = htmlspecialchars($_FILES['userfile']['name'], ENT_QUOTES);
+			$java_script ="<script>window.opener.attachfiles(\"".$filename."\",\"".$M_Type."\");</script>";
+			$msg = str_replace('$1', $filename, _MD_WEBMAIL_ATTACHE_ADDED).'<br /><br />';
 		}
-		//@copy($userfile, $attachmentdir."/".$userid."_".$userfile_name."_d_u_m_");
-		//nao-pon edited
-		//nao-pon
 	}
-//}
+	if (! $msg && strtolower($_SERVER["REQUEST_METHOD"])=="post") $msg = _MD_WEBMAIL_ERR_NOFILE."<br /><br />";
+}
 
 $sitename = htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES);
 echo "<html>\n"
-    ."<title>{$sitename}[Web Mailer]: ファイル添付</title>\n"
+    ."<title>{$sitename}[Web Mailer]: "._MD_WEBMAIL_ATTACHE_FILE."</title>\n"
     ."<body text=\"#63627f\">\n"
     .$java_script."\n"
     ."<form action=\"mailattach.php\" method=\"post\" ENCTYPE=\"multipart/form-data\" name=\"attchform\">\n"
     ."<center>\n"
     .$msg
-    ."<b>{$sitename}[Web Mailer]: ファイル添付</b><br /><br />\n"
-    ."ファイル: <input type=\"file\" name=\"userfile\" size=\"30\"><br /><input type=\"submit\" value=\"添付ファイル追加\">\n"
+    ."<b>{$sitename}[Web Mailer]: "._MD_WEBMAIL_ATTACHE_FILE."</b><br /><br />\n"
+    . _MD_WEBMAIL_FILE . ": <input type=\"file\" name=\"userfile\" size=\"30\"><br /><input type=\"submit\" value=\""._MD_WEBMAIL_ATTACHE_ADD."\">\n"
     ."</form>\n"
-    ."<br /><br /><form><input type=\"button\" value=\"このウィンドウを閉じる\" onClick=\"window.close();\"></form>\n"
+    ."<br /><br /><form><input type=\"button\" value=\""._MD_WEBMAIL_CLOSE_WINDOW."\" onClick=\"window.close();\"></form>\n"
     ."</body>\n"
     ."</html>";
 
-
-// nao-pon edited

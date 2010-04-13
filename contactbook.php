@@ -55,7 +55,7 @@ include(XOOPS_ROOT_PATH."/header.php");
 
 include ("mailheader.php");
 
-$nav_bar = "[ <a href='contactbook.php?op=listall'>"._LISTALL."</a> | <a href='contactbook.php?op=addnew'>"._ADDNEW."</a> | <a href='contactbook.php?op=search'>"._WM_SEARCH."</a> ]";
+$nav_bar = "[ <a href='contactbook.php?op=listall'>"._MD_WEBMAIL_LISTALL."</a> | <a href='contactbook.php?op=addnew'>"._MD_WEBMAIL_ADDNEW."</a> | <a href='contactbook.php?op=search'>"._MD_WEBMAIL_SEARCH."</a> ]";
 $userid = $xoopsUser->uid();
 
 $op = ($_GET['op'])? $_GET['op'] : $_POST['op'];
@@ -83,7 +83,7 @@ $del = $_POST['del'];
 $add_new_from = (!empty($_GET['from']))? $_GET['from'] : "";
 
 OpenTable();
- echo "<div align'center'><b>"._ADDRESSBOOK.": ".$nav_bar."</b></div>";
+ echo "<div align'center'><b>"._MD_WEBMAIL_ADDRESSBOOK.": ".$nav_bar."</b></div>";
 CloseTable();
 echo "<br>";
 
@@ -114,11 +114,11 @@ function listall() {
     $res = $xoopsDB->query($query,$options[0],0);
     echo "<form name=\"listform\" method=\"post\" action='contactbook.php'>
 	<input type=\"hidden\" name=\"op\" value=\"delete\">
-	<table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2' bgcolor=\"$bgcolor2\"><td width=\"3%\" align=\"center\"><b>"._VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._NAME."</b></td><td width=\"30%\"><b>"._EMAIL."</b></td><td width=\"15%\"><b>"._PHONERES."</b></td><td width=\"15%\"><b>"._PHONEWORK."</b></td></tr>";
+	<table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2' bgcolor=\"$bgcolor2\"><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._MD_WEBMAIL_NAME."</b></td><td width=\"30%\"><b>"._MD_WEBMAIL_EMAIL."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONERES."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONEWORK."</b></td></tr>";
     $numrows = $xoopsDB->getRowsNum($res);
     if($numrows == 0)
     {
-		echo "<tr><td colspan=\"7\" align=\"center\">"._NORECORDSFOUND."</td></tr>";
+		echo "<tr><td colspan=\"7\" align=\"center\">"._MD_WEBMAIL_NORECORDSFOUND."</td></tr>";
     }
     $color = "$bgcolor1";
     $count = 0;
@@ -140,7 +140,7 @@ function listall() {
 		} else {
 		    $esend = "mailto:$email";
 		}
-		echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._VIEWPROFILE."\" title=\""._VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._EDITCONTACT."\" title=\""._EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$lastname $firstname</td><td><a href=\"$esend\">$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
+		echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._MD_WEBMAIL_VIEWPROFILE."\" title=\""._MD_WEBMAIL_VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._MD_WEBMAIL_EDITCONTACT."\" title=\""._MD_WEBMAIL_EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$lastname $firstname</td><td><a href=\"$esend\">$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
 		if($color == "$bgcolor1") {
 		    $color = "$bgcolor2";
 		} else {
@@ -148,11 +148,11 @@ function listall() {
 		}
 		$count++;
     }
-    echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._WM_DELETESELECTED."\"></form>";
+    echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></form>";
     echo "<center>";
     if($cb_index > 0) {
 	$ind = $cb_index-1;
-	echo "<a href='contactbook.php?op=listall&cb_index=$ind'>"._PREVIOUS."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<a href='contactbook.php?op=listall&cb_index=$ind'>"._MD_WEBMAIL_PREVIOUS."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     }
     $limit = $numrows/$countlimit;
     if($limit > 1) {
@@ -165,7 +165,7 @@ function listall() {
     echo "&nbsp;&nbsp;&nbsp;&nbsp;";
     if (($skipcount + $count) < $numrows) {
 	$ind = $cb_index + 1;
-	echo "<a href='contactbook.php?op=listall&cb_index=$ind'>"._NEXT."</a></center>";
+	echo "<a href='contactbook.php?op=listall&cb_index=$ind'>"._MD_WEBMAIL_NEXT."</a></center>";
     }
     CloseTable();
 }
@@ -187,7 +187,7 @@ function addnew($add_new_from="") {
 			$add_new_mail = preg_replace("/(\"|'|\(|<)(.+)(\"|'|\)|>)/","$2",stripslashes(trim($match[2])));
 			list($add_new_lname,$add_new_name) = array_pad(explode(" ",$add_new_name,2),2,"");
 			//list($add_new_name,$add_new_mail) = preg_split("/ (?![^ ]+)/",$add_new_from);
-			
+
 		}
 		else
 		{
@@ -195,35 +195,35 @@ function addnew($add_new_from="") {
 			$add_new_name = "";
 		}
 	echo "<form name=\"addnew\" method=\"post\" action='contactbook.php'>
-	    <b>"._ADDNEWCONTACT."</b><br><br>
+	    <b>"._MD_WEBMAIL_ADDNEWCONTACT."</b><br><br>
 	    <table border=\"0\">
-	    <tr><td width=\"25%\">"._LASTNAME.":</td><td><input type=\"text\" name=\"lastname\" value=\"".htmlspecialchars($add_new_lname)."\" size=\"40\"></td></tr>
-	    <tr><td>"._FIRSTNAME.":</td><td><input type=\"text\" name=\"firstname\" value=\"".htmlspecialchars($add_new_name)."\" size=\"40\"></td></tr>
-	    <tr><td>"._EMAIL.":</td><td><input type=\"text\" name=\"email\" value=\"".htmlspecialchars($add_new_mail)."\" size=\"60\"></td></tr>
-	    <tr><td>"._PHONERES.":</td><td><input type=\"text\" name=\"homephone\" size=\"30\"></td></tr>
-	    <tr><td>"._PHONEWORK.":</td><td><input type=\"text\" name=\"workphone\" size=\"30\"></td></tr>
-	    <tr><td>"._ADDRESS.":</td><td><textarea name=\"address\" rows=\"4\" cols=\"25\"></textarea></td></tr>
-	    <tr><td>"._CITY.":</td><td><input type=\"text\" name=\"city\"></td></tr>
-	    <tr><td>"._COMPANY.":</td><td><input type=\"text\" name=\"company\" size=\"60\"></td></tr>
-	    <tr><td>"._HOMEPAGE.":</td><td><input type=\"text\" name=\"homepage\" size=\"60\" value=\"http://\"></td></tr>
+	    <tr><td width=\"25%\">"._MD_WEBMAIL_LASTNAME.":</td><td><input type=\"text\" name=\"lastname\" value=\"".htmlspecialchars($add_new_lname)."\" size=\"40\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_FIRSTNAME.":</td><td><input type=\"text\" name=\"firstname\" value=\"".htmlspecialchars($add_new_name)."\" size=\"40\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_EMAIL.":</td><td><input type=\"text\" name=\"email\" value=\"".htmlspecialchars($add_new_mail)."\" size=\"60\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_PHONERES.":</td><td><input type=\"text\" name=\"homephone\" size=\"30\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_PHONEWORK.":</td><td><input type=\"text\" name=\"workphone\" size=\"30\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_ADDRESS.":</td><td><textarea class=\"norich\" name=\"address\" rows=\"4\" cols=\"25\"></textarea></td></tr>
+	    <tr><td>"._MD_WEBMAIL_CITY.":</td><td><input type=\"text\" name=\"city\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_COMPANY.":</td><td><input type=\"text\" name=\"company\" size=\"60\"></td></tr>
+	    <tr><td>"._MD_WEBMAIL_HOMEPAGE.":</td><td><input type=\"text\" name=\"homepage\" size=\"60\" value=\"http://\"></td></tr>
 	    <tr><td><br><br></td></tr>
-	    <tr><td valign=top>"._IMIDS."</td><td>"._IMIDSMSG."<br><textarea name=IM rows=4 cols=25>
-Yahoo: 
-MSN: 
-ICQ: 
-AIM: 
+	    <tr><td valign=top>"._MD_WEBMAIL_IMIDS."</td><td>"._MD_WEBMAIL_IMIDSMSG."<br><textarea class=\"norich\" name=\"IM\" rows=\"4\" cols=\"25\">
+Yahoo:
+MSN:
+ICQ:
+AIM:
 	    </textarea></td></tr>
 	    <tr><td><br><br></td></tr>
 	    <!--
-	    <tr><td valign=top>"._RELATEDEVENTS.":</td><td>"._RELATEDEVENTSMSG."<br>
-	    <textarea name=events rows=4 cols=40></textarea></td></tr>
-	    <tr><td>"._REMINDME.":</td><td><input type=text name=reminders size=3 value=1> "._DAYSBEFORE."</td></tr>
+	    <tr><td valign=top>"._MD_WEBMAIL_RELATEDEVENTS.":</td><td>"._MD_WEBMAIL_RELATEDEVENTSMSG."<br>
+	    <textarea class=\"norich\" name=\"events\" rows=\"4\" cols=\"40\"></textarea></td></tr>
+	    <tr><td>"._MD_WEBMAIL_REMINDME.":</td><td><input type=text name=reminders size=3 value=1> "._MD_WEBMAIL_DAYSBEFORE."</td></tr>
 	    <tr><td><br><br></td></tr>
 	    -->
-	    <tr><td>"._NOTES.":</td><td><textarea name=notes rows=4 cols=40></textarea></td></tr></table>
+	    <tr><td>"._MD_WEBMAIL_NOTES.":</td><td><textarea class=\"norich\" name=\"notes\" rows=\"4\" cols=\"40\"></textarea></td></tr></table>
 	    <input type=hidden name=save value='true'>
 	    <input type=hidden name=op value='addnew'>
-	    <input type=submit name=add value=\""._WM_SUBMIT."\"></form>";
+	    <input type=submit name=add value=\""._MD_WEBMAIL_SUBMIT."\"></form>";
     }
     CloseTable();
 }
@@ -231,24 +231,24 @@ AIM:
 function search() {
     global $xoopsDB, $xoopsUser, $userid, $q, $searchdb, $searchfield, $cb_index, $bgcolor1, $bgcolor2, $bgcolor3, $imgpath, $prefix, $dbi, $module_name;
     OpenTable();
-    echo "<center><b>"._WM_SEARCHCONTACT."</b></center><br>";
+    echo "<center><b>"._MD_WEBMAIL_SEARCHCONTACT."</b></center><br>";
     echo "<form method=post action='contactbook.php' name=searchform>
 	<input type=hidden name=op value=search>
-	<table align=center><tr><Td>"._WM_SEARCH.": </td><td><input type=text name=q value='$q'></td>
-	<td> "._IN." </td><td>
+	<table align=center><tr><Td>"._MD_WEBMAIL_SEARCH.": </td><td><input type=text name=q value='$q'></td>
+	<td> "._MD_WEBMAIL_IN." </td><td>
 	<select name=searchfield>
-	<option value='all'>"._WM_ALL."</option>
-	<option value='firstname'>"._FIRSTNAME."</option>
-	<option value='lastname'>"._LASTNAME."</option>
-	<option value='email'>"._EMAIL."</option>
-	<option value='homeaddress'>"._ADDRESS."</option>
-	<option value='city'>"._CITY."</option>
-	<option value='company'>"._COMPANY."</option>
-	<option value='notes'>"._NOTES."</option>
+	<option value='all'>"._MD_WEBMAIL_ALL."</option>
+	<option value='firstname'>"._MD_WEBMAIL_FIRSTNAME."</option>
+	<option value='lastname'>"._MD_WEBMAIL_LASTNAME."</option>
+	<option value='email'>"._MD_WEBMAIL_EMAIL."</option>
+	<option value='homeaddress'>"._MD_WEBMAIL_ADDRESS."</option>
+	<option value='city'>"._MD_WEBMAIL_CITY."</option>
+	<option value='company'>"._MD_WEBMAIL_COMPANY."</option>
+	<option value='notes'>"._MD_WEBMAIL_NOTES."</option>
 	</select>
-	<input type=hidden name=searchdb value='"._WM_SEARCH."'>
-        </td><td>&nbsp;<input type=submit value='"._WM_SEARCH."'></td></tr></table></form>";
-    if($searchdb == ""._WM_SEARCH."") {
+	<input type=hidden name=searchdb value='"._MD_WEBMAIL_SEARCH."'>
+        </td><td>&nbsp;<input type=submit value='"._MD_WEBMAIL_SEARCH."'></td></tr></table></form>";
+    if($searchdb == ""._MD_WEBMAIL_SEARCH."") {
 	$query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid = $userid and ( ";
 	if($searchfield != "all") {
 	    $words = explode(" ",$q);
@@ -276,8 +276,8 @@ function search() {
 	$numrows = $xoopsDB->getRowsNum($res);
 	echo "<form method=post action='contactbook.php' name=searchform>
 	    <input type=\"hidden\" name=\"op\" value=\"delete\">";
-	echo "<Br><center>$numrows "._RESULTSFOUND."</center><br>
-	    <table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2'><td width=\"3%\" align=\"center\"><b>"._VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._NAME."</b></td><td width=\"30%\"><b>"._EMAIL."</b></td><td width=\"15%\"><b>"._PHONERES."</b></td><td width=\"15%\"><b>"._PHONEWORK."</b></td></tr>";
+	echo "<Br><center>$numrows "._MD_WEBMAIL_RESULTSFOUND."</center><br>
+	    <table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2'><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._MD_WEBMAIL_NAME."</b></td><td width=\"30%\"><b>"._MD_WEBMAIL_EMAIL."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONERES."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONEWORK."</b></td></tr>";
 	$skipcount = 0; $count = 0; $countlimit = 20;
 	if(isset($cb_index)) {
 	    $skipcount = $cb_index * $countlimit;
@@ -292,15 +292,15 @@ function search() {
 	    $email = htmlspecialchars($row[email]);
 	    $homephone = htmlspecialchars($row[homephone]);
 	    $workphone = htmlspecialchars($row[workphone]);
-	    echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._VIEWPROFILE."\" title=\""._VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._EDITCONTACT."\" title=\""._EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$firstname, $lastname</td><td><a href='compose.php?to=$email'>$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
+	    echo "<tr bgcolor=\"$bgcolor2\"><td align=\"center\"><a href='contactbook.php?op=view&cid=$contactid'><img src='images/view.gif' alt=\""._MD_WEBMAIL_VIEWPROFILE."\" title=\""._MD_WEBMAIL_VIEWPROFILE."\" border=\"0\" width=\"16\" height=\"12\"></a></td><td align=\"center\"><a href='contactbook.php?op=edit&cid=$contactid'><img src='images/edit.gif' border=\"0\" alt=\""._MD_WEBMAIL_EDITCONTACT."\" title=\""._MD_WEBMAIL_EDITCONTACT."\" width=\"16\" height=\"16\"></a></td><td><input type=\"checkbox\" name=\"del[]\" value=\"$contactid\"></td><td>$firstname, $lastname</td><td><a href='compose.php?to=$email'>$email</a></td><td>$homephone</td><td>$workphone</td></tr>";
 	    if($color == "$bgcolor1") $color = "$bgcolor2"; else $color = "$bgcolor1";
 	    $count++;
 	}
-	echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._WM_DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<center>";
 	if($cb_index > 0) {
 	    $ind = $cb_index-1;
-	    echo "<a href='contactbook.php?op=search&index=$ind'>"._PREVIOUS."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	    echo "<a href='contactbook.php?op=search&index=$ind'>"._MD_WEBMAIL_PREVIOUS."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	}
 	$limit = $numrows/$countlimit;
 	if($limit > 1) {
@@ -313,7 +313,7 @@ function search() {
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 	if(($skipcount + $count) < $numrows) {
 	    $ind = $cb_index + 1;
-	    echo "<a href='contactbook.php?op=search&index=$ind'>"._NEXT." ?/a></center>";
+	    echo "<a href='contactbook.php?op=search&index=$ind'>"._MD_WEBMAIL_NEXT." ?/a></center>";
 	}
     }
     CloseTable();
@@ -325,7 +325,7 @@ function view() {
     $query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$cid'";
     $res = $xoopsDB->query($query,$options[0],0);
     if($xoopsDB->getRowsNum($res) == 0) {
-	echo "<center>"._NORECORDSFOUND."</center>";
+	echo "<center>"._MD_WEBMAIL_NORECORDSFOUND."</center>";
     }
     if($row = $xoopsDB->fetchArray($res))
     {
@@ -358,19 +358,19 @@ function view() {
     if ($email != "") {
 		$email = "<a href='compose.php?to=$email'>$email</a>";
     }
-    echo "<center><b>"._VIEWPROFILE."</b></center><br>
+    echo "<center><b>"._MD_WEBMAIL_VIEWPROFILE."</b></center><br>
 	<table width=90% align=center>
-	<tr><td width=20%><b>"._LASTNAME.":</b></td><td>$lastname</td></tr>
-	<tr><td><b>"._FIRSTNAME.":</b></td><td>$firstname</td></tr>
-	<tr><td><b>"._EMAIL.":</b></td><td>$email</td></tr>
-	<tr><td><b>"._PHONERES.":</b></td><td>$homephone</td></tr>
-	<tr><td><b>"._PHONEWORK.":</b></td><td>$workphone</td></tr>
-	<tr><td><b>"._ADDRESS.":</b></td><td>$homeaddress</td></tr>
-	<tr><td><b>"._CITY.":</b></td><td>$city</td></tr>
-	<tr><td><b>"._COMPANY.":</b></td><td>$company</td></tr>
-	<tr><td><b>"._HOMEPAGE.":</b></td><td>$homepage</td></tr>
+	<tr><td width=20%><b>"._MD_WEBMAIL_LASTNAME.":</b></td><td>$lastname</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_FIRSTNAME.":</b></td><td>$firstname</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_EMAIL.":</b></td><td>$email</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_PHONERES.":</b></td><td>$homephone</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_PHONEWORK.":</b></td><td>$workphone</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_ADDRESS.":</b></td><td>$homeaddress</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_CITY.":</b></td><td>$city</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_COMPANY.":</b></td><td>$company</td></tr>
+	<tr><td><b>"._MD_WEBMAIL_HOMEPAGE.":</b></td><td>$homepage</td></tr>
 	<tr><td colspan=2><hr width=100% noshade size=1></td></tr>
-	<tr><td valign=top colspan=2><b>"._IMIDS.":</b></td></tr>";
+	<tr><td valign=top colspan=2><b>"._MD_WEBMAIL_IMIDS.":</b></td></tr>";
     echo "<tr><td colspan=2><table width=80% align=center>";
     $listim = explode("\n",$IM);
     foreach($listim as $item) {
@@ -382,7 +382,7 @@ function view() {
     /*
     echo "</table></td></tr>
 	<tr><td colspan=2><hr width=100% size=1 noshade></td></tr>
-	<tr><td colspan=2 valign=top><b>"._RELATEDEVENTS.":</b></td></tr>";
+	<tr><td colspan=2 valign=top><b>"._MD_WEBMAIL_RELATEDEVENTS.":</b></td></tr>";
     echo "<tr><td colspan=2><table width=80% align=center>";
     $listevents = explode("\n",$events);
     foreach($listevents as $ev) {
@@ -394,7 +394,7 @@ function view() {
     */
     echo "</table></td></tr>
 	<tr><td colspan=2><hr width=100% size=1 noshade></td></tr>
-	<tr><td><b>"._NOTES.":</b></td><td>$notes</td></tr></table><br><br>";
+	<tr><td><b>"._MD_WEBMAIL_NOTES.":</b></td><td>$notes</td></tr></table><br><br>";
     CloseTable();
 }
 
@@ -426,7 +426,7 @@ function edit() {
     if($save == "true") {
 	$query = "update ".$xoopsDB->prefix("contactbook")." set firstname='$firstname', lastname='$lastname', email='$email', homephone = '$homephone', workphone ='$workphone', homeaddress= '$homeaddress', city = '$city', company = '$company', homepage= '$homepage',IM = '$IM', events = '$events', reminders = '$reminders',notes = '$notes' where contactid = $cid";
 	$res = $xoopsDB->query($query,$options[0],0);
-	listall(); 
+	listall();
         CloseTable();
 	return;
     }
@@ -453,30 +453,30 @@ function edit() {
         $notes = htmlspecialchars($row[notes]);
     }
     echo "<form name=editform method=post action='contactbook.php'>
-	<b>"._EDITCONTACTS."</b></font><br><br>
+	<b>"._MD_WEBMAIL_EDITCONTACTS."</b></font><br><br>
 	<table border=0 width=90%>
-	<tr><td width=25%>"._LASTNAME.":</td><td><input type=text name=lastname value='$lastname'></td></tr>
-	<tr><td>"._FIRSTNAME.":</td><td><input type=text name=firstname value='$firstname'></td></tr>
-	<tr><td>"._EMAIL.":</td><td><input type=text name=email value='$email'></td></tr>
-	<tr><td>"._PHONERES.":</td><td><input type=text name=homephone value='$homephone'></td></tr>
-	<tr><td>"._PHONEWORK.":</td><td><input type=text name=workphone value='$workphone'></td></tr>
-	<tr><td>"._ADDRESS.":</td><td><textarea name=homeaddress rows=4 cols=25>$homeaddress</textarea></td></tr>
-	<tr><td>"._CITY.":</td><td><input type=text name=city value='$city'></td></tr>
-	<tr><td>"._COMPANY.":</td><td><input type=text name=company size=40 value='$company'></td></tr>
-	<tr><td>"._HOMEPAGE.":</td><td><input type=text name=homepage size=40 value='$homepage'></td></tr>
+	<tr><td width=25%>"._MD_WEBMAIL_LASTNAME.":</td><td><input type=text name=lastname value='$lastname'></td></tr>
+	<tr><td>"._MD_WEBMAIL_FIRSTNAME.":</td><td><input type=text name=firstname value='$firstname'></td></tr>
+	<tr><td>"._MD_WEBMAIL_EMAIL.":</td><td><input type=text name=email value='$email'></td></tr>
+	<tr><td>"._MD_WEBMAIL_PHONERES.":</td><td><input type=text name=homephone value='$homephone'></td></tr>
+	<tr><td>"._MD_WEBMAIL_PHONEWORK.":</td><td><input type=text name=workphone value='$workphone'></td></tr>
+	<tr><td>"._MD_WEBMAIL_ADDRESS.":</td><td><textarea class=\"norich\" name=\"homeaddress\" rows=\"4\" cols=\"25\">$homeaddress</textarea></td></tr>
+	<tr><td>"._MD_WEBMAIL_CITY.":</td><td><input type=text name=city value='$city'></td></tr>
+	<tr><td>"._MD_WEBMAIL_COMPANY.":</td><td><input type=text name=company size=40 value='$company'></td></tr>
+	<tr><td>"._MD_WEBMAIL_HOMEPAGE.":</td><td><input type=text name=homepage size=40 value='$homepage'></td></tr>
 	<tr><td><br><br></td></tr>
-	<tr><td valign=top>"._IMIDS.":</td><td>"._IMIDSMSG."<br><textarea name=IM rows=4 cols=25>$IM</textarea></td></tr>
+	<tr><td valign=top>"._MD_WEBMAIL_IMIDS.":</td><td>"._MD_WEBMAIL_IMIDSMSG."<br><textarea name=IM rows=4 cols=25>$IM</textarea></td></tr>
 	<!--
 	<tr><td colspan=2><br><br></td></tr>
-	<tr><td valign=top>"._RELATEDEVENTS.":</td><td>"._RELATEDEVENTSMSG."<br><textarea name=events rows=4 cols=40>$events</textarea></td></tr>
-	<tr><td>"._REMINDME.":</td><td><input type=text name=reminders value='$reminders'size=3 value=1> "._DAYSBEFORE."</td></tr>
+	<tr><td valign=top>"._MD_WEBMAIL_RELATEDEVENTS.":</td><td>"._MD_WEBMAIL_RELATEDEVENTSMSG."<br><textarea class=\"norich\" name=\"events\" rows=\"4\" cols=\"40\">$events</textarea></td></tr>
+	<tr><td>"._MD_WEBMAIL_REMINDME.":</td><td><input type=text name=reminders value='$reminders'size=3 value=1> "._MD_WEBMAIL_DAYSBEFORE."</td></tr>
 	<tr><td><br><br></td></tr>
 	-->
-	<tr><td>"._NOTES.":</td><td><textarea name=notes rows=4 cols=40>$notes</textarea></td></tr></table>
+	<tr><td>"._MD_WEBMAIL_NOTES.":</td><td><textarea class=\"norich\" name=\"notes\" rows=\"4\" cols=\"40\">$notes</textarea></td></tr></table>
 	<input type=hidden name=save value='true'>
 	<input type=hidden name=op value='edit'>
 	<input type=hidden name=cid value='$cid'>
-	<input type=submit name=add value=\""._WM_SUBMIT."\"></form>";
+	<input type=submit name=add value=\""._MD_WEBMAIL_SUBMIT."\"></form>";
     CloseTable();
 }
 include(XOOPS_ROOT_PATH."/footer.php");

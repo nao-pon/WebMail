@@ -5,4 +5,4 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-$webmail_jver = "1.7";
+$webmail_jver = "1.8";

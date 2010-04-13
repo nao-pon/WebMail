@@ -49,7 +49,6 @@ function unhtmlentities ($string)
 	$trans_tbl = get_html_translation_table (HTML_ENTITIES);
 	$trans_tbl = array_flip ($trans_tbl);
 	return strtr ($string, $trans_tbl);
-	//return mb_convert_encoding(strtr ($string, $trans_tbl), "EUC-JP", "AUTO");
 }
 
 include("../../mainfile.php");
@@ -86,7 +85,7 @@ include ("class.rc4crypt.php");
 
 // nao-pon
 if (!$html_tag_color) $html_tag_color="blue";
-if (!$html_scr_color) $html_scr_color="red";
+//if (!$html_scr_color) $html_scr_color="red";
 
 
 if(!isset($id)) {
@@ -127,15 +126,12 @@ $body = $message["body"];
 $header = $message["header"];
 $full = $message["full"];
 $pop3->Close();
+//echo $full;
 $d = new DecodeMessage;
 $d->InitMessage($full);
-//$from_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("From")), "EUC-JP", "auto"));
-//$reply_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("Reply-To")), "EUC-JP", "auto"));
 $from_address = chop(mb_decode_mimeheader($d->Headers("From")));
 $reply_address = chop(mb_decode_mimeheader($d->Headers("Reply-To")));
 if (!$reply_address) $reply_address = $from_address;
-//$to_address = chop(mb_convert_encoding(mb_decode_mimeheader($d->Headers("To")), "EUC-JP", "auto"));
-//$subject = mb_convert_encoding(mb_decode_mimeheader($d->Headers("Subject")), "EUC-JP", "auto");
 $to_address = chop(mb_decode_mimeheader($d->Headers("To")));
 $subject = mb_decode_mimeheader($d->Headers("Subject"));
 $cc = chop($d->Headers("Cc"));
@@ -150,17 +146,17 @@ OpenTable();
  $msgid_next = $msgid+1;
  echo "<table width='100%'><tr>";
  if ($msgid_pre > 0) {
-	echo "<td align='left' width='15%'><a href='?id=$id&msgid=$msgid_pre'><b>&lt; Pre</b></a></td>";
+	echo "<td align='left' width='15%'><a href='?id=$id&amp;msgid=$msgid_pre'><b>&lt; Pre</b></a></td>";
  } else {
 	echo "<td align='left' width='15%'></td>";
  }
-	echo "<td align='center'><a href='./inbox.php?id=".$id."'><b>"._EMAILINBOX." &nbsp;(".$account.")</b></a></td>";
+	echo "<td align='center'><a href='./inbox.php?id=".$id."'><b>"._MD_WEBMAIL_EMAILINBOX." &nbsp;(".$account.")</b></a></td>";
 	if ($msgid_next <= $mailsum) {
-		echo "<td align='right' width='15%'><a href='?id=$id&msgid=$msgid_next'><b>Next &gt;</b></a></td>";
+		echo "<td align='right' width='15%'><a href='?id=$id&amp;msgid=$msgid_next'><b>Next &gt;</b></a></td>";
 	} else {
 		echo "<td align='right' width='15%'></td>";
 	}
- 
+
  echo "</tr></table>";
 CloseTable();
 echo "<br>";
@@ -174,11 +170,11 @@ OpenTable();
 
 echo "<table border=\"0\" width=\"100%\">
     <tr>
-    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MAIL_FROM.":</b></td>
-    <td>".htmlspecialchars($from_address)." <small>[ <a href=\"./contactbook.php?op=addnew&amp;from=".rawurlencode($from_address)."&amp;id={$id}\">アドレス帳へ追加</a> ]</small></td>
+    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_FROM.":</b></td>
+    <td>".htmlspecialchars($from_address)." <small>[ <a href=\"./contactbook.php?op=addnew&amp;from=".rawurlencode($from_address)."&amp;id={$id}\">"._MD_WEBMAIL_ADD_ADR_BOOK."</a> ]</small></td>
     </tr>
     <tr>
-    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._TO.":</b></td>
+    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_TO.":</b></td>
     <td>".htmlspecialchars($to_address)."</td>
     </tr>";
 
@@ -190,11 +186,11 @@ if ($cc != "") {
 }
 
 echo "<tr>
-    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MAIL_SUBJECT.":</b></td>
+    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_SUBJECT.":</b></td>
     <td>".htmlspecialchars($subject)."</td>
     </tr><tr>
-    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MAIL_DATE.":</b></td>
-    <td>".htmlspecialchars($d->Headers("Date")) ."</td>
+    <td align=\"left\" class='bg2' bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_DATE.":</b></td>
+    <td>".$d->Headers("Date")."</td>
     </tr><tr>
     <td colspan=2>
     <table border=0 width=100% cellspacing=0><tr><td class='bg2' bgcolor=$bgcolor2>
@@ -203,7 +199,7 @@ echo "<tr>
     <input type=hidden name=\"id\" value=\"$id\">
     <input type=hidden name=\"op\" value=\"delete\">
     <input type=hidden name=\"msgid\" value=\"$msgid\">
-    <input type=submit value=\""._WM_DELETE."\">";
+    <input type=submit value=\""._MD_WEBMAIL_DELETE."\">";
     echo "</form>";
 if ($email_send == 1) {
 	echo "</td><td bgcolor=\"$bgcolor2\" class='bg2'>
@@ -213,7 +209,7 @@ if ($email_send == 1) {
 	<input type=hidden name=body value=\"\">
 	<input type=hidden name=op value=\"reply\">
 	<input type=hidden name=id value=\"$id\">
-	<input type=submit value=\""._WM_REPLY."\">
+	<input type=submit value=\""._MD_WEBMAIL_REPLY."\">
 	</form>
 	</td><td bgcolor=\"$bgcolor2\" width=\"100%\" class='bg2'>
 	<form action='compose.php' method=\"post\" name=\"f_del\">
@@ -222,7 +218,7 @@ if ($email_send == 1) {
 	<input type=hidden name=\"body\" value=\"\">
 	<input type=hidden name=\"op\" value=\"forward\">
 	<input type=hidden name=id value=\"$id\">
-	<input type=submit value=\""._FORWARD."\">
+	<input type=submit value=\""._MD_WEBMAIL_FORWARD."\">
 	</form>";
 }
 echo "</td></tr></table></tr></td></table></td></tr><tr><td colspan=2 bgcolor=\"$bgcolor2\" class='bg2'>";
@@ -231,34 +227,48 @@ if ($filter_forward == '1'){
 	$rep_header = "-----Original Message-----\\nFrom: ".$from_address."\\nSent: ".$d->Headers("Date")."\\nTo: ".$to_address."\\nSubject: ".$subject."\\n\\n";
 }
 
-OpenTable();
 $message = $d->Result();
 // nao-pon wrote
-$http_URL_regex = '(s?https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+)';
-$mail_ADR_regex = "((mailto:)?([0-9A-Za-z._-]+@[0-9A-Za-z.-]+))";
+$http_URL_regex = '#(https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%\#]+)#';
+$mail_ADR_regex = '#((mailto:)?([0-9A-Za-z._-]+@[0-9A-Za-z.-]+))#';
 //echo "email_send:$email_send";
 // edit end.
 $rtext = "";
 
+//var_dump($message);
+
+$echo = $html = $htmls = $text = '';
+
 for ($j=0;$j<count($message);$j++) {
+    $found_text = false;
+    $found_html = false;
     for ($i=0;$i<count($message[$j]);$i++) {
 		if (chop($message[$j][$i]["attachments"]) != '') {
-			$filename = mb_convert_encoding($message[$j][$i]["attachments"], "EUC-JP", "AUTO");
+			$filename = mb_convert_encoding($message[$j][$i]["attachments"], _CHARSET, "AUTO");
 			$filename = urlencode($filename);
 			$filename_id = urlencode($message[$j][$i]["attachments_id"]);
 			// nao-pon
-			$att_txt .= " <a href=\""."download.php?fn=".$filename_id."&dfn=".$filename."\" target='_blank'>".$message[$j][$i]["attachments"]."</a>";
-//			$att_txt .= " <a href=\"javascript: open_w('".$d->attachment_path."/".$filename."')\">".$message[$j][$i]["attachments"]."</a>";
-			//
+			$att_txt .= " <a href=\""."download.php?fn=".$filename_id."&amp;dfn=".$filename."\" target='_blank'>".$message[$j][$i]["attachments"]."</a>";
+		}
+		if (preg_match('#text/plain#i', $message[$j][$i]["body"]["type"])) {
+			$found_text = true;
+		}
+		if (preg_match('#text/html#i', $message[$j][$i]["body"]["type"])) {
+			$found_html = true;
 		}
     }
-	for ($i=0;$i<count($message[$j]);$i++) {
-		if (eregi("text/html", $message[$j][$i]["body"]["type"])) {
 
-			if (!$html_view) echo "<table border=0 width=100% cellspacing=0><tr><td class='bg2' align='center'><a href='readmail.php?id=$id&msgid=$msgid&ht=1'>"._WM_HTML_VIEW."</a> [<a href='readmail.php?id=$id&msgid=$msgid&ht=2'>"._WM_HTML_VIEW_S."</a>]</td></tr></table>";
-			if ($html_view == 2) echo "<table border=0 width=100% cellspacing=0><tr><td class='bg2' align='center'><a href='readmail.php?id=$id&msgid=$msgid&ht=1'>"._WM_HTML_VIEW."</a> [<a href='readmail.php?id=$id&msgid=$msgid'>"._WM_HTML_VIEW_T."</a>]</td></tr></table>";
+    if ($found_html) {
+		if (!$html_view) $echo .= '<div style="text-align:center;width:100%;"><a href="readmail.php?id='.$id.'&amp;msgid='.$msgid.'&amp;ht=1">'._MD_WEBMAIL_HTML_VIEW.'</a> [<a href="readmail.php?id='.$id.'&amp;msgid='.$msgid.'&ht=2">'._MD_WEBMAIL_HTML_VIEW_S.'</a>]</div><hr />';
+		if ($html_view == 2) $echo .= '<div style="text-align:center;width:100%;"><a href="readmail.php?id='.$id.'&amp;msgid='.$msgid.'&amp;ht=1">'._MD_WEBMAIL_HTML_VIEW.'</a> [<a href="readmail.php?id='.$id.'&amp;msgid='.$msgid.'">'._MD_WEBMAIL_HTML_VIEW_T.'</a>]</div><hr />';
+    }
+
+	for ($i=0;$i<count($message[$j]);$i++) {
+
+		if ($found_html && ($html_view || ! $found_text) && preg_match('#text/html#i', $message[$j][$i]["body"]["type"])) {
+
 			$res = $message[$j][$i]["body"]["body"];
-			
+
 			$bg_img_h_tag = $bg_img_w_tag = "";
 			if (preg_match("/<body.*?background\s*?=\s*?['\"]?(.*?)['\"]?( |>)/i",$res,$reg)){
 				$bg_img_size = GetImageSize($reg[1]);
@@ -267,119 +277,149 @@ for ($j=0;$j<count($message);$j++) {
 					$bg_img_w_tag = "<tr><td class=\"bg2\" height=\"0\" width=\"100%\"><img src=\"dammy.gif\" height=\"0\" width=\"$bg_img_size[0]\" /></td><td width=\"0%\"></td></tr>";
 				}
 			}
-			
-			if (eregi("iso-2022-jp",$message[$j][$i]["body"]["charset"])) {
-		    	$res = mb_convert_encoding($res,"EUC-JP","JIS");
-		    } else {
-				$res = mb_convert_encoding($res,"EUC-JP","AUTO");
-			}
 
-			$res = str_replace("\r\n", "\n", $res);
-			$res = str_replace("\r", "\n", $res);
-
-			if ($html_view == 2) {
-				$tmp = $res;
-				$tmp = htmlspecialchars($tmp);
-				$tmp = str_replace("\n","&br;",$tmp);
-				$tmp = preg_replace("/(&lt;\s*?script.*?&gt;)(.*?)(&lt;.*?\/script\s*?&gt)/i", "$1<font color=$html_scr_color>$2</font>$3", $tmp);
-				$tmp = preg_replace("/(&lt;.*?&gt;)/","<font color=$html_tag_color>$1</font>",$tmp);
-				$tmp = str_replace("&br;","\n",$tmp);
-				echo nl2br($tmp);
+			if ($message[$j][$i]["body"]["charset"]) {
+				$enc = mb_detect_encoding($str, $message[$j][$i]["body"]["charset"] . ',AUTO');
+			} else {
+				$enc = 'AUTO';
 			}
-			
-			$res = ereg_replace("\n", " ", $res);
-			$res = preg_replace("/<!DOCTYPE.*/i", "", $res);
-			$res = preg_replace("/<html.*/i", "", $res);
+			$res = mb_convert_encoding($res, _CHARSET, $enc);
+
+			$res = str_replace(array("\r\n", "\r"), "\n", $res);
+
+			$res = preg_replace("/\n{3,}/", '', $res);
+			$res = preg_replace("/<\s+/", "<", $res);
+			$res = preg_replace("/\s+>/", ">", $res);
+
+			$res = preg_replace("/<!DOCTYPE[^>]*?>/i", "", $res);
+			$res = preg_replace("/<html[^>]*?>/i", "", $res);
 			$res = preg_replace("/<\/html>/i", "", $res);
-			$res = preg_replace("/<head(.+?\/)head>/i", "", $res);
-			$res = preg_replace("/<body(.+?)\/body>/i", "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td valign='top'$1/td>".$bg_img_h_tag."</tr>".$bg_img_w_tag."</table>", $res);
-		    
-		    if ($html_view == 1) {
-				$res = preg_replace("/<(\s*?script.*?)>(.*?)<(.*?\/script\s*?)>/i", "<font color=$html_tag_color>&lt;$1&gt;</font><font color=$html_scr_color>$2</font><font color=$html_tag_color>&lt;$3&gt;</font>", $res);
-		    	echo $res;
-		    }
-		    
-		    $res = eregi_replace("<br ?/", "\n", $res);
-		    $res = eregi_replace("</div>", "\n", $res);
-		    $res = eregi_replace("</p>", "\n", $res);
-		    $res = eregi_replace("</table>", "\n", $res);
-		    $res = preg_replace("/<hr.*/i", "\n", $res);
-		    $res = eregi_replace("&nbsp;", " ", $res);
-			$tmp = preg_replace("/<(\s*?script.*?)>(.*?)<(.*?\/script\s*?)>/i", "&lt;$1&gt;$2&lt;$3&gt;", $res);
-		    $res = strip_tags($res);
-		    $res = unhtmlentities($res);
-		    
-		    if (!$html_view) {
-			    $tmp = strip_tags($tmp);
-			    $tmp = unhtmlentities($tmp);
-			    $tmp = preg_replace("/<(\s*?script.*?)>(.*?)<(.*?\/script\s*?)>/i", "&lt;$1&gt;$2&lt;$3&gt;", $tmp);
-			    $tmp = ereg_replace($http_URL_regex,"<a href=\"\\1\" target=\"_blank\">\\1</a>",$tmp);
-				if ($email_send == 1) {
-					$tmp = eregi_replace($mail_ADR_regex, "<a href=\"./compose.php?to=\\3\">\\1</a>", $tmp);
-				} else {
-					$tmp = eregi_replace($mail_ADR_regex, "<a href=\"mailto:\\3\">\\1</a>", $tmp);
+			$res = preg_replace("/<head.+?\/head>/is", "", $res);
+			$res = preg_replace("/<body(.+?)\/body>/is", "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td valign='top'$1/td>".$bg_img_h_tag."</tr>".$bg_img_w_tag."</table>", $res);
+
+//			if (defined(XOOPS_TRUST_PATH) && include_once(XOOPS_TRUST_PATH.'/libs/htmlpurifier/library/HTMLPurifier.auto.php')) {
+//
+//				$config = HTMLPurifier_Config::createDefault();
+//				$config->set('Core.Encoding', _CHARSET);
+//				$config->set('HTML.Doctype', 'XHTML 1.0 Transitional');
+//				$purifier = new HTMLPurifier($config);
+//				$res = $purifier->purify($res);
+//
+//			} else {
+				//// Remove etc.
+				$res = preg_replace('/<(script[^>]*?)>.*?<(\/script)>/isS', '', $res);
+
+				// <a> with JavaScript
+				$res = preg_replace('#<a[^>]+?href=(?:"|\')?javascript:[^>]+?>(.+?)</a>#is', '$1', $res);
+
+				//// tag attribute
+				$res = str_replace(array("\\'", '\\"'), array("\x07", "\x08"), $res);
+				// on*
+				$reg = '#(<[^>]+?)\s+(?:on[^=]+?)=(?:\'[^\']*\'|"[^"]*")([^>]*>)#iS';
+				while(preg_match($reg, $res)) {
+					$res = preg_replace($reg, '$1$2', $res);
 				}
-				$tmp = preg_replace("/(&lt;\s*?script.*?&gt;)(.*?)(&lt;.*?\/script\s*?&gt)/i", "<font color=$html_tag_color>$1</font><font color=$html_scr_color>$2</font><font color=$html_tag_color>$3</font>", $tmp);
-				echo nl2br($tmp);
-			}
-			
-		} else {
+				$reg = '#(<[^>]+?)\s+(?:on[^=]+?)=[^ >/]+([^>]*>)#iS';
+				while(preg_match($reg, $res)) {
+					$res = preg_replace($reg, '$1$2', $res);
+				}
+				$res = str_replace(array("\x07", "\x08"), array("\\'", '\\"'), $res);
+//			}
+
+			$html .= $res;
+
+			$tmp = $res;
+			$tmp = htmlspecialchars($tmp);
+//			$tmp = preg_replace("/(&lt;\s*?script.*?&gt;)(.*?)(&lt;.*?\/script\s*?&gt)/is", "$1<font color=$html_scr_color>$2</font>$3", $tmp);
+			$tmp = preg_replace("/(&lt;.*?&gt;)/s","<font color=$html_tag_color>$1</font>",$tmp);
+			$htmls .= nl2br($tmp);
+
+		} else if ($found_text && preg_match('#text/plain#i', $message[$j][$i]["body"]["type"])) {
 			// nao-pon worte
 			$res = rtrim($message[$j][$i]["body"]["body"]);
-			//echo mb_detect_encoding($res);
-			//echo $message[$j][$i]["body"]["charset"];
-			if (eregi("(iso-2022-jp)",$message[$j][$i]["body"]["charset"])) {
-		    	$res = mb_convert_encoding($res,"EUC-JP","JIS");
-		    } else {
-				$res = mb_convert_encoding($res,"EUC-JP","AUTO");
-			}
-			$tmp = htmlspecialchars($res);
-			$tmp = ereg_replace($http_URL_regex,"<a href=\"\\1\" target=\"_blank\">\\1</a>",$tmp);
-			if ($email_send == 1) {
-				$tmp = eregi_replace($mail_ADR_regex, "<a href=\"./compose.php?to=\\3\">\\1</a>", $tmp);
+			if ($message[$j][$i]["body"]["charset"]) {
+				$enc = $message[$j][$i]["body"]["charset"].',AUTO';
 			} else {
-				$tmp = eregi_replace($mail_ADR_regex, "<a href=\"mailto:\\3\">\\1</a>", $tmp);
+				$enc = 'AUTO';
 			}
-			//echo nl2br($tmp)."<br>";
-			echo nl2br($tmp);
-			// nao-pon next line commented. edit end.
-			//echo nl2br(htmlspecialchars($message[$j][$i]["body"]["body"]))."<br>";
+			$res = mb_convert_encoding($res,_CHARSET,$enc);
+			$text = trim($res);
 		}
-		//$content = $rtext .= strip_tags($message[$j][$i]["body"]["body"]);
-		$rtext .= $res;
     }
 }
-$rtext = ereg_replace("\r\n", "\n", $rtext);
-$rtext = ereg_replace("\r", "\n", $rtext);
-$rtext = ereg_replace("\n", "\\n", $rtext);
+
+if (! $text && $html) {
+
+    $res = str_replace("\n", ' ', $res);
+    $res = preg_replace('#<style.*?/style>#is', '', $html);
+    $res = preg_replace("#<br[^>]*?>i#", "\n", $res);
+    $res = preg_replace("#</div>#i", "\n", $res);
+    $res = preg_replace("#</p>#i", "\n", $res);
+    $res = preg_replace("#</table>#i", "\n", $res);
+    $res = preg_replace("#<hr[^>]*?>#i", "\n", $res);
+    $res = preg_replace("/&nbsp;/i", " ", $res);
+	$res = preg_replace("/<(\s*?script.*?)>(.*?)<(.*?\/script\s*?)>/i", "&lt;$1&gt;$2&lt;$3&gt;", $res);
+    $res = strip_tags($res);
+    $res = unhtmlentities($res);
+
+	$text = $rtext = trim(preg_replace("/(?:[\t ]*\n){2,}/", "\n\n", $res));
+} else {
+	$text = trim(preg_replace("/(?:[\t ]*\n){2,}/", "\n\n", $text));
+	$rtext = $text;
+}
+
+$rtext = preg_replace('/^\s+/m', '', $rtext);
+$rtext = str_replace("\n", '\n', $rtext);
 $rtext = $rep_header.$rtext;
+
+if ($html_view == 2) {
+	$echo .= $htmls;
+} else if ($html_view) {
+	$echo .= $html;
+} else {
+    $text = str_replace(array('<', '>'), array('< ', ' >'), $text);
+    $text = htmlspecialchars($text);
+    $text = preg_replace($http_URL_regex,"<a href=\"\\1\" target=\"_blank\">\\1</a>",$text);
+	if ($email_send == 1) {
+		$text = preg_replace($mail_ADR_regex, "<a href=\"./compose.php?to=\\3\">\\1</a>", $text);
+	} else {
+		$text = preg_replace($mail_ADR_regex, "<a href=\"mailto:\\3\">\\1</a>", $text);
+	}
+//	$tmp = preg_replace("/(&lt;\s*?script.*?&gt;)(.*?)(&lt;.*?\/script\s*?&gt)/i", "<font color=$html_tag_color>$1</font><font color=$html_scr_color>$2</font><font color=$html_tag_color>$3</font>", $tmp);
+	$echo .= nl2br($text);
+}
+
+OpenTable();
+
+echo $echo;
 
 if ($email_send == 1) {
 	echo "
-	<script type=\"text/javascript\">
-	<!--
-	  document.f_rep.body.value = \"".htmlspecialchars($rtext)."\";
-	  document.f_del.body.value = \"".htmlspecialchars($rtext)."\";
-	// -->
-	</script>
-	";
+<script type=\"text/javascript\">
+<!--
+  document.f_rep.body.value = \"".htmlspecialchars($rtext)."\";
+  document.f_del.body.value = \"".htmlspecialchars($rtext)."\";
+// -->
+</script>
+";
 }
 
 CloseTable();
+
 echo "</td></tr></table>";
 
 if ($attachments_view == 1) {
     if($att_txt) {
 	echo "<table align=\"center\" border=\"0\" width=\"100%\"><tr bgcolor=\"$bgcolor2\" class='bg2'><td nowrap>
-    	    <b>&nbsp;"._ATTACHMENTS.": </b></td><td width=\"100%\">&nbsp;$att_txt</td></tr>"
-    	    ."<tr bgcolor=\"$bgcolor2\" class='bg2'><td colspan=2>"._ATTACHCOM."</td><tr>"
+    	    <b>&nbsp;"._MD_WEBMAIL_ATTACHMENTS.": </b></td><td width=\"100%\">&nbsp;$att_txt</td></tr>"
+    	    ."<tr bgcolor=\"$bgcolor2\" class='bg2'><td colspan=2>"._MD_WEBMAIL_ATTACHCOM."</td><tr>"
     	    ."</table>";
     }
 }
 
 if ($attach_nv == 1) {
 	echo "<table align=\"center\" border=\"0\" width=\"100%\"><tr bgcolor=\"$bgcolor2\" class='bg2'><td align=\"center\">"
-	    .""._ATTACHSECURITY."</td></tr></table>";
+	    .""._MD_WEBMAIL_ATTACHSECURITY."</td></tr></table>";
 }
 
 CloseTable();
