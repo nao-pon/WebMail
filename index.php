@@ -46,7 +46,10 @@ if (!is_object($xoopsUser))
 }
 define("XOOPS_MODULE_WEBMAIL_LOADED",1);
 
-include("cache/config.php");
+if (! include("cache/config.php")) {
+	redirect_header(XOOPS_URL . '/modules/WebMail/admin/index.php', 0, 'Go to settings.');
+	exit();
+}
 
 $xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
 
