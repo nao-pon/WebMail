@@ -53,6 +53,8 @@ $xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
 
 include(XOOPS_ROOT_PATH."/header.php");
 
+ob_start();
+
 include ("mailheader.php");
 
 $nav_bar = "[ <a href='contactbook.php?op=listall'>"._MD_WEBMAIL_LISTALL."</a> | <a href='contactbook.php?op=addnew'>"._MD_WEBMAIL_ADDNEW."</a> | <a href='contactbook.php?op=search'>"._MD_WEBMAIL_SEARCH."</a> ]";
@@ -90,14 +92,17 @@ echo "<br>";
 if ($op=="addnew") {
     addnew($add_new_from);
 } elseif ($op == "search") {
+    ob_end_flush();
     search();
 } elseif ($op == "view") {
+    ob_end_flush();
     view();
 } elseif ($op == "delete") {
     del();
 } elseif ($op == "edit") {
     edit();
 } else {
+   ob_end_flush();
    listall();
 }
 include(XOOPS_ROOT_PATH."/footer.php");
@@ -107,11 +112,11 @@ function listall() {
     OpenTable();
     $countlimit = 20;
     $query = "select * FROM ".$xoopsDB->prefix("contactbook")." where uid = $userid order by firstname";
-    if(!$result=$xoopsDB->query($query,$options[0],0))
+    if(!$result=$xoopsDB->query($query))
     {
 		echo "ERROR";
 	}
-    $res = $xoopsDB->query($query,$options[0],0);
+    $res = $xoopsDB->query($query);
     echo "<form name=\"listform\" method=\"post\" action='contactbook.php'>
 	<input type=\"hidden\" name=\"op\" value=\"delete\">
 	<table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2' bgcolor=\"$bgcolor2\"><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._MD_WEBMAIL_NAME."</b></td><td width=\"30%\"><b>"._MD_WEBMAIL_EMAIL."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONERES."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONEWORK."</b></td></tr>";
@@ -172,14 +177,18 @@ function listall() {
 
 function addnew($add_new_from="") {
     global $xoopsDB, $xoopsUser, $userid, $save, $firstname, $lastname, $email, $company, $homeaddress, $homepage, $city, $prefix, $homephone, $workphone, $IM, $events, $reminders, $notes, $imgpath, $dbi, $module_name;
-    OpenTable();
     if(isset($save)) {
-	$query = "insert into ".$xoopsDB->prefix("contactbook")." (uid,firstname,lastname,email,company,homeaddress,city,homepage,homephone,workphone,IM,events,reminders,notes) values($userid,'$firstname','$lastname','$email','$company','$homeaddress','$city','$homepage','$homephone','$workphone','$IM','$events','$reminders','$notes');";
-            	if(!$result=$xoopsDB->query($query,$options[0],0)){
-		echo "ERROR";
-	        }
-	listall();
+		$query = "insert into ".$xoopsDB->prefix("contactbook")." (uid,firstname,lastname,email,company,homeaddress,city,homepage,homephone,workphone,IM,events,reminders,notes) values($userid,'$firstname','$lastname','$email','$company','$homeaddress','$city','$homepage','$homephone','$workphone','$IM','$events','$reminders','$notes');";
+	    $msg = _MD_WEBMAIL_MSG_SAVED;
+	    if (! $xoopsDB->query($query)) {
+	    	$msg = _MD_WEBMAIL_ERR_SQL;
+	    }
+		ob_end_clean();
+		redirect_header(XOOPS_URL . '/modules/WebMail/contactbook.php', 1, $msg);
+		exit();
 	} else {
+		ob_end_flush();
+		OpenTable();
 		if (strpos($add_new_from," ") !== FALSE)
 		{
 			preg_match("/^(.*) ([^ ]+)/",$add_new_from,$match);
@@ -194,7 +203,7 @@ function addnew($add_new_from="") {
 			$add_new_lname = $add_new_mail = $add_new_from;
 			$add_new_name = "";
 		}
-	echo "<form name=\"addnew\" method=\"post\" action='contactbook.php'>
+		echo "<form name=\"addnew\" method=\"post\" action='contactbook.php'>
 	    <b>"._MD_WEBMAIL_ADDNEWCONTACT."</b><br><br>
 	    <table border=\"0\">
 	    <tr><td width=\"25%\">"._MD_WEBMAIL_LASTNAME.":</td><td><input type=\"text\" name=\"lastname\" value=\"".htmlspecialchars($add_new_lname)."\" size=\"40\"></td></tr>
@@ -224,8 +233,8 @@ AIM:
 	    <input type=hidden name=save value='true'>
 	    <input type=hidden name=op value='addnew'>
 	    <input type=submit name=add value=\""._MD_WEBMAIL_SUBMIT."\"></form>";
+    	CloseTable();
     }
-    CloseTable();
 }
 
 function search() {
@@ -272,7 +281,7 @@ function search() {
 	    $condition = substr($condition,0,-2) . ")";
 	}
 	$query .= $condition;
-	$res = $xoopsDB->query($query,$options[0],0);
+	$res = $xoopsDB->query($query);
 	$numrows = $xoopsDB->getRowsNum($res);
 	echo "<form method=post action='contactbook.php' name=searchform>
 	    <input type=\"hidden\" name=\"op\" value=\"delete\">";
@@ -323,7 +332,7 @@ function view() {
     global $xoopsDB, $xoopsUser, $userid, $cid, $domain, $imgpath, $bgcolor1, $bgcolor2, $bgcolor3, $prefix, $dbi, $module_name;
     OpenTable();
     $query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$cid'";
-    $res = $xoopsDB->query($query,$options[0],0);
+    $res = $xoopsDB->query($query);
     if($xoopsDB->getRowsNum($res) == 0) {
 	echo "<center>"._MD_WEBMAIL_NORECORDSFOUND."</center>";
     }
@@ -400,38 +409,38 @@ function view() {
 
 function del() {
     global $xoopsDB, $xoopsUser, $userid, $del, $prefix, $dbi;
-    if(is_array($del)) {
+    if(! is_array($del)) {
+    	$del = array($del);
+    }
 	foreach ($del as $d) {
 	    $q = "select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$d'";
-            $r = $xoopsDB->query($q,$options[0],0);
-            if($xoopsDB->getRowsNum($r) > 0) {
-        	$query = "delete from ".$xoopsDB->prefix("contactbook")." where contactid='$d'";
-                $res = $xoopsDB->query($query,$options[0],0);
-            }
-	}
-    } else {
-        $q = "select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$del'";
-        $r = $xoopsDB->query($q,$options[0],0);
+        $r = $xoopsDB->query($q);
         if($xoopsDB->getRowsNum($r) > 0) {
-            $query = "delete from ".$xoopsDB->prefix("contactbook")." where contactid='$del'";
-            $res = $xoopsDB->query($query,$options[0],0);
+    	$query = "delete from ".$xoopsDB->prefix("contactbook")." where contactid='$d'";
+            $res = $xoopsDB->query($query);
         }
-    }
-    listall();
+	}
+	ob_end_clean();
+	redirect_header(XOOPS_URL . '/modules/WebMail/contactbook.php', 1, _MD_WEBMAIL_MSG_DELETED);
+	exit();
 }
 
 function edit() {
     global $xoopsDB, $xoopsUser, $dbi, $userid, $cid, $save, $userid, $firstname, $lastname, $email, $company, $homeaddress, $homepage, $city, $homephone, $workphone, $IM, $events, $reminders, $notes, $bgcolor1, $bgcolor2, $bgcolor3, $imgpath, $prefix, $module_name;
-    OpenTable();
     if($save == "true") {
-	$query = "update ".$xoopsDB->prefix("contactbook")." set firstname='$firstname', lastname='$lastname', email='$email', homephone = '$homephone', workphone ='$workphone', homeaddress= '$homeaddress', city = '$city', company = '$company', homepage= '$homepage',IM = '$IM', events = '$events', reminders = '$reminders',notes = '$notes' where contactid = $cid";
-	$res = $xoopsDB->query($query,$options[0],0);
-	listall();
-        CloseTable();
-	return;
+		$query = "update ".$xoopsDB->prefix("contactbook")." set firstname='$firstname', lastname='$lastname', email='$email', homephone = '$homephone', workphone ='$workphone', homeaddress= '$homeaddress', city = '$city', company = '$company', homepage= '$homepage',IM = '$IM', events = '$events', reminders = '$reminders',notes = '$notes' where contactid = $cid";
+	    $msg = _MD_WEBMAIL_MSG_SAVED;
+	    if (! $xoopsDB->query($query)) {
+	    	$msg = _MD_WEBMAIL_ERR_SQL;
+	    }
+		ob_end_clean();
+		redirect_header(XOOPS_URL . '/modules/WebMail/contactbook.php', 1, $msg);
+		exit();
     }
+    ob_end_flush();
+    OpenTable();
     $query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$cid'";
-    $res = $xoopsDB->query($query,$options[0],0);
+    $res = $xoopsDB->query($query);
     if($row = $xoopsDB->fetchArray($res)) {
 		$uid = $row[uid];
 		if($uid != $userid) {

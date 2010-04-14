@@ -43,6 +43,8 @@ $xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
 
 include(XOOPS_ROOT_PATH."/header.php");
 
+ob_start();
+
 include ("mailheader.php");
 include ("class.rc4crypt.php");
 
@@ -66,25 +68,34 @@ $submit = $_POST['submit'];
 //if (!$mode) $mode=$_POST['mode'];
 
 if ($mode == "sign") {
-	OpenTable();
-	 echo "<div align'center'><a href=\"settings.php\">"._MD_WEBMAIL_MAILBOXESSETTINGS."</a> | <b>"._MD_WEBMAIL_SIGNSETTINGS."</b></div>";
-	CloseTable();
-	echo "<br />";
 	$userid = $xoopsUser->uid();
 
 	if(!empty($signname)) {
 	    if($submit == ""._MD_WEBMAIL_DELETE."") {
 			$query = "Delete from ".$xoopsDB->prefix("wmail_sign")." where id='$id'";
+			$msg = _MD_WEBMAIL_MSG_DELETED;
 	    } elseif ($type == "signnew") {
 			$query = "Insert into ".$xoopsDB->prefix("wmail_sign")." (uid,signname,signature) values ('$userid','$signname','$signature')";
+			$msg = _MD_WEBMAIL_MSG_SAVED;
 	    } else {
 			$query = "Update ".$xoopsDB->prefix("wmail_sign")." set signname = '$signname', signature = '$signature' where id='$id'";
+			$msg = _MD_WEBMAIL_MSG_SAVED;
 	    }
-	    $res=$xoopsDB->query($query);
-	    if(!$res) {
-			echo "error: $query";
+	    if (! $xoopsDB->query($query)) {
+	    	$msg = _MD_WEBMAIL_ERR_SQL;
 	    }
+		ob_end_clean();
+		redirect_header(XOOPS_URL . '/modules/WebMail/settings.php?mode=sign', 1, $msg);
+		exit();
 	}
+
+	ob_end_flush();
+
+	OpenTable();
+	echo "<div align'center'><a href=\"settings.php\">"._MD_WEBMAIL_MAILBOXESSETTINGS."</a> | <b>"._MD_WEBMAIL_SIGNSETTINGS."</b></div>";
+	CloseTable();
+	echo "<br />";
+
 
 	$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
 	if(!$result=$xoopsDB->query($query)){
@@ -103,10 +114,6 @@ if ($mode == "sign") {
 	showSignNew();
 
 } else {
-	OpenTable();
-	 echo "<div align'center'><b>"._MD_WEBMAIL_MAILBOXESSETTINGS."</b> | <a href=\"settings.php?mode=sign\">"._MD_WEBMAIL_SIGNSETTINGS."</a></div>";
-	CloseTable();
-	echo "<br />";
 
 	if(!empty($popserver)) {
 	    $userid = $xoopsUser->uid();
@@ -116,16 +123,29 @@ if ($mode == "sign") {
 	    if($leavemsg == "Y") $delete = "N"; else $delete = "Y";
 	    if($submit == ""._MD_WEBMAIL_DELETE."") {
 			$query = "Delete from ".$xoopsDB->prefix("popsettings")." where id='$id'";
+			$msg = _MD_WEBMAIL_MSG_DELETED;
 	    } elseif ($type == "new") {
 			$query = "Insert into ".$xoopsDB->prefix("popsettings")." (account,uid,popserver,uname,passwd,port,numshow,deletefromserver,apop,sname,smail) values ('$account','$userid','$popserver','$uname','$spasswd',$port,$numshow,'$delete',$apop,'$sname','$smail')";
+	    	$msg = _MD_WEBMAIL_MSG_SAVED;
 	    } else {
 			$query = "Update ".$xoopsDB->prefix("popsettings")." set account='$account', popserver = '$popserver', uname = '$uname', passwd = '$spasswd', port = $port, numshow = $numshow, deletefromserver = '$delete' , apop = $apop , sname = '$sname' , smail = '$smail' where id='$id'";
+	    	$msg = _MD_WEBMAIL_MSG_SAVED;
 	    }
-	    $res=$xoopsDB->query($query);
-	    if(!$res) {
-			echo "error: $query";
+	    if (! $xoopsDB->query($query)) {
+	    	$msg = _MD_WEBMAIL_ERR_SQL;
 	    }
+		ob_end_clean();
+		redirect_header(XOOPS_URL . '/modules/WebMail/settings.php', 1, $msg);
+		exit();
 	}
+
+	ob_end_flush();
+
+	OpenTable();
+	echo "<div align'center'><b>"._MD_WEBMAIL_MAILBOXESSETTINGS."</b> | <a href=\"settings.php?mode=sign\">"._MD_WEBMAIL_SIGNSETTINGS."</a></div>";
+	CloseTable();
+	echo "<br />";
+
 	$port = 110;
 	$show = 20;
 	$checkbox = "";
@@ -169,11 +189,11 @@ if ($mode == "sign") {
 function showSettings($account,$popserver, $uname,$passwd, $port,$show,$checkbox,$id,$apop,$sname,$smail) {
     global $bgcolor1, $bgcolor2, $bgcolor3, $module_name, $singleaccount, $defaultpopserver ,$email_addr;
     OpenTable();
-    echo "<table width=\"80%\" align=\"center\" border=\"0\">"
-	."<form method=\"post\" action='settings.php' name=\"formpost\">"
-	."<input type=\"hidden\" name=\"id\" value=\"$id\">"
+    echo "<form method=\"post\" action='settings.php' name=\"formpost\">"
+	    ."<input type=\"hidden\" name=\"id\" value=\"$id\">"
         ."<input type=\"hidden\" name=\"type\" value=\"$account\">"
         ."<input type=\"hidden\" name=\"account\" value=\"$account\">"
+        ."<table width=\"80%\" align=\"center\" border=\"0\">"
         ."<tr class='bg2'><td bgcolor=\"$bgcolor2\" colspan=\"2\"><img src='images/arrow.gif' border=\"0\" hspace=\"5\"><b>$account</b></td></tr>";
 
 	echo "<tr><td align=left>"._MD_WEBMAIL_ACCOUNTNAME.":</td><td><input type=text name=account value=\"$account\" size=40 maxlength=\"50\"></td></tr>";
@@ -209,13 +229,13 @@ function showNew() {
  //   global $bgcolor1, $bgcolor2, $bgcolor3, $module_name;
 	global $email_addr;
     OpenTable();
-    echo "<table width=80% align=center>
-        <form method=post action='settings.php' name=formpost>
+    echo "<form method=post action='settings.php' name=formpost>
+        <table width=80% align=center>
         <tr class='bg2'><td bgcolor='' colspan=2>&nbsp;<b>New Mail Account</b></td></tr>
         <tr><td align=left>"._MD_WEBMAIL_ACCOUNTNAME.":</td><td><input type=text name=account value=\"\" size=40 maxlength=\"50\"></td></tr>
         <tr><td align=left>"._MD_WEBMAIL_POPSERVER.":</td><td><input type=text name=popserver value=\"\" size=40></td></tr>
-        <tr><td align=left>"._MD_WEBMAIL_USERNAME.":</td><td><input type=text name=uname size=20 value=\"\"> </td></tr>
-        <tr><td align=left>"._MD_WEBMAIL_PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\"></td></tr>
+        <tr><td align=left>"._MD_WEBMAIL_USERNAME.":</td><td><input type=text name=uname size=20 value=\"\" autocomplete=\"off\"> </td></tr>
+        <tr><td align=left>"._MD_WEBMAIL_PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\" autocomplete=\"off\"></td></tr>
         <tr><td align=left>"._MD_WEBMAIL_PORT.":</td><td><input type=text name=port size=6 maxlength=\"5\" value=\"110\"></td></tr>
         <tr><td align=left>"._MD_WEBMAIL_APOP.":</td><td><input type=\"checkbox\" name=\"apop\" value=\"1\">"._MD_WEBMAIL_APOP_HINT."</td></tr>
         <tr><td align=left>"._MD_WEBMAIL_MESSAGESPERPAGE.":</td><td><input type=text name=numshow size=3 maxlength=\"2\" value=\"10\"></td></tr>";
@@ -225,34 +245,36 @@ function showNew() {
 		<tr><td align=\"left\" colspan=\"2\">"._MD_WEBMAIL_SENDHINT."</td></tr>";
 	}
     echo "<input type=hidden name=type value=\"new\">
-        <tr><td colspan=2><input type=submit name=submit value=\""._MD_WEBMAIL_ADDNEW."\"></form></td></tr></table>";
+        <tr><td colspan=2><input type=submit name=submit value=\""._MD_WEBMAIL_ADDNEW."\"></td></tr></table></form>";
     CloseTable();
 }
 
 function showSingle($defaultpopserver, $singleaccountname) {
 //    global $bgcolor1, $bgcolor2, $bgcolor3, $module_name;
     OpenTable();
-    echo "<br><table width=80% align=center>
+    echo "<br>
           <form method=post action='settings.php' name=formpost>
           <input type=hidden name=type value=\"new\">
-	  <input type=hidden name=port value=110>
-	  <input type=hidden name=account value=\"$singleaccountname\">
+	      <input type=hidden name=port value=110>
+	      <input type=hidden name=account value=\"$singleaccountname\">
           <input type=hidden name=popserver value=\"$defaultpopserver\">
+          <table width=80% align=center>
           <tr><td bgcolor='' colspan=2>&nbsp;<b>$singleaccountname</b></td><td>&nbsp</td></tr>
           <tr><td align=left>"._MD_WEBMAIL_USERNAME.":</td><td><input type=text name=uname size=20 value=\"\"></td></tr>
           <tr><td align=left>"._MD_WEBMAIL_PASSWORD.":</td><td><input type=password name=passwd size=20 value=\"\"></td></tr>
           <tr><td align=left>"._MD_WEBMAIL_MESSAGESPERPAGE.":</td><td><input type=text name=numshow size=3 maxlength=\"2\" value=\"10\"></td></tr>
-          <tr><td colspan=2><input type=submit name=submit value=\""._ADD."\"></form></td></tr></table>";
+          <tr><td colspan=2><input type=submit name=submit value=\""._ADD."\"></td></tr></table></form>";
     CloseTable();
 }
 
 function showSign($id,$uid,$signname,$signature){
     OpenTable();
-    echo "<br><table width=80% align=center>
+    echo "<br>
 		<form method=post action='settings.php'>
 		<input type=hidden name=type value=\"signupdate\">
 		<input type=hidden name=id value=\"$id\">
 		<input type=hidden name=mode value=\"sign\">
+		<table width=80% align=center>
 		<tr><td bgcolor=\"$bgcolor2\" colspan=\"2\" class='bg2'><img src='images/arrow.gif' border=\"0\" hspace=\"5\"><b>$signname</b></td></tr>
 		<tr><td align=left>"._MD_WEBMAIL_SIGNNAME.":</td><td><input type=text name=signname size=20 value=\"$signname\"></td></tr>
 		<tr><td align=left>"._MD_WEBMAIL_SIGN.":</td><td><textarea class=\"norich\" name=\"signature\" cols=\"60\" rows=\"3\">$signature</textarea></td></tr>
@@ -262,10 +284,10 @@ function showSign($id,$uid,$signname,$signature){
 
 function showSignNew(){
     OpenTable();
-    echo "<br><table width=80% align=center>
-		<form method=post action='settings.php'>
+    echo "<br><form method=post action='settings.php'>
 		<input type=hidden name=type value=\"signnew\">
 		<input type=hidden name=mode value=\"sign\">
+		<table width=80% align=center>
 		<tr><td bgcolor=\"$bgcolor2\" colspan=\"2\" class='bg2'><img src='images/arrow.gif' border=\"0\" hspace=\"5\"><b>New Mail Signature</b></td></tr>
 		<tr><td align=left>"._MD_WEBMAIL_SIGNNAME.":</td><td><input type=text name=signname size=20 value=\"\"></td></tr>
 		<tr><td align=left>"._MD_WEBMAIL_SIGN.":</td><td><textarea class=\"norich\" name=\"signature\" cols=\"60\" rows=\"3\"></textarea></td></tr>
