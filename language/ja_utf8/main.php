@@ -123,3 +123,4 @@ define('_MD_WEBMAIL_ERR_NOFILE', 'エラー：添付ファイルを指定して�
 define('_MD_WEBMAIL_MSG_SAVED', '登録しました。');
 define('_MD_WEBMAIL_MSG_DELETED', '削除しました。');
 define('_MD_WEBMAIL_ERR_SQL', 'データベースエラーが発生しました。');
+define('_MD_WEBMAIL_MSG_NO_MAIL', 'メールは届いていません。');
