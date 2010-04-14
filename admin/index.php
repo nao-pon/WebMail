@@ -146,7 +146,7 @@ switch($op){
 	global $xoopsConfig, $xoopsModule;
 	xoops_cp_header();
 	OpenTable();
-	echo "<h4>" . _AM_GENERALCONF . "</h4><br>";
+	echo "<h4>" . _AM_GENERALCONF . "</h4><br />";
 	echo "<form action='index.php' method='post'>";
     	echo "
     	<table width='100%' border='5' cellspacing=1 cellpadding=3 class='bg1'>";

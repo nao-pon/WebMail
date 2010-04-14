@@ -75,14 +75,14 @@ class POP3 {
 
 	function POP3Command($command, & $result) {
 		if ($this->DEBUG)
-			echo "<b>Sending Command: </b>".$command."<br>";
+			echo "<b>Sending Command: </b>".$command."<br />";
 		flush();
 		@ fputs($this->connection, "$command\r\n");
 		$result = @ fgets($this->connection, 1024);
 
 		if (preg_match("#^(\+OK)#i", $result))
 			: if ($this->DEBUG)
-				echo "<b>Result OK: </b><br>";
+				echo "<b>Result OK: </b><br />";
 		flush();
 		return true;
 		else
@@ -91,7 +91,7 @@ class POP3 {
 	}
 	function OpenConnection() {
 		if ($this->DEBUG)
-			echo "<b>Openning Connection to: </b>".$this->hostname."<br>";
+			echo "<b>Openning Connection to: </b>".$this->hostname."<br />";
 		flush();
 		if ($this->hostname == "")
 			$this->AddError("You must specified a valid hostname");
@@ -99,7 +99,7 @@ class POP3 {
 		$errstr = "";
 		$this->connection = fsockopen($this->hostname, $this->port, $errno, $errstr, 10);
 		if ($this->DEBUG)
-			echo "<b>Connection opened </b><br>";
+			echo "<b>Connection opened </b><br />";
 		flush();
 		if (!($this->connection))
 			: return false;
@@ -247,7 +247,7 @@ class POP3 {
 		}
 		$message["body"] = $messagebody;
 		$message["full"] = $m;
-		//echo "pop3-238:debug<br>".nl2br(htmlspecialchars($m));
+		//echo "pop3-238:debug<br />".nl2br(htmlspecialchars($m));
 		return $message;
 	}
 

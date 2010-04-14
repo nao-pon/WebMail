@@ -4,7 +4,7 @@ $modversion['dirname'] = "WebMail";
 include(XOOPS_ROOT_PATH."/modules/".$modversion['dirname']."/version.php");
 $modversion['version'] = "$webmail_jver";
 $modversion['description'] = "POP3 Client";
-$modversion['author'] = "Jochen Gererstorfer<br>( http://gererstorfer.net/ )";
+$modversion['author'] = "Jochen Gererstorfer<br />( http://gererstorfer.net/ )";
 $modversion['credits'] = "Das Gererstorfer Net <a href='http://gererstorfer.net/'>http://gererstorfer.net/</a><br />And<br />Japanese(J1-1.3) edit by:nao-pon <a href='http://hypweb.net/'>http://hypweb.net/</a>";
 $modversion['help'] = "";
 $modversion['license'] = "GPL see LICENSE";

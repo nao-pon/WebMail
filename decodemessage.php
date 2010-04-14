@@ -134,7 +134,7 @@ class DecodeMessage{
     else :
       $p = explode (";", $ct);
       for ($i=0;$i<count($p);$i++) {
-		// echo "decodemessage(128):"$p[$i]."<br>";
+		// echo "decodemessage(128):"$p[$i]."<br />";
         if (preg_match("#^(text)#i", $p[$i])) :
           $content["type"] = $p[$i];
         elseif (preg_match("#^(multipart)#i", $p[$i])) :

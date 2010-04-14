@@ -87,7 +87,7 @@ $add_new_from = (!empty($_GET['from']))? $_GET['from'] : "";
 OpenTable();
  echo "<div align'center'><b>"._MD_WEBMAIL_ADDRESSBOOK.": ".$nav_bar."</b></div>";
 CloseTable();
-echo "<br>";
+echo "<br />";
 
 if ($op=="addnew") {
     addnew($add_new_from);
@@ -153,7 +153,7 @@ function listall() {
 		}
 		$count++;
     }
-    echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></form>";
+    echo "</table><br /><input type=\"submit\" name=\"deleteall\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></form>";
     echo "<center>";
     if($cb_index > 0) {
 	$ind = $cb_index-1;
@@ -204,7 +204,7 @@ function addnew($add_new_from="") {
 			$add_new_name = "";
 		}
 		echo "<form name=\"addnew\" method=\"post\" action='contactbook.php'>
-	    <b>"._MD_WEBMAIL_ADDNEWCONTACT."</b><br><br>
+	    <b>"._MD_WEBMAIL_ADDNEWCONTACT."</b><br /><br />
 	    <table border=\"0\">
 	    <tr><td width=\"25%\">"._MD_WEBMAIL_LASTNAME.":</td><td><input type=\"text\" name=\"lastname\" value=\"".htmlspecialchars($add_new_lname)."\" size=\"40\"></td></tr>
 	    <tr><td>"._MD_WEBMAIL_FIRSTNAME.":</td><td><input type=\"text\" name=\"firstname\" value=\"".htmlspecialchars($add_new_name)."\" size=\"40\"></td></tr>
@@ -215,19 +215,19 @@ function addnew($add_new_from="") {
 	    <tr><td>"._MD_WEBMAIL_CITY.":</td><td><input type=\"text\" name=\"city\"></td></tr>
 	    <tr><td>"._MD_WEBMAIL_COMPANY.":</td><td><input type=\"text\" name=\"company\" size=\"60\"></td></tr>
 	    <tr><td>"._MD_WEBMAIL_HOMEPAGE.":</td><td><input type=\"text\" name=\"homepage\" size=\"60\" value=\"http://\"></td></tr>
-	    <tr><td><br><br></td></tr>
-	    <tr><td valign=top>"._MD_WEBMAIL_IMIDS."</td><td>"._MD_WEBMAIL_IMIDSMSG."<br><textarea class=\"norich\" name=\"IM\" rows=\"4\" cols=\"25\">
+	    <tr><td><br /><br /></td></tr>
+	    <tr><td valign=top>"._MD_WEBMAIL_IMIDS."</td><td>"._MD_WEBMAIL_IMIDSMSG."<br /><textarea class=\"norich\" name=\"IM\" rows=\"4\" cols=\"25\">
 Yahoo:
 MSN:
 ICQ:
 AIM:
 	    </textarea></td></tr>
-	    <tr><td><br><br></td></tr>
+	    <tr><td><br /><br /></td></tr>
 	    <!--
-	    <tr><td valign=top>"._MD_WEBMAIL_RELATEDEVENTS.":</td><td>"._MD_WEBMAIL_RELATEDEVENTSMSG."<br>
+	    <tr><td valign=top>"._MD_WEBMAIL_RELATEDEVENTS.":</td><td>"._MD_WEBMAIL_RELATEDEVENTSMSG."<br />
 	    <textarea class=\"norich\" name=\"events\" rows=\"4\" cols=\"40\"></textarea></td></tr>
 	    <tr><td>"._MD_WEBMAIL_REMINDME.":</td><td><input type=text name=reminders size=3 value=1> "._MD_WEBMAIL_DAYSBEFORE."</td></tr>
-	    <tr><td><br><br></td></tr>
+	    <tr><td><br /><br /></td></tr>
 	    -->
 	    <tr><td>"._MD_WEBMAIL_NOTES.":</td><td><textarea class=\"norich\" name=\"notes\" rows=\"4\" cols=\"40\"></textarea></td></tr></table>
 	    <input type=hidden name=save value='true'>
@@ -240,7 +240,7 @@ AIM:
 function search() {
     global $xoopsDB, $xoopsUser, $userid, $q, $searchdb, $searchfield, $cb_index, $bgcolor1, $bgcolor2, $bgcolor3, $imgpath, $prefix, $dbi, $module_name;
     OpenTable();
-    echo "<center><b>"._MD_WEBMAIL_SEARCHCONTACT."</b></center><br>";
+    echo "<center><b>"._MD_WEBMAIL_SEARCHCONTACT."</b></center><br />";
     echo "<form method=post action='contactbook.php' name=searchform>
 	<input type=hidden name=op value=search>
 	<table align=center><tr><Td>"._MD_WEBMAIL_SEARCH.": </td><td><input type=text name=q value='$q'></td>
@@ -285,7 +285,7 @@ function search() {
 	$numrows = $xoopsDB->getRowsNum($res);
 	echo "<form method=post action='contactbook.php' name=searchform>
 	    <input type=\"hidden\" name=\"op\" value=\"delete\">";
-	echo "<Br><center>$numrows "._MD_WEBMAIL_RESULTSFOUND."</center><br>
+	echo "<br /><center>$numrows "._MD_WEBMAIL_RESULTSFOUND."</center><br />
 	    <table width=\"100%\" align=\"center\" border=\"0\"><tr class='bg2'><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_VIEW."</b></td><td width=\"3%\" align=\"center\"><b>"._MD_WEBMAIL_EDIT."</b></td><td width=\"3%\">&nbsp;</td><td width=\"28%\"><b>"._MD_WEBMAIL_NAME."</b></td><td width=\"30%\"><b>"._MD_WEBMAIL_EMAIL."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONERES."</b></td><td width=\"15%\"><b>"._MD_WEBMAIL_PHONEWORK."</b></td></tr>";
 	$skipcount = 0; $count = 0; $countlimit = 20;
 	if(isset($cb_index)) {
@@ -305,7 +305,7 @@ function search() {
 	    if($color == "$bgcolor1") $color = "$bgcolor2"; else $color = "$bgcolor1";
 	    $count++;
 	}
-	echo "</table><br><input type=\"submit\" name=\"deleteall\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "</table><br /><input type=\"submit\" name=\"deleteall\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></form>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<center>";
 	if($cb_index > 0) {
 	    $ind = $cb_index-1;
@@ -367,7 +367,7 @@ function view() {
     if ($email != "") {
 		$email = "<a href='compose.php?to=$email'>$email</a>";
     }
-    echo "<center><b>"._MD_WEBMAIL_VIEWPROFILE."</b></center><br>
+    echo "<center><b>"._MD_WEBMAIL_VIEWPROFILE."</b></center><br />
 	<table width=90% align=center>
 	<tr><td width=20%><b>"._MD_WEBMAIL_LASTNAME.":</b></td><td>$lastname</td></tr>
 	<tr><td><b>"._MD_WEBMAIL_FIRSTNAME.":</b></td><td>$firstname</td></tr>
@@ -403,7 +403,7 @@ function view() {
     */
     echo "</table></td></tr>
 	<tr><td colspan=2><hr width=100% size=1 noshade></td></tr>
-	<tr><td><b>"._MD_WEBMAIL_NOTES.":</b></td><td>$notes</td></tr></table><br><br>";
+	<tr><td><b>"._MD_WEBMAIL_NOTES.":</b></td><td>$notes</td></tr></table><br /><br />";
     CloseTable();
 }
 
@@ -462,7 +462,7 @@ function edit() {
         $notes = htmlspecialchars($row[notes]);
     }
     echo "<form name=editform method=post action='contactbook.php'>
-	<b>"._MD_WEBMAIL_EDITCONTACTS."</b></font><br><br>
+	<b>"._MD_WEBMAIL_EDITCONTACTS."</b></font><br /><br />
 	<table border=0 width=90%>
 	<tr><td width=25%>"._MD_WEBMAIL_LASTNAME.":</td><td><input type=text name=lastname value='$lastname'></td></tr>
 	<tr><td>"._MD_WEBMAIL_FIRSTNAME.":</td><td><input type=text name=firstname value='$firstname'></td></tr>
@@ -473,13 +473,13 @@ function edit() {
 	<tr><td>"._MD_WEBMAIL_CITY.":</td><td><input type=text name=city value='$city'></td></tr>
 	<tr><td>"._MD_WEBMAIL_COMPANY.":</td><td><input type=text name=company size=40 value='$company'></td></tr>
 	<tr><td>"._MD_WEBMAIL_HOMEPAGE.":</td><td><input type=text name=homepage size=40 value='$homepage'></td></tr>
-	<tr><td><br><br></td></tr>
-	<tr><td valign=top>"._MD_WEBMAIL_IMIDS.":</td><td>"._MD_WEBMAIL_IMIDSMSG."<br><textarea name=IM rows=4 cols=25>$IM</textarea></td></tr>
+	<tr><td><br /><br /></td></tr>
+	<tr><td valign=top>"._MD_WEBMAIL_IMIDS.":</td><td>"._MD_WEBMAIL_IMIDSMSG."<br /><textarea name=IM rows=4 cols=25>$IM</textarea></td></tr>
 	<!--
-	<tr><td colspan=2><br><br></td></tr>
-	<tr><td valign=top>"._MD_WEBMAIL_RELATEDEVENTS.":</td><td>"._MD_WEBMAIL_RELATEDEVENTSMSG."<br><textarea class=\"norich\" name=\"events\" rows=\"4\" cols=\"40\">$events</textarea></td></tr>
+	<tr><td colspan=2><br /><br /></td></tr>
+	<tr><td valign=top>"._MD_WEBMAIL_RELATEDEVENTS.":</td><td>"._MD_WEBMAIL_RELATEDEVENTSMSG."<br /><textarea class=\"norich\" name=\"events\" rows=\"4\" cols=\"40\">$events</textarea></td></tr>
 	<tr><td>"._MD_WEBMAIL_REMINDME.":</td><td><input type=text name=reminders value='$reminders'size=3 value=1> "._MD_WEBMAIL_DAYSBEFORE."</td></tr>
-	<tr><td><br><br></td></tr>
+	<tr><td><br /><br /></td></tr>
 	-->
 	<tr><td>"._MD_WEBMAIL_NOTES.":</td><td><textarea class=\"norich\" name=\"notes\" rows=\"4\" cols=\"40\">$notes</textarea></td></tr></table>
 	<input type=hidden name=save value='true'>

@@ -222,7 +222,7 @@ if ($email_send == 1) {
 	}
 	OpenTable();
 	echo "<center><b>".$ret_message."</b></center>";
-	//for debug//echo "the mail below has been sent:<br><pre>", $m->Get(), "</pre>";
+	//for debug//echo "the mail below has been sent:<br /><pre>", $m->Get(), "</pre>";
 
 	CloseTable();
 

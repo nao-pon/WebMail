@@ -222,7 +222,7 @@ function showSettings($account,$popserver, $uname,$passwd, $port,$show,$checkbox
     echo "<tr><td colspan=\"2\"><input type=\"submit\" name=\"submit\" value=\""._MD_WEBMAIL_SAVE."\">&nbsp;&nbsp;<input type=\"submit\" name=\"submit\" value=\""._MD_WEBMAIL_DELETE."\"></td></tr>"
         ."</table></form>";
     CloseTable();
-    echo "<br>";
+    echo "<br />";
 }
 
 function showNew() {
@@ -252,7 +252,7 @@ function showNew() {
 function showSingle($defaultpopserver, $singleaccountname) {
 //    global $bgcolor1, $bgcolor2, $bgcolor3, $module_name;
     OpenTable();
-    echo "<br>
+    echo "<br />
           <form method=post action='settings.php' name=formpost>
           <input type=hidden name=type value=\"new\">
 	      <input type=hidden name=port value=110>
@@ -269,7 +269,7 @@ function showSingle($defaultpopserver, $singleaccountname) {
 
 function showSign($id,$uid,$signname,$signature){
     OpenTable();
-    echo "<br>
+    echo "<br />
 		<form method=post action='settings.php'>
 		<input type=hidden name=type value=\"signupdate\">
 		<input type=hidden name=id value=\"$id\">
@@ -284,7 +284,7 @@ function showSign($id,$uid,$signname,$signature){
 
 function showSignNew(){
     OpenTable();
-    echo "<br><form method=post action='settings.php'>
+    echo "<br /><form method=post action='settings.php'>
 		<input type=hidden name=type value=\"signnew\">
 		<input type=hidden name=mode value=\"sign\">
 		<table width=80% align=center>

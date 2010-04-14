@@ -89,7 +89,7 @@ if (!function_exists('mb_convert_encoding')) {
     OpenTable();
     echo "<table width=\"95%\" border=\"0\" align=\"center\"><tr><td>"
 	."<b>"._MD_WEBMAIL_MAILWELCOME3." $sitename!</b>"
-        ."<br><br>Warning: Since mbstring of this server's PHP is not enable, WebMail does not operate."
+        ."<br /><br />Warning: Since mbstring of this server's PHP is not enable, WebMail does not operate."
         ."</td></tr></table>";
     CloseTable();
     include(XOOPS_ROOT_PATH."/footer.php");
@@ -99,8 +99,8 @@ if (!function_exists('mb_convert_encoding')) {
 if ($xoopsDB->getRowsNum($result) < 1) {
     OpenTable();
     echo "<table width=\"95%\" border=\"0\" align=\"center\"><tr><td>"
-	."<b>"._MD_WEBMAIL_MAILWELCOME3." $sitename!</b><br><br>"
-        .""._MD_WEBMAIL_CLICKONSETTINGS."<br><br>$welcome_msg"
+	."<b>"._MD_WEBMAIL_MAILWELCOME3." $sitename!</b><br /><br />"
+        .""._MD_WEBMAIL_CLICKONSETTINGS."<br /><br />$welcome_msg"
         ."</td></tr></table>";
     CloseTable();
     include(XOOPS_ROOT_PATH."/footer.php");
@@ -117,7 +117,7 @@ $count = 0;
 if ($action == "list"){
 	OpenTable();
 	echo "<center><b>"._MD_WEBMAIL_MAILBOXESFOR." $username</b></center>";
-	echo "<br><table border=\"1\" align=\"center\" width=\"80%\">"
+	echo "<br /><table border=\"1\" align=\"center\" width=\"80%\">"
 	    ."<tr class='bg2'><td bgcolor=\"$bgcolor2\" width=\"33%\">&nbsp;<b>"._MD_WEBMAIL_ACCOUNT."</b></td><td bgcolor=\"$bgcolor2\" width=\"33%\" align=\"center\">&nbsp;<b>"._MD_WEBMAIL_EMAILS."</b></td><td bgcolor=\"$bgcolor2\" width=\"33%\" align=\"center\">&nbsp;<b>"._MD_WEBMAIL_TOTALSIZE."</b></td></tr>";
 	while ($row = $xoopsDB->fetchArray($result) ) {
 	    $count++;
@@ -145,7 +145,7 @@ if ($action == "list"){
 	        ."<td align=\"center\">$mailsum</td>"
 	        ."<td align=\"center\">$mailmem</td></tr>";
 	}
-	echo "</table><br><br>"
+	echo "</table><br /><br />"
 	    ."<center>"._MD_WEBMAIL_SELECTACCOUNT."</center>";
 
 	CloseTable();

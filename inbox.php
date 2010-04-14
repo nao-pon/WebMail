@@ -109,7 +109,7 @@ $query = "select account from ".$xoopsDB->prefix("popsettings")." where id='$id'
 $result=$xoopsDB->query($query,$options[0],0);
 $row = $xoopsDB->fetchArray($result);
 $account = $row[account];
-echo "<center><b>$account: "._MD_WEBMAIL_EMAILINBOX."</b></center><br><br>";
+echo "<center><b>$account: "._MD_WEBMAIL_EMAILINBOX."</b></center><br /><br />";
 echo "<table border=\"0\" width=100%>"
     ."<tr class='bg2'>"
     ."<td width=\"4%\" bgcolor=\"$bgcolor2\">&nbsp;</td>"
@@ -211,7 +211,7 @@ include(XOOPS_ROOT_PATH."/footer.php");
 function getServer($id) {
     global $xoopsDB, $xoopsUser, $user, $server, $port, $username, $password, $numshow, $apop;
     if(!isset($id)) {
-	echo "Error: Invalid Parameter<br>";
+	echo "Error: Invalid Parameter<br />";
 	include(XOOPS_ROOT_PATH."/footer.php");
 	exit();
     }
@@ -232,14 +232,14 @@ function getServer($id) {
 	$password = $rc4->endecrypt($username,$row[passwd],"de");
 	$numshow = $row[numshow];
     } else {
-	echo "Error: POP Server not set properly<br>";
+	echo "Error: POP Server not set properly<br />";
 	exit();
     }
 }
 
 function navbuttons() {
     global $xoopsDB, $xoopsUser, $id, $showstart, $showend, $mailsum, $upperlimit, $lowerlimit, $numshow, $module_name;
-    echo "<br>"
+    echo "<br />"
         ."<table border=\"0\" width=\"100%\">"
         ."<tr><td width=\"15%\">"
 	."<input type=\"submit\" value=\""._MD_WEBMAIL_DELETESELECTED."\"></td></tr></table>"

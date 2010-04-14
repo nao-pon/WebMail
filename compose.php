@@ -80,7 +80,7 @@ $id = $_POST['id'];
 OpenTable();
  echo "<div align='center'><b>"._MD_WEBMAIL_COMPOSEEMAIL."</b></div>";
 CloseTable();
-echo "<br>";
+echo "<br />";
 
 if(isset($op)) {
 	//nao-pon
@@ -180,7 +180,7 @@ $query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid"
 		echo "ERROR";
 	}
 
-echo "<b>"._MD_WEBMAIL_SENDANEMAIL."</b>"._MD_WEBMAIL_ADD_BCC."<br><br>"
+echo "<b>"._MD_WEBMAIL_SENDANEMAIL."</b>"._MD_WEBMAIL_ADD_BCC."<br /><br />"
     ."<form method=\"post\" action='nlmail.php' name=\"emailform\">"
     ."<table align=\"center\" width=\"98%\">";
 
@@ -209,7 +209,7 @@ if ($email_addr == '1'){
 }
 
 echo "<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_TO.":</td><td width=100%><input type=text name=\"to\" size=47 value='$to'></td></tr>"
-    ."<tr><td>&nbsp;</td><td><font class=\"tiny\">"._MD_WEBMAIL_SEPARATEEMAILS."<br>"._MD_WEBMAIL_MAIL_SEND_MAX.$mail_max._MD_WEBMAIL_MAIL_SEND_MAX2."</font></td></tr>"
+    ."<tr><td>&nbsp;</td><td><font class=\"tiny\">"._MD_WEBMAIL_SEPARATEEMAILS."<br />"._MD_WEBMAIL_MAIL_SEND_MAX.$mail_max._MD_WEBMAIL_MAIL_SEND_MAX2."</font></td></tr>"
     ."<tr><td nowrap>"._MD_WEBMAIL_MAIL_SUBJECT.":</td><td><input type=text name=\"subject\" size=60 value='$subject'></td></tr>"
     ."<tr><td align=\"right\"><i>Cc:</i></td><td><input type=text name=\"cc\" size=36>&nbsp;&nbsp;<i>Bcc:</i> <input type=text name=\"bcc\" size=36></td></tr>"
     ."<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_PRIORITY.":</td><td><select name=\"prior\">"
@@ -243,15 +243,19 @@ echo "</td>"
     ."</td></tr>";
 
 if ($attachments == 1) {
+    $attach_clear = "&nbsp;&nbsp;<input type=\"button\" value=\""._MD_WEBMAIL_CLEARATT."\" onClick=\"attach_clr();\">";
     echo "<tr><td colspan=2>";
     OpenTable();
-    echo ""._MD_WEBMAIL_ATTACHMENTS.": <span style=\"background-color:#ffffcc\" id=\"Atts\">"._MD_WEBMAIL_NONE."</span> &nbsp;<br><br><a href=\"javascript: open_w('mailattach.php')\">"._MD_WEBMAIL_CLICKTOATTACH."</a>"
-    ."<noscript>"._MD_WEBMAIL_NOSCRIPT."</noscript><br>";
+    echo ""._MD_WEBMAIL_ATTACHMENTS.": <span style=\"background-color:#ffffcc\" id=\"Atts\">"._MD_WEBMAIL_NONE."</span> &nbsp;<br /><br /><a href=\"javascript: open_w('mailattach.php')\">"._MD_WEBMAIL_CLICKTOATTACH."</a>"
+    ."<noscript>"._MD_WEBMAIL_NOSCRIPT."</noscript><br />";
     CloseTable();
+} else {
+	$attach_clear = '';
 }
 
 echo "<tr><td colspan=\"2\">"
-    ."<input type=\"submit\" name=\"send\" value=\""._MD_WEBMAIL_MAIL_SENDMESSAGE."\">&nbsp;&nbsp;<input type=\"reset\" value=\""._MD_WEBMAIL_MAIL_CLEARALL."\" onClick=\"attach_clr();\">&nbsp;&nbsp;<input type=\"button\" value=\""._MD_WEBMAIL_CLEARATT."\" onClick=\"attach_clr();\">"
+    ."<input type=\"submit\" name=\"send\" value=\""._MD_WEBMAIL_MAIL_SENDMESSAGE."\">&nbsp;&nbsp;<input type=\"reset\" value=\""._MD_WEBMAIL_MAIL_CLEARALL."\" onClick=\"attach_clr();\">"
+    .$attach_clear
     ."</td></tr>"
     ."</table>"
     ."</center>"

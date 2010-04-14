@@ -7,7 +7,7 @@ global $userid,$tempfile_time;
 		while(false !== ($dir_tmp = readdir($handle)))  { 
 			if ($dir_tmp != "." && $dir_tmp != ".." && $dir_tmp != "index.html") { 
 				if (time() - filemtime("$dir/$dir_tmp") > ($tempfile_time * 60)){
-					//echo "$dir/$dir_tmp is Old !<br>";
+					//echo "$dir/$dir_tmp is Old !<br />";
 					unlink("$dir/$dir_tmp");
 				}
 			}

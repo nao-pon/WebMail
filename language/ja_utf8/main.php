@@ -63,7 +63,7 @@ define('_MD_WEBMAIL_HOMEPAGE', 'ホームページ');
 define('_MD_WEBMAIL_IMIDS', 'メッセンジャー ID:');
 define('_MD_WEBMAIL_IMIDSMSG', 'メッセンジャーサービスの一覧。他にあれば以下に追加できます。<br />フォーマット: <i>サービス名: ID</i>');
 define('_MD_WEBMAIL_RELATEDEVENTS', '覚え書き');
-define('_MD_WEBMAIL_RELATEDEVENTSMSG', 'この人の関する覚え書きをここへ記入できます。例えば、誕生日、記念日、特別な日とか...。<br>ご希望でしたらウェブメールシステムがあなたにお知らせメールを送信致します。<br>次のフォーマットでご記入ください。: <i>イベント名: 日付</i> (例: 誕生日: 03/30) (※ 日付の形式は mm/dd)');
+define('_MD_WEBMAIL_RELATEDEVENTSMSG', 'この人の関する覚え書きをここへ記入できます。例えば、誕生日、記念日、特別な日とか...。<br />ご希望でしたらウェブメールシステムがあなたにお知らせメールを送信致します。<br />次のフォーマットでご記入ください。: <i>イベント名: 日付</i> (例: 誕生日: 03/30) (※ 日付の形式は mm/dd)');
 define('_MD_WEBMAIL_REMINDME', 'お知らせ送信する');
 define('_MD_WEBMAIL_DAYSBEFORE', '日前(イベントの)');
 define('_MD_WEBMAIL_NOTES', 'メモ');

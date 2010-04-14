@@ -63,7 +63,7 @@ define('_MD_WEBMAIL_HOMEPAGE', 'Homepage');
 define('_MD_WEBMAIL_IMIDS', 'Instant Messenger ID\'s:');
 define('_MD_WEBMAIL_IMIDSMSG', 'Eine Liste der Instant Messenger IDs der Personn, eine unter der anderen. Um eine Messenger ID hinzuzuf&uuml;, benutzen Sie bitte: <i>Messenger Name: Messenger ID</i>');
 define('_MD_WEBMAIL_RELATEDEVENTS', 'Relevate Ereignisse');
-define('_MD_WEBMAIL_RELATEDEVENTSMSG', 'Eine Liste der relevanten Eintr&auml;ge der Person, wie Geburtstag, Hochzeitstag usw. oder jeglichem Ereignis, welches Sie eintragen m&ouml;chten. Es sind unbegrenzt viele Eintr&auml;ge m&ouml;glich.<br> Um ein Ereignis hinzuzuf&uuml;gen, benutzen Sie bitte: <i>Ereignisname: Datum</i> (Bsp.: Geburtstag: 03/21) (Hinweis: das Format f&uuml;r das Datum ist: mm/dd)');
+define('_MD_WEBMAIL_RELATEDEVENTSMSG', 'Eine Liste der relevanten Eintr&auml;ge der Person, wie Geburtstag, Hochzeitstag usw. oder jeglichem Ereignis, welches Sie eintragen m&ouml;chten. Es sind unbegrenzt viele Eintr&auml;ge m&ouml;glich.<br /> Um ein Ereignis hinzuzuf&uuml;gen, benutzen Sie bitte: <i>Ereignisname: Datum</i> (Bsp.: Geburtstag: 03/21) (Hinweis: das Format f&uuml;r das Datum ist: mm/dd)');
 define('_MD_WEBMAIL_REMINDME', 'Erinnern Sie mich');
 define('_MD_WEBMAIL_DAYSBEFORE', 'Tage vor dem Ereignis');
 define('_MD_WEBMAIL_NOTES', 'Bemerkungen');

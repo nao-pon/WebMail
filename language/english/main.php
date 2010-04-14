@@ -63,7 +63,7 @@ define('_MD_WEBMAIL_HOMEPAGE', 'Homepage');
 define('_MD_WEBMAIL_IMIDS', 'Instant Messenger ID\'s:');
 define('_MD_WEBMAIL_IMIDSMSG', 'List the instant messenger IDs of this person, one below the other. To add a messenger id, use: <i>messenger name: messenger id</i>');
 define('_MD_WEBMAIL_RELATEDEVENTS', 'Related Events');
-define('_MD_WEBMAIL_RELATEDEVENTSMSG', 'List the events related to this person such as Birthday, Annivesary etc. or any special dates that you want to be reminded by us. Add as many events as you like.<br> To add an event, use: <i>Event name: date</i> (eg: Birthday: 03/21) (note: The date format is mm/dd)');
+define('_MD_WEBMAIL_RELATEDEVENTSMSG', 'List the events related to this person such as Birthday, Annivesary etc. or any special dates that you want to be reminded by us. Add as many events as you like.<br /> To add an event, use: <i>Event name: date</i> (eg: Birthday: 03/21) (note: The date format is mm/dd)');
 define('_MD_WEBMAIL_REMINDME', 'Remind Me');
 define('_MD_WEBMAIL_DAYSBEFORE', 'day(s) before the event');
 define('_MD_WEBMAIL_NOTES', 'Notes');

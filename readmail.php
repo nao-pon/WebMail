@@ -89,7 +89,7 @@ if (!$html_tag_color) $html_tag_color="blue";
 
 
 if(!isset($id)) {
-    echo "Error: Invalid Parameter<br>";
+    echo "Error: Invalid Parameter<br />";
     include(XOOPS_ROOT_PATH."/footer.php");
     exit();
 }
@@ -110,7 +110,7 @@ if(($res = $xoopsDB->query($query,$options[0],0)) && ($xoopsDB->getRowsNum($res)
     $rc4 = new rc4crypt();
     $password = $rc4->endecrypt($username,$row[passwd],"de");
 } else {
-    echo "Error: POP Server not set properly<br>";
+    echo "Error: POP Server not set properly<br />";
     include(XOOPS_ROOT_PATH."/footer.php");
     exit();
 }
@@ -159,7 +159,7 @@ OpenTable();
 
  echo "</tr></table>";
 CloseTable();
-echo "<br>";
+echo "<br />";
 
 OpenTable();
     echo "<script language=\"javascript\">\n"

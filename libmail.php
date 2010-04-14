@@ -60,7 +60,7 @@
         $m->Priority(4) ;        // set the priority to Low
         $m->Attach( "/home/leo/toto.gif", "image/gif" ) ;        // attach a file of type image/gif
         $m->Send();        // send the mail
-        echo "the mail below has been sent:<br><pre>", $m->Get(), "</pre>";
+        echo "the mail below has been sent:<br /><pre>", $m->Get(), "</pre>";
 
 LASTMOD
         Fri Oct  6 15:46:12 UTC 2000
