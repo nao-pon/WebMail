@@ -72,10 +72,6 @@ $start = (isset($_GET['start']))? (int)$_GET['start'] : null;
 $op = (isset($_GET['op']))? $_GET['op'] : null;
 $msgid = (isset($_GET['msgid']))? $_GET['msgid'] : null;
 
-if (! $id) {
-	redirect_header(XOOPS_URL . '/modules/WebMail/', 1);
-}
-
 getServer($id);
 @ set_time_limit(120);
 $pop3=new POP3($server,$username,$password,$port,$apop);
@@ -237,31 +233,24 @@ include(XOOPS_ROOT_PATH."/footer.php");
 
 function getServer($id) {
     global $xoopsDB, $xoopsUser, $user, $server, $port, $username, $password, $numshow, $apop;
-    if(!isset($id)) {
-	echo "Error: Invalid Parameter<br />";
-	include(XOOPS_ROOT_PATH."/footer.php");
-	exit();
+    if(! $id) {
+		output_err("Error: Invalid Parameter");
     }
-    $query = "Select * from ".$xoopsDB->prefix("popsettings")." where id = $id";
+    $userid = $xoopsUser->uid();
+    $query = "Select * from ".$xoopsDB->prefix("popsettings")." where id='$id' AND uid='$userid'";
     if(($res = $xoopsDB->query($query)) && ($xoopsDB->getRowsNum($res) > 0)) {
-	$row = $xoopsDB->fetchArray($res);
-	$uid = $row[uid];
-        $userid = $xoopsUser->uid();
-	if($uid != $userid) {
-	    echo "<center><h2>Error: Permission Denied</center>";
-	    exit();
-	}
-	$server = $row[popserver];
-	$port = $row[port];
-	$apop = $row[apop];
-	$username = $row[uname];
-	$rc4 = new rc4crypt();
-	$password = $rc4->endecrypt($username,$row[passwd],"de");
-	$numshow = $row[numshow];
+		$row = $xoopsDB->fetchArray($res);
+		$uid = $row[uid];
+		$server = $row[popserver];
+		$port = $row[port];
+		$apop = $row[apop];
+		$username = $row[uname];
+		$rc4 = new rc4crypt();
+		$password = $rc4->endecrypt($username,$row[passwd],"de");
+		$numshow = $row[numshow];
     } else {
-	echo "Error: POP Server not set properly<br />";
-	exit();
-    }
+		output_err("Error: POP Server not set properly");
+	}
 }
 
 function navbuttons() {
@@ -283,3 +272,8 @@ function navbuttons() {
     echo "</tr></table>";
 }
 
+function output_err($err) {
+	ob_end_clean();
+	redirect_header(XOOPS_URL . '/modules/WebMail/', 1, $err);
+	exit();
+}
