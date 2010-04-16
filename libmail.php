@@ -105,7 +105,7 @@ class w_Mail {
         var $charset = "iso-2022-jp";
         var $ctencoding = "7bit";
         var $receipt = 0;
-        var $from = "";
+        var $sender = "";
 /*
         Mail contructor
 */
@@ -343,15 +343,15 @@ function Send() {
         // envoie du mail
 		//$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );
 
-        if ($this->from != "" && PHP_VERSION >= "4.0")
+        if ($this->sender != "" && PHP_VERSION >= "4.0")
         {
             $old_from = ini_get("sendmail_from");
-            ini_set("sendmail_from", $this->from);
+            ini_set("sendmail_from", $this->sender);
         }
-        if (ini_get("safe_mode") != "1" && $this->from != "" && PHP_VERSION >= "4.0.5")
+        if (ini_get("safe_mode") != "1" && $this->sender != "" && PHP_VERSION >= "4.0.5")
         {
             // The fifth parameter to mail is only available in PHP >= 4.0.5
-            $params = sprintf("-oi -f %s", $this->from);
+            $params = sprintf("-oi -f %s", $this->sender);
             $res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers, $params);
         }
         else

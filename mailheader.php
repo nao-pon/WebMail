@@ -63,7 +63,7 @@ echo "<a href='index.php?action=list'><IMG SRC=".$mailing." border=\"0\" alt=\""
 if ($email_send == 1) {
     $mailing = "images/compose.gif";
     echo "<td align=\"center\" width=\"15%\">"
-	."<a href='compose.php?id=$id'><img src=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_COMPOSE."\" title=\""._MD_WEBMAIL_COMPOSE."\"></a></td>";
+	."<a href='compose.php".($id? "?id=$id" : '')."'><img src=".$mailing." border=\"0\" alt=\""._MD_WEBMAIL_COMPOSE."\" title=\""._MD_WEBMAIL_COMPOSE."\"></a></td>";
 }
 
 $mailing = "images/settings.gif";

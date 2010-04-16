@@ -46,6 +46,16 @@ if (!is_object($xoopsUser))
 	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
 	exit();
 }
+
+$sender = $xoopsUser->email();
+// 送信者メールアドレスのチェック
+if (! preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/', $sender)) {
+	$msg = str_replace('$1', htmlspecialchars($sender), _MD_WEBMAIL_CAN_NOT_SENDMAIL_YOUR_ADDR);
+	redirect_header(XOOPS_URL."/modules/WebMail/", 1, $msg);
+	exit();
+}
+
+
 define("XOOPS_MODULE_WEBMAIL_LOADED",1);
 
 include("cache/config.php");
@@ -138,7 +148,7 @@ if ($email_send == 1) {
 		srand ((double) microtime() * 1000000);
 		$messageid = rand();
 		if (!$from) {
-			$email_f = $xoopsUser->email();
+			$email_f = $sender;
 			$name = $xoopsUser->name();
 			$uname = $xoopsUser->uname();
 			if($name == "") {
@@ -198,7 +208,7 @@ if ($email_send == 1) {
 		$m= new w_Mail;
 		$m->autoCheck(false);
 		$m->From($from);
-		$m->from = $email_f;
+		$m->sender = $sender;
 		$m->To($to);
 		//$m->To(mb_encode_mimeheader(mb_convert_kana($to,"KV")));
 		//$m->Subject(stripslashes(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B")));

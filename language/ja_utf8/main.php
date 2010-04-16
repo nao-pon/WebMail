@@ -124,3 +124,4 @@ define('_MD_WEBMAIL_MSG_SAVED', '登録しました。');
 define('_MD_WEBMAIL_MSG_DELETED', '削除しました。');
 define('_MD_WEBMAIL_ERR_SQL', 'データベースエラーが発生しました。');
 define('_MD_WEBMAIL_MSG_NO_MAIL', 'メールは届いていません。');
+define('_MD_WEBMAIL_CAN_NOT_SENDMAIL_YOUR_ADDR', 'あなたの登録メールアドレス「$1」ではメール送信できません。');

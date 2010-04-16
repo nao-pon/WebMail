@@ -45,6 +45,15 @@ if (!is_object($xoopsUser))
 	redirect_header(XOOPS_URL."/user.php",1,_NOPERM);
 	exit();
 }
+
+$sender = $xoopsUser->email();
+// 送信者メールアドレスのチェック
+if (! preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/', $sender)) {
+	$msg = str_replace('$1', htmlspecialchars($sender), _MD_WEBMAIL_CAN_NOT_SENDMAIL_YOUR_ADDR);
+	redirect_header(XOOPS_URL."/modules/WebMail/", 1, $msg);
+	exit();
+}
+
 define("XOOPS_MODULE_WEBMAIL_LOADED",1);
 
 include("cache/config.php");
@@ -54,8 +63,6 @@ $xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
 include(XOOPS_ROOT_PATH."/header.php");
 
 $userid = $xoopsUser->uid();
-
-$id = (int)$_GET['id'];
 
 if ($email_send == 1) {
 $query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
@@ -74,7 +81,6 @@ $to = ($_GET['to'])? $_GET['to'] : $_POST['to'];
 $subject = $_POST['subject'];
 $body = $_POST['body'];
 $op = $_POST['op'];
-$id = $_POST['id'];
 
 
 OpenTable();
