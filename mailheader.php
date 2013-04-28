@@ -112,7 +112,7 @@ while ($row = $xoopsDB->fetchArray($result) ) {
 	}
 	$i++;
 }
-echo "</select><input type='submit' value='"._MD_WEBMAIL_VIEW_INBOX."'></select></form></div>";
+echo "</select><input type='submit' value='"._MD_WEBMAIL_VIEW_INBOX."'></form></div>";
 //CloseTable();
 echo "<br />";
 

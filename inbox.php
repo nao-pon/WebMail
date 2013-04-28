@@ -130,9 +130,9 @@ if ($mailsum) {
 	    ."<tr class='bg2'>"
 	    ."<td width=\"4%\" bgcolor=\"$bgcolor2\">&nbsp;</td>"
 	    ."<td width=\"25%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_FROM."</b></td>"
-	    ."<td width=\"51%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_SUBJECT."</b></font></td>"
-	    ."<td width=\"6%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_SIZE."</b></font></td>"
-	    ."<td width=\"14%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_DATE."</b></font></td>"
+	    ."<td width=\"51%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_SUBJECT."</b></td>"
+	    ."<td width=\"6%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_SIZE."</b></td>"
+	    ."<td width=\"14%\" bgcolor=\"$bgcolor2\"><b>"._MD_WEBMAIL_MAIL_DATE."</b></td>"
 	    ."</tr>";
 
 	//nao-pon
@@ -246,7 +246,7 @@ if ($mailsum) {
 	//	echo htmlspecialchars(substr($sender,0,30));
 	    echo "</a>";
 	//	echo (mbstrlen($sender) > 15) ? "..." : "";
-	    echo "</a></font></td>";
+	    echo "</a></td>";
 	    echo "<td bgcolor=\"$bgcolor1\"><a href='readmail.php?id=$id&msgid=$i$att_exists' title=\"$body\">";
 		$subject = htmlspecialchars($subject);
 	    echo rtrim($subject) ? $subject : ""._MD_WEBMAIL_NOSUBJECT."";
@@ -256,7 +256,7 @@ if ($mailsum) {
 	    echo $list["is_html"] ? "<a href='readmail.php?id=$id&msgid=$i$att_exists&ht=1'><img src='images/html.gif' border=\"0\" alt="._MD_WEBMAIL_HTML_VIEW."></a>" : "";
 	    echo "</td><td bgcolor=\"$bgcolor1\">";
 	    echo htmlspecialchars($list["date"]);
-	    echo "</font></td></tr>";
+	    echo "</td></tr>";
 	}
 	echo "</table>";
 	navbuttons();
