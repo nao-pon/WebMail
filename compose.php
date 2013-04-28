@@ -65,7 +65,7 @@ include(XOOPS_ROOT_PATH."/header.php");
 $userid = $xoopsUser->uid();
 
 if ($email_send == 1) {
-$query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_popsettings')." where uid = $userid";
 if(!$result=$xoopsDB->query($query)){
 	echo "ERROR";
 }
@@ -154,7 +154,7 @@ if (ini_get(file_uploads) AND $attachments == 1) {
 }
 
 // JavaScript for Signature by nao-pon
-$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_sign')." where uid = $userid";
 	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}
@@ -181,7 +181,7 @@ $query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
 	}
 	$froms = "$name <$email>";
 
-$query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_popsettings')." where uid = $userid";
     	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}
@@ -224,7 +224,7 @@ echo "<tr><td align=\"right\" nowrap>"._MD_WEBMAIL_TO.":</td><td width=100%><inp
     ."<option value=\"4\">"._MD_WEBMAIL_LOW."</option>"
     ."</select>";
 
-$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_sign')." where uid = $userid";
 	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}

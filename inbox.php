@@ -102,7 +102,7 @@ if($op == "delete") {
 
 ob_end_flush();
 
-$query = "select account from ".$xoopsDB->prefix("popsettings")." where id='$id' AND uid='$userid'";
+$query = "select account from ".$xoopsDB->prefix('webmail_popsettings')." where id='$id' AND uid='$userid'";
 $result=$xoopsDB->query($query, 0, 1);
 $row = $xoopsDB->fetchArray($result);
 $account = $row[account];
@@ -137,8 +137,45 @@ if ($mailsum) {
 
 	//nao-pon
 	$ad_filters = split("[\n]+",trim($filter_subject));
+	$ad_filters_header = split("[\n]+",trim($filter_header));
+
 
 	$readline = 15;
+
+	if (defined('_MD_WEBMAIL_INBOX_DATEFORMAT')) $pop3->dateformat = _MD_WEBMAIL_INBOX_DATEFORMAT;
+	if (defined('_MD_WEBMAIL_WEEKDAYS')) {
+		$pop3->weekdays = explode(',', _MD_WEBMAIL_WEEKDAYS);
+	}
+	$pop3->userTZ = $xoopsUser->timezone() * 3600;
+
+	$tr_classes = array('odd', 'even');
+	if (function_exists('mb_eregi')) {
+		$eregi = create_function('$reg, $str', 'return mb_eregi($reg, $str);');
+	} else {
+		$eregi = create_function('$reg, $str', 'return eregi($reg, $str);');
+	}
+
+	$query = "SELECT `value` FROM ".$xoopsDB->prefix('webmail_userpref')." WHERE uid='$userid' AND name='spam_header' LIMIT 1";
+
+	$ad_filters_header_reg = '';
+	$ad_filters_header = array();
+	if ($result = $xoopsDB->query($query)) {
+		if ($xoopsDB->getRowsNum($result) > 0) {
+			list($ad_filters_header) = $xoopsDB->fetchRow($result);
+			$ad_filters_header = str_replace(array("\r\n", "\r"), "\n", $ad_filters_header);
+			$ad_filters_header = explode("\n", $ad_filters_header);
+			$temp = array();
+			foreach($ad_filters_header as $_str) {
+				$_str = trim($_str);
+				if ($_str) {
+					$temp[] = preg_quote($_str , '/');
+				}
+			}
+			if ($temp) {
+				$ad_filters_header_reg = '/'.join('|', $temp).'/iS';
+			}
+		}
+	}
 
 	for ($i=$upperlimit;$i>$lowerlimit;$i--) {
 	    $list = $pop3->ListMessage($i,$readline);
@@ -173,21 +210,25 @@ if ($mailsum) {
 		$body = str_replace(" ","&nbsp;",$body);
 		$body = str_replace("\n"," ",$body);
 
-		if (function_exists('mberegi')) {
-			foreach($ad_filters as $ad_filter){
-				if (($ad_filter) && mberegi($ad_filter, $subject)) $is_ad = true;
-			}
-		} else {
-			foreach($ad_filters as $ad_filter){
-				if (($ad_filter) && eregi($ad_filter, $subject)) $is_ad = true;
+		foreach($ad_filters as $ad_filter){
+			if (($ad_filter) && $eregi($ad_filter, $subject)) {
+				$is_ad = true;
+				break;
 			}
 		}
-		//
+		if (! $is_ad) {
+			//echo $ad_filters_header_reg."<br />";
+			if (preg_match($ad_filters_header_reg, $list['header'])) {
+				$is_ad = true;
+			}
+		}
 
+		//
+		$tr_class = ' class="' . $tr_classes[($i%2)]. '"';
 		if ($is_ad) {
-			echo "<tr><td bgcolor=\"$bgcolor1\" height=\"24\" align=\"center\"><input type=\"checkbox\" name=\"msgid[]\" value=\"$i\" CHECKED></td>";
+			echo "<tr$tr_class><td bgcolor=\"$bgcolor1\" height=\"24\" align=\"center\"><input type=\"checkbox\" name=\"msgid[]\" value=\"$i\" CHECKED></td>";
 		} else {
-			echo "<tr><td bgcolor=\"$bgcolor1\" height=\"24\" align=\"center\"><input type=\"checkbox\" name=\"msgid[]\" value=\"$i\"></td>";
+			echo "<tr$tr_class><td bgcolor=\"$bgcolor1\" height=\"24\" align=\"center\"><input type=\"checkbox\" name=\"msgid[]\" value=\"$i\"></td>";
 		}
 		$is_ad = false;
 
@@ -237,7 +278,7 @@ function getServer($id) {
 		output_err("Error: Invalid Parameter");
     }
     $userid = $xoopsUser->uid();
-    $query = "Select * from ".$xoopsDB->prefix("popsettings")." where id='$id' AND uid='$userid'";
+    $query = "Select * from ".$xoopsDB->prefix('webmail_popsettings')." where id='$id' AND uid='$userid'";
     if(($res = $xoopsDB->query($query)) && ($xoopsDB->getRowsNum($res) > 0)) {
 		$row = $xoopsDB->fetchArray($res);
 		$uid = $row[uid];

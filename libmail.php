@@ -324,10 +324,10 @@ function BuildMail() {
         } else {
                 $this->fullBody = $this->body;
         }
-        reset($this->xheaders);
-        while( list( $hdr,$value ) = each( $this->xheaders )  ) {
-                if( $hdr != "Subject" )
-                        $this->headers .= "$hdr: $value\r\n";
+        foreach($this->xheaders as $hdr => $value) {
+        //reset($this->xheaders);
+        //while( list( $hdr,$value ) = each( $this->xheaders )  ) {
+        	if ( $hdr != "Subject" ) $this->headers .= "$hdr: $value\r\n";
         }
         $this->headers = rtrim($this->headers);
 }

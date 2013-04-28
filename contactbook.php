@@ -111,7 +111,7 @@ function listall() {
     global $xoopsDB, $xoopsUser, $userid, $cb_index, $email_send;
     OpenTable();
     $countlimit = 20;
-    $query = "select * FROM ".$xoopsDB->prefix("contactbook")." where uid = $userid order by firstname";
+    $query = "select * FROM ".$xoopsDB->prefix('webmail_contactbook')." where uid = $userid order by firstname";
     if(!$result=$xoopsDB->query($query))
     {
 		echo "ERROR";
@@ -178,7 +178,7 @@ function listall() {
 function addnew($add_new_from="") {
     global $xoopsDB, $xoopsUser, $userid, $save, $firstname, $lastname, $email, $company, $homeaddress, $homepage, $city, $prefix, $homephone, $workphone, $IM, $events, $reminders, $notes, $imgpath, $dbi, $module_name;
     if(isset($save)) {
-		$query = "insert into ".$xoopsDB->prefix("contactbook")." (uid,firstname,lastname,email,company,homeaddress,city,homepage,homephone,workphone,IM,events,reminders,notes) values($userid,'$firstname','$lastname','$email','$company','$homeaddress','$city','$homepage','$homephone','$workphone','$IM','$events','$reminders','$notes');";
+		$query = "insert into ".$xoopsDB->prefix('webmail_contactbook')." (uid,firstname,lastname,email,company,homeaddress,city,homepage,homephone,workphone,IM,events,reminders,notes) values($userid,'$firstname','$lastname','$email','$company','$homeaddress','$city','$homepage','$homephone','$workphone','$IM','$events','$reminders','$notes');";
 	    $msg = _MD_WEBMAIL_MSG_SAVED;
 	    if (! $xoopsDB->query($query)) {
 	    	$msg = _MD_WEBMAIL_ERR_SQL;
@@ -258,7 +258,7 @@ function search() {
 	<input type=hidden name=searchdb value='"._MD_WEBMAIL_SEARCH."'>
         </td><td>&nbsp;<input type=submit value='"._MD_WEBMAIL_SEARCH."'></td></tr></table></form>";
     if($searchdb == ""._MD_WEBMAIL_SEARCH."") {
-	$query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid = $userid and ( ";
+	$query = "Select * from ".$xoopsDB->prefix('webmail_contactbook')." where uid = $userid and ( ";
 	if($searchfield != "all") {
 	    $words = explode(" ",$q);
 	    foreach($words as $w)
@@ -331,7 +331,7 @@ function search() {
 function view() {
     global $xoopsDB, $xoopsUser, $userid, $cid, $domain, $imgpath, $bgcolor1, $bgcolor2, $bgcolor3, $prefix, $dbi, $module_name;
     OpenTable();
-    $query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$cid'";
+    $query = "Select * from ".$xoopsDB->prefix('webmail_contactbook')." where uid='$userid' and contactid='$cid'";
     $res = $xoopsDB->query($query);
     if($xoopsDB->getRowsNum($res) == 0) {
 	echo "<center>"._MD_WEBMAIL_NORECORDSFOUND."</center>";
@@ -413,10 +413,10 @@ function del() {
     	$del = array($del);
     }
 	foreach ($del as $d) {
-	    $q = "select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$d'";
+	    $q = "select * from ".$xoopsDB->prefix('webmail_contactbook')." where uid='$userid' and contactid='$d'";
         $r = $xoopsDB->query($q);
         if($xoopsDB->getRowsNum($r) > 0) {
-    	$query = "delete from ".$xoopsDB->prefix("contactbook")." where contactid='$d'";
+    	$query = "delete from ".$xoopsDB->prefix('webmail_contactbook')." where contactid='$d'";
             $res = $xoopsDB->query($query);
         }
 	}
@@ -428,7 +428,7 @@ function del() {
 function edit() {
     global $xoopsDB, $xoopsUser, $dbi, $userid, $cid, $save, $userid, $firstname, $lastname, $email, $company, $homeaddress, $homepage, $city, $homephone, $workphone, $IM, $events, $reminders, $notes, $bgcolor1, $bgcolor2, $bgcolor3, $imgpath, $prefix, $module_name;
     if($save == "true") {
-		$query = "update ".$xoopsDB->prefix("contactbook")." set firstname='$firstname', lastname='$lastname', email='$email', homephone = '$homephone', workphone ='$workphone', homeaddress= '$homeaddress', city = '$city', company = '$company', homepage= '$homepage',IM = '$IM', events = '$events', reminders = '$reminders',notes = '$notes' where contactid = $cid";
+		$query = "update ".$xoopsDB->prefix('webmail_contactbook')." set firstname='$firstname', lastname='$lastname', email='$email', homephone = '$homephone', workphone ='$workphone', homeaddress= '$homeaddress', city = '$city', company = '$company', homepage= '$homepage',IM = '$IM', events = '$events', reminders = '$reminders',notes = '$notes' where contactid = $cid";
 	    $msg = _MD_WEBMAIL_MSG_SAVED;
 	    if (! $xoopsDB->query($query)) {
 	    	$msg = _MD_WEBMAIL_ERR_SQL;
@@ -439,7 +439,7 @@ function edit() {
     }
     ob_end_flush();
     OpenTable();
-    $query = "Select * from ".$xoopsDB->prefix("contactbook")." where uid='$userid' and contactid='$cid'";
+    $query = "Select * from ".$xoopsDB->prefix('webmail_contactbook')." where uid='$userid' and contactid='$cid'";
     $res = $xoopsDB->query($query);
     if($row = $xoopsDB->fetchArray($res)) {
 		$uid = $row[uid];

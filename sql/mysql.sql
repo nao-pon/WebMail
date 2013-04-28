@@ -5,7 +5,7 @@
 # --------------------------------------------------------
 
 
-CREATE TABLE contactbook (
+CREATE TABLE webmail_contactbook (
   uid int(11) default NULL,
   contactid int(11) NOT NULL auto_increment,
   firstname varchar(50) default NULL,
@@ -30,7 +30,7 @@ CREATE TABLE contactbook (
 # --------------------------------------------------------
 
 
-CREATE TABLE popsettings (
+CREATE TABLE webmail_popsettings (
   id int(11) NOT NULL auto_increment,
   uid int(11) default NULL,
   account varchar(50) default NULL,
@@ -54,12 +54,24 @@ CREATE TABLE popsettings (
 # --------------------------------------------------------
 
 
-CREATE TABLE wmail_sign (
+CREATE TABLE webmail_sign (
   id int(11) NOT NULL auto_increment,
   uid int(11) default '0',
   signname varchar(255) default NULL,
   signature text,
   PRIMARY KEY  (id),
   KEY uid (uid)
+) TYPE=MyISAM;
+
+
+
+CREATE TABLE `hpw_webmail_userpref` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `uid` int(10) unsigned NOT NULL default '0',
+  `name` varchar(255) binary NOT NULL default '',
+  `value` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `uid` (`uid`),
+  KEY `key` (`key`)
 ) TYPE=MyISAM;
 

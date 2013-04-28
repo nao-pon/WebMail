@@ -72,13 +72,13 @@ if ($mode == "sign") {
 
 	if(!empty($signname)) {
 	    if($submit == ""._MD_WEBMAIL_DELETE."") {
-			$query = "Delete from ".$xoopsDB->prefix("wmail_sign")." where id='$id'";
+			$query = "Delete from ".$xoopsDB->prefix('webmail_sign')." where id='$id'";
 			$msg = _MD_WEBMAIL_MSG_DELETED;
 	    } elseif ($type == "signnew") {
-			$query = "Insert into ".$xoopsDB->prefix("wmail_sign")." (uid,signname,signature) values ('$userid','$signname','$signature')";
+			$query = "Insert into ".$xoopsDB->prefix('webmail_sign')." (uid,signname,signature) values ('$userid','$signname','$signature')";
 			$msg = _MD_WEBMAIL_MSG_SAVED;
 	    } else {
-			$query = "Update ".$xoopsDB->prefix("wmail_sign")." set signname = '$signname', signature = '$signature' where id='$id'";
+			$query = "Update ".$xoopsDB->prefix('webmail_sign')." set signname = '$signname', signature = '$signature' where id='$id'";
 			$msg = _MD_WEBMAIL_MSG_SAVED;
 	    }
 	    if (! $xoopsDB->query($query)) {
@@ -92,12 +92,12 @@ if ($mode == "sign") {
 	ob_end_flush();
 
 	OpenTable();
-	echo "<div align'center'><a href=\"settings.php\">"._MD_WEBMAIL_MAILBOXESSETTINGS."</a> | <b>"._MD_WEBMAIL_SIGNSETTINGS."</b></div>";
+	echo "<div align'center'><a href=\"settings.php\">"._MD_WEBMAIL_MAILBOXESSETTINGS."</a> | <b>"._MD_WEBMAIL_SIGNSETTINGS."</b> | <a href=\"settings.php?mode=userpref\">"._MD_WEBMAIL_USERPREFSETTINGS."</a></div>";
 	CloseTable();
 	echo "<br />";
 
 
-	$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
+	$query = "select * FROM ".$xoopsDB->prefix('webmail_sign')." where uid = $userid";
 	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}
@@ -113,6 +113,55 @@ if ($mode == "sign") {
 
 	showSignNew();
 
+} else if ($mode === 'userpref') {
+	$names = array('spam_header');
+	$name = isset($_POST['name'])? $_POST['name'] : (isset($_GET['name'])? $_GET['name'] : '');
+	if ($name && ! in_array($name, $names)) {
+		exit('Bad query.');
+	}
+
+	$userid = $xoopsUser->uid();
+
+	$value = (isset($_POST['userpref_value']))? $_POST['userpref_value'] : '';
+
+	if ($value) {
+		$table = $xoopsDB->prefix('webmail_userpref');
+		$query = 'DELETE FROM `'.$table.'` WHERE uid=\''.$userid.'\' AND name=\''.$name.'\'';
+
+		$msg = '';
+		if ($xoopsDB->query($query)) {
+			$value = addslashes($value);
+			$query = "INSERT INTO `$table` (uid,name,value) values ('$userid','$name','$value')";
+			if ($xoopsDB->query($query)) {
+				$msg = _MD_WEBMAIL_MSG_SAVED;
+			}
+		}
+		if (! $msg) {
+			$msg = _MD_WEBMAIL_ERR_SQL;
+		}
+
+		//ob_end_clean();
+		redirect_header(XOOPS_URL . '/modules/WebMail/settings.php?mode=userpref&name='.$name, 1, $msg);
+		exit();
+	}
+
+
+	OpenTable();
+	echo "<div align'center'><a href=\"settings.php\">"._MD_WEBMAIL_MAILBOXESSETTINGS."</a> | <a href=\"settings.php?mode=sign\">"._MD_WEBMAIL_SIGNSETTINGS."</a> | <b>"._MD_WEBMAIL_USERPREFSETTINGS."</b></div>";
+	CloseTable();
+	echo '<br />';
+
+	foreach($names as $name) {
+		$query = "SELECT `value` FROM ".$xoopsDB->prefix('webmail_userpref')." WHERE uid='$userid' AND name='$name' LIMIT 1";
+
+		if ($result = $xoopsDB->query($query)) {
+			if ($xoopsDB->getRowsNum($result) > 0) {
+				list($value) = $xoopsDB->fetchRow($result);
+			}
+		}
+		showUserpref($name, $value);
+	}
+
 } else {
 
 	if(!empty($popserver)) {
@@ -122,13 +171,13 @@ if ($mode == "sign") {
 	    $spasswd = $rc4->endecrypt($uname,$passwd,"en");
 	    if($leavemsg == "Y") $delete = "N"; else $delete = "Y";
 	    if($submit == ""._MD_WEBMAIL_DELETE."") {
-			$query = "Delete from ".$xoopsDB->prefix("popsettings")." where id='$id'";
+			$query = "Delete from ".$xoopsDB->prefix('webmail_popsettings')." where id='$id'";
 			$msg = _MD_WEBMAIL_MSG_DELETED;
 	    } elseif ($type == "new") {
-			$query = "Insert into ".$xoopsDB->prefix("popsettings")." (account,uid,popserver,uname,passwd,port,numshow,deletefromserver,apop,sname,smail) values ('$account','$userid','$popserver','$uname','$spasswd',$port,$numshow,'$delete',$apop,'$sname','$smail')";
+			$query = "Insert into ".$xoopsDB->prefix('webmail_popsettings')." (account,uid,popserver,uname,passwd,port,numshow,deletefromserver,apop,sname,smail) values ('$account','$userid','$popserver','$uname','$spasswd',$port,$numshow,'$delete',$apop,'$sname','$smail')";
 	    	$msg = _MD_WEBMAIL_MSG_SAVED;
 	    } else {
-			$query = "Update ".$xoopsDB->prefix("popsettings")." set account='$account', popserver = '$popserver', uname = '$uname', passwd = '$spasswd', port = $port, numshow = $numshow, deletefromserver = '$delete' , apop = $apop , sname = '$sname' , smail = '$smail' where id='$id'";
+			$query = "Update ".$xoopsDB->prefix('webmail_popsettings')." set account='$account', popserver = '$popserver', uname = '$uname', passwd = '$spasswd', port = $port, numshow = $numshow, deletefromserver = '$delete' , apop = $apop , sname = '$sname' , smail = '$smail' where id='$id'";
 	    	$msg = _MD_WEBMAIL_MSG_SAVED;
 	    }
 	    if (! $xoopsDB->query($query)) {
@@ -142,7 +191,7 @@ if ($mode == "sign") {
 	ob_end_flush();
 
 	OpenTable();
-	echo "<div align'center'><b>"._MD_WEBMAIL_MAILBOXESSETTINGS."</b> | <a href=\"settings.php?mode=sign\">"._MD_WEBMAIL_SIGNSETTINGS."</a></div>";
+	echo "<div align'center'><b>"._MD_WEBMAIL_MAILBOXESSETTINGS."</b> | <a href=\"settings.php?mode=sign\">"._MD_WEBMAIL_SIGNSETTINGS."</a> | <a href=\"settings.php?mode=userpref\">"._MD_WEBMAIL_USERPREFSETTINGS."</a></div>";
 	CloseTable();
 	echo "<br />";
 
@@ -153,7 +202,7 @@ if ($mode == "sign") {
 	$showflag=true;
 	$userid = $xoopsUser->uid();
 	$apop = 0;
-	$query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
+	$query = "select * FROM ".$xoopsDB->prefix('webmail_popsettings')." where uid = $userid";
 	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}
@@ -185,6 +234,9 @@ if ($mode == "sign") {
 	    showNew();
 	}
 }
+
+include(XOOPS_ROOT_PATH."/footer.php");
+exit();
 
 function showSettings($account,$popserver, $uname,$passwd, $port,$show,$checkbox,$id,$apop,$sname,$smail) {
     global $bgcolor1, $bgcolor2, $bgcolor3, $module_name, $singleaccount, $defaultpopserver ,$email_addr;
@@ -294,4 +346,16 @@ function showSignNew(){
 		<tr><td colspan=2><input type=submit name=submit value=\""._MD_WEBMAIL_ADDNEW."\"></td></tr></table></form>";
     CloseTable();
 }
-include(XOOPS_ROOT_PATH."/footer.php");
+
+function showUserpref($name, $value) {
+    OpenTable();
+    echo "<br />
+		<form method=post action='settings.php'>
+		<input type=hidden name=mode value=\"userpref\">
+		<input type=hidden name=name value=\"{$name}\">
+		<table width=80% align=center>
+		<tr><td bgcolor=\"$bgcolor2\" colspan=\"2\" class='bg2'><img src='images/arrow.gif' border=\"0\" hspace=\"5\"><b>".constant('_MD_WEBMAIL_'.strtoupper($name).'_TITLE')."</b></td></tr>
+		<tr><td align=left>".constant('_MD_WEBMAIL_'.strtoupper($name)).":</td><td><textarea class=\"norich\" name=\"userpref_value\" cols=\"60\" rows=\"3\">".htmlspecialchars($value)."</textarea></td></tr>
+		<tr><td colspan=2><input type=\"submit\" name=\"submit\" value=\""._MD_WEBMAIL_SAVE."\"></td></tr></table></form>";
+    CloseTable();
+}

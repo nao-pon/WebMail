@@ -49,6 +49,10 @@ class POP3 {
 	var $exit = false;
 	var $has_error = false;
 
+	var $dateformat = DATE_RFC2822;
+	var $userTZ = 0;
+	var $weekdays = array();
+
 	/* Private variables - DO NOT ACCESS */
 
 	var $connection = 0;
@@ -62,6 +66,7 @@ class POP3 {
 		$this->password = $password;
 		$this->port = $port;
 		$this->apop = $apop;
+		$this->userTZ = date('Z');
 	}
 
 	function AddError($error) {
@@ -266,6 +271,8 @@ class POP3 {
 		$is_subject = false;
 		$is_from = false;
 		$readlines = 0;
+		$list['body'] = '';
+		$list['header'] = '';
 		while ($line = fgets($this->connection, 4096)) {
 			//$line = fgets($this->connection, 4096);
 			//$list["size"] += strlen($line);
@@ -276,6 +283,7 @@ class POP3 {
 			if (trim($line) == "")
 				$is_header = false;
 			if ($is_header) {
+				$list['header'] .= $line;
 				if ($is_subject == 1) {
 					if (preg_match("/^(.+?: )/", $line, $reg)) {
 						$is_subject = false;
@@ -321,12 +329,16 @@ class POP3 {
 		$list["body"] = trim($list["body"]);
 
 		if ($_time = @ strtotime($date)) {
-			$date = date(DATE_RFC822, $_time);
+			$date = date($this->dateformat, $_time + $this->userTZ - date('Z'));
+    		if ($this->weekdays) {
+    			$date = preg_replace('/\(([0-6])\)/e', '"(".$this->weekdays[$1].")"', $date);
+    		}
 		}
-		preg_match("#(Sun|Mon|Tue|Wed|Thu|Fri|Sat)?,?\s?(.+) (.+) ([0-9]{1,2})([0-9]{1,2}) (.+):(.+):(.+) (.+)#i", $date, $dreg);
-		$dreg[9] = eregi_replace("(\+0900|\(?jst\)?)", "", $dreg[9]);
+		//preg_match("#(Sun|Mon|Tue|Wed|Thu|Fri|Sat)?,?\s?(.+) (.+) ([0-9]{1,2})([0-9]{1,2}) (.+):(.+):(.+) (.+)#i", $date, $dreg);
+		//$dreg[9] = eregi_replace("(\+0900|\(?jst\)?)", "", $dreg[9]);
 		//$list["date"] = $dreg[1]." ".$dreg[2]." ".$dreg[3]." ".$dreg[6].":".$dreg[6]." ".$dreg[9];
-		$list["date"] = $dreg[2]." ".$dreg[3]." ".$dreg[6].":".$dreg[7]." ".$dreg[9];
+		//$list["date"] = $dreg[2]." ".$dreg[3]." ".$dreg[6].":".$dreg[7]." ".$dreg[9];
+		$list["date"] = $date;
 		$from = eregi_replace("<|>|\[|\]|\(|\)|\"|\'|(mailto:)", "", $from);
 		if (preg_match("#(.*)? (.+@.+\\..+)#i", $from))
 			: preg_match("#(.*)? (.+@.+\\..+)#i", $from, $reg);

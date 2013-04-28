@@ -80,7 +80,7 @@ if ($numaccounts == -1 OR $numaccounts > 1) {
     $welcome_msg = _MD_WEBMAIL_MAILWELCOME2;
 }
 
-$query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_popsettings')." where uid = $userid";
     	if(!$result=$xoopsDB->query($query)){
 		echo "ERROR";
 	}

@@ -94,7 +94,7 @@ if(!isset($id)) {
     exit();
 }
 
-$query = "Select * from ".$xoopsDB->prefix("popsettings")." where id = $id";
+$query = "Select * from ".$xoopsDB->prefix('webmail_popsettings')." where id = $id";
 if(($res = $xoopsDB->query($query,$options[0],0)) && ($xoopsDB->getRowsNum($res) > 0)) {
     $row = $xoopsDB->fetchArray($res);
     $uid = $row[uid];
@@ -127,7 +127,13 @@ $header = $message["header"];
 $full = $message["full"];
 $pop3->Close();
 //echo $full;
+
 $d = new DecodeMessage;
+if (defined('_MD_WEBMAIL_READMAIL_DATEFORMAT')) $d->dateformat = _MD_WEBMAIL_READMAIL_DATEFORMAT;
+if (defined('_MD_WEBMAIL_WEEKDAYS')) {
+	$d->weekdays = explode(',', _MD_WEBMAIL_WEEKDAYS);
+}
+
 $d->InitMessage($full);
 $from_address = chop(mb_decode_mimeheader($d->Headers("From")));
 $reply_address = chop(mb_decode_mimeheader($d->Headers("Reply-To")));
@@ -136,7 +142,7 @@ $to_address = chop(mb_decode_mimeheader($d->Headers("To")));
 $subject = mb_decode_mimeheader($d->Headers("Subject"));
 $cc = chop($d->Headers("Cc"));
 $replyto = chop($d->Headers("Reply-To:"));
-$query = "select account from ".$xoopsDB->prefix("popsettings")." where id='$id'";
+$query = "select account from ".$xoopsDB->prefix('webmail_popsettings')." where id='$id'";
 $result=$xoopsDB->query($query,$options[0],0);
 $row = $xoopsDB->fetchArray($result);
 $account =  $row[account];

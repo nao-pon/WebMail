@@ -53,6 +53,13 @@ class DecodeMessage{
   var $choose_best = true;
   var $best_format = "text/html";
 
+  var $dateformat = DATE_RFC2822;
+  var $userTZ = 0;
+  var $weekdays = array();
+
+  function DecodeMessage() {
+  	$this->userTZ = date('Z');
+  }
 
   function InitHeaderAndBody($header, $body) {
     $this->header = $header;
@@ -119,7 +126,10 @@ class DecodeMessage{
       } while ($j++ < count($p));
     if (strtolower($_field) == 'date') {
     	if ($_time = @ strtotime($hd)) {
-    		$hd = date(DATE_RFC822, $_time);
+    		$hd = date($this->dateformat, $_time + $this->userTZ - date('Z'));
+    		if ($this->weekdays) {
+    			$hd = preg_replace('/\(([0-6])\)/e', '"(".$this->weekdays[$1].")"', $hd);
+    		}
     	}
     }
     return $hd;

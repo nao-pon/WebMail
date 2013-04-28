@@ -26,12 +26,12 @@ $config_file = XOOPS_ROOT_PATH."/modules/".$xoopsModule->dirname()."/cache/confi
 if (file_exists($config_file)) include($config_file);
 
 // DB Upgread J1.5
-//$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." where uid = $userid";
-$query = "select * FROM ".$xoopsDB->prefix("wmail_sign")." LIMIT 1;";
+//$query = "select * FROM ".$xoopsDB->prefix('webmail_sign')." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_sign')." LIMIT 1;";
 if(!$result=$xoopsDB->query($query)){
 	//echo "ERROR:must be upgread!";
 	//exit;
-	$query="CREATE TABLE ".$xoopsDB->prefix("wmail_sign")." ( id int(11) NOT NULL auto_increment, uid int(11) default '0', signname varchar(255) default NULL, signature text, PRIMARY KEY  (id), KEY uid (uid) ) TYPE=MyISAM;";
+	$query="CREATE TABLE ".$xoopsDB->prefix('webmail_sign')." ( id int(11) NOT NULL auto_increment, uid int(11) default '0', signname varchar(255) default NULL, signature text, PRIMARY KEY  (id), KEY uid (uid) ) TYPE=MyISAM;";
 	if(!$result=$xoopsDB->queryF($query)){
 		echo "ERROR: 'wmail_sign' is already processing settled.<br/>";
 		echo $query;
@@ -60,6 +60,7 @@ $singleaccountS = $_POST['singleaccountS'];
 $singleaccountnameS = $_POST['singleaccountnameS'];
 $defaultpopserverS = $_POST['defaultpopserverS'];
 $filter_forwardS = $_POST['filter_forwardS'];
+$filter_headerS = $_POST['filter_headerS'];
 $filter_subjectS = $_POST['filter_subjectS'];
 $html_tag_colorS = $_POST['html_tag_colorS'];
 $html_scr_colorS = $_POST['html_scr_colorS'];
@@ -69,10 +70,10 @@ switch($op){
    case "mailConfigS":
 		global $xoopsConfig;
 
-		$filter_subjectS = str_replace("\r\n", "\n", $filter_subjectS);
-		$footermsgtxtS = str_replace("\r\n", "\n", $footermsgtxtS);
-		$filter_subjectS = str_replace("\r", "\n", $filter_subjectS);
-		$footermsgtxtS = str_replace("\r", "\n", $footermsgtxtS);
+		$filter_subjectS = webmail_config_formater($filter_subjectS);
+		$footermsgtxtS = webmail_config_formater($footermsgtxtS);
+		$filter_headerS = webmail_config_formater($filter_headerS);
+		$footermsgtxtS = webmail_config_formater($footermsgtxtS);
 		$filename = "../cache/config.php";
 
 		$content = "";
@@ -93,6 +94,7 @@ switch($op){
 \$singleaccountname = '$singleaccountnameS';
 \$defaultpopserver = '$defaultpopserverS';
 \$filter_forward = '$filter_forwardS';
+\$filter_header = '$filter_headerS';
 \$filter_subject = '$filter_subjectS';
 \$html_tag_color = '$html_tag_colorS';
 \$html_scr_color = '$html_scr_colorS';
@@ -108,11 +110,11 @@ switch($op){
 
 	case "db_up" :
 		xoops_cp_header();
-		$query = "ALTER TABLE `".$xoopsDB->prefix("popsettings")."` ADD `apop` INT (1)";
+		$query = "ALTER TABLE `".$xoopsDB->prefix('webmail_popsettings')."` ADD `apop` INT (1)";
    		if(!$result=$xoopsDB->queryF($query)){
 			echo "ERROR: 'apop' is already processing settled.";
 		}
-		$query = "ALTER TABLE `".$xoopsDB->prefix("popsettings")."` ADD `sname` VARCHAR (255) , ADD `smail` VARCHAR (255)";
+		$query = "ALTER TABLE `".$xoopsDB->prefix('webmail_popsettings')."` ADD `sname` VARCHAR (255) , ADD `smail` VARCHAR (255)";
    		if(!$result=$xoopsDB->queryF($query)){
 			echo "ERROR: 'sname' and 'smail' are already processing settled.";
 		}
@@ -241,6 +243,9 @@ switch($op){
 		echo "<input type='radio' name='filter_forwardS' value='0' checked='checked' />&nbsp;" ._AM_NO."&nbsp;";
 	}
 	echo "</td></tr>";
+        echo "<tr><td class='nw'>" . _AM_FILTER_HEADER . "</td><td>";
+        echo "<textarea class='norich' name='filter_headerS' cols=40 rows=8 tabindex=1>$filter_header</textarea>";
+	echo "</td></tr>";
         echo "<tr><td class='nw'>" . _AM_FILTER_SUBJECT . "</td><td>";
         echo "<textarea class='norich' name='filter_subjectS' cols=40 rows=8 tabindex=1>$filter_subject</textarea>";
 	echo "</td></tr>";
@@ -274,3 +279,9 @@ switch($op){
 }
 
 xoops_cp_footer();
+
+function webmail_config_formater($str) {
+	$str = str_replace(array("\r\n", "\r"), "\n", $str);
+	$str = str_replace("'", "\\'", $str, $str);
+	return $str;
+}

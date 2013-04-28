@@ -38,12 +38,15 @@ ini_set("mbstring.http_output",_CHARSET);
 ini_set("mbstring.internal_encoding",_CHARSET);
 ini_set("mbstring.substitute_character"," ");
 
+if (! defined('DATE_RFC822')) define('DATE_RFC822', 'D, d M y H:i:s O');
+if (! defined('DATE_RFC2822')) define('DATE_RFC2822', 'D, d M Y H:i:s O');
+
 error_reporting(E_ERROR);
 
 global $xoopsDB, $xoopsUser;
 $userid = $xoopsUser->uid();
 $username = $xoopsUser->uname();
-$query = "select * FROM ".$xoopsDB->prefix("popsettings")." where uid = $userid";
+$query = "select * FROM ".$xoopsDB->prefix('webmail_popsettings')." where uid = $userid";
 
 if(!$result=$xoopsDB->query($query)){
 	echo "ERROR";

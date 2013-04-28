@@ -188,34 +188,13 @@ if ($email_send == 1) {
 		$acknowledge = "N";
 		$status = "NONE";
 
-		if($attachment != "") {
-		    //$attachment = $attachmentdir.$attachment;
-		    //$attachment = "tmp/".$attachment;
-		}
-
-
-		//nao-pon
-		//$pos = strrpos($to, '<');
-		//$name = $email = '';
-		//if ($pos != 0){
-		//	$name = mb_encode_mimeheader(trim(substr($to, 0, $pos - 1)),"ISO-2022-JP","B").' ';
-		//	$email = substr($to, $pos);
-		//	$to = $name."".$email;
-		//}
-		//
-
-
 		$m= new w_Mail;
 		$m->autoCheck(false);
 		$m->From($from);
 		$m->sender = $sender;
 		$m->To($to);
-		//$m->To(mb_encode_mimeheader(mb_convert_kana($to,"KV")));
-		//$m->Subject(stripslashes(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B")));
 		$m->Subject(mb_encode_mimeheader(mb_convert_kana($subject,"KV"),"ISO-2022-JP","B"));
-		$m->Body(mb_convert_encoding(mb_convert_kana($content,"KV"), "JIS", _CHARSET));
-		//$m->Subject($subject);
-		//$m->Body($content);
+		$m->Body(mb_convert_encoding(mb_convert_kana($content,"KV"), "ISO-2022-JP", _CHARSET));
 		$m->Cc($cc);
 		$m->Bcc($bcc);
 		$m->Priority($prior) ;

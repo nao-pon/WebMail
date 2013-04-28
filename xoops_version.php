@@ -27,3 +27,6 @@ $modversion['adminmenu'] = "admin/menu.php";
 
 // Menu
 $modversion['hasMain'] = 1;
+
+
+$modversion['onUpdate'] = 'include/onupdate.php' ;
