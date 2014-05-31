@@ -140,11 +140,12 @@ if ($mode == "sign") {
 			$msg = _MD_WEBMAIL_ERR_SQL;
 		}
 
-		//ob_end_clean();
+		ob_end_clean();
 		redirect_header(XOOPS_URL . '/modules/WebMail/settings.php?mode=userpref&name='.$name, 1, $msg);
 		exit();
 	}
 
+	ob_end_flush();
 
 	OpenTable();
 	echo "<div align'center'><a href=\"settings.php\">"._MD_WEBMAIL_MAILBOXESSETTINGS."</a> | <a href=\"settings.php?mode=sign\">"._MD_WEBMAIL_SIGNSETTINGS."</a> | <b>"._MD_WEBMAIL_USERPREFSETTINGS."</b></div>";
