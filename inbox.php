@@ -51,7 +51,7 @@ include("cache/config.php");
 
 $xoopsOption['show_rblock'] = ($show_right==true)? 1 : 0 ;
 
-include(XOOPS_ROOT_PATH."/header.php");
+//include(XOOPS_ROOT_PATH."/header.php");
 
 //error_reporting(E_ALL);
 
@@ -99,6 +99,8 @@ if($op == "delete") {
 	redirect_header(XOOPS_URL . '/modules/WebMail/inbox.php?id='.$id.$qs, 1, _MD_WEBMAIL_MSG_DELETED);
 	exit();
 }
+
+include(XOOPS_ROOT_PATH."/header.php");
 
 ob_end_flush();
 
