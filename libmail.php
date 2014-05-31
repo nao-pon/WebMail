@@ -317,6 +317,10 @@ function BuildMail() {
                 $this->xheaders["Content-Transfer-Encoding"] = $this->ctencoding;
         }
 
+        if (!isset($this->xheaders['Message-ID'])) {
+        	$this->xheaders['Message-ID'] = '<' . md5(uniqid(time())) .  '@' . $_SERVER['HTTP_HOST'] . '>';
+        }
+
         $this->xheaders["X-Mailer"] = "RLSP Mailer";
         // include attached files
         if( count( $this->aattach ) > 0 ) {
